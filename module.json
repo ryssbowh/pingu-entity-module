@@ -1,0 +1,19 @@
+{
+    "name": "Entity",
+    "alias": "entity",
+    "description": "Pingu Entity API",
+    "keywords": [],
+    "core": 1,
+    "order": 1,
+    "providers": [
+        "Pingu\\Entity\\Providers\\EntityServiceProvider"
+    ],
+    "aliases": {
+        "Entity": "Pingu\\Entity\\Facades\\Entity",
+        "BundleField": "Pingu\\Entity\\Facades\\BundleField"
+    },
+    "files": [
+        "functions.php"
+    ],
+    "requires": []
+}
