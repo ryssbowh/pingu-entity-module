@@ -9,14 +9,12 @@ use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\Models\HasBasicCrudUris;
 use Pingu\Core\Traits\Models\HasWeight;
 use Pingu\Entity\Contracts\EntityContract;
-use Pingu\Forms\Contracts\Models\FormableContract;
 use Pingu\Forms\Support\Fields\NumberInput;
 use Pingu\Forms\Support\Fields\TextInput;
-use Pingu\Forms\Traits\Models\Formable;
 
-class BundleField extends BaseModel implements FormableContract, HasCrudUrisContract
+class BundleField extends BaseModel implements HasCrudUrisContract
 {
-    use Formable, HasBasicCrudUris, HasWeight;
+    use HasBasicCrudUris, HasWeight;
 
     protected $fillable = ['weight', 'machineName', 'bundle'];
 

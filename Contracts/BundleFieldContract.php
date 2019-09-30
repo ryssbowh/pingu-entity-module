@@ -3,10 +3,9 @@
 namespace Pingu\Entity\Contracts;
 
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Forms\Contracts\Models\FormableContract;
 use Pingu\Forms\Support\Form;
 
-interface BundleFieldContract extends FormableContract{
+interface BundleFieldContract{
 
 	/**
 	 * Define the field relationship, this needs to be a morphOne which will point to the generic field (model Field)

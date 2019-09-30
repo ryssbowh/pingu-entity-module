@@ -18,19 +18,13 @@ class BundleField
 	/**
 	 * Registers a type of bundle field
 	 * 
-	 * @param  string $class
+	 * @param  BundleFieldContract $class
 	 * 
 	 * @throws BundleFieldException
 	 */
-	public function registerBundleField(string $class)
+	public function registerBundleField(BundleFieldContract $class)
 	{
 		$impl = class_implements($class);
-		if(!isset($impl[BundleFieldContract::class])){
-			throw ClassException::missingInterface($class, BundleFieldContract::class); 
-		}
-		if(!isset($impl[FormableContract::class])){
-			throw ClassException::missingInterface($class, FormableContract::class);
-        }
 		$name = $class::getMachineName();
 		if(isset($this->bundleFields[$name])){
 			throw BundleFieldException::registered($name, $class, $this->bundleFields[$name]);

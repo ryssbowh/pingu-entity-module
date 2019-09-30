@@ -3,9 +3,8 @@
 namespace Pingu\Entity\Contracts;
 
 use Pingu\Core\Contracts\Models\HasRouteSlugContract;
-use Pingu\Forms\Contracts\Models\FormableContract;
 
-interface EntityContract extends FormableContract, HasActionsContract, HasAccessorContract, HasRouteSlugContract
+interface EntityContract extends HasActionsContract, HasAccessorContract, HasRouteSlugContract
 {
 	public static function machineName(): string;
 

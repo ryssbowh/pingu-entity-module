@@ -50,15 +50,15 @@ class EntityServiceProvider extends ModuleServiceProvider
     protected function registerBundleFields()
     {
         \BundleField::registerBundleFields([
-            FieldBoolean::class,
-            FieldDatetime::class,
-            FieldEmail::class,
-            FieldFloat::class,
-            FieldInteger::class,
-            FieldText::class,
-            FieldTextLong::class,
-            FieldUrl::class,
-            FieldSlug::class
+            new FieldBoolean,
+            new FieldDatetime,
+            new FieldEmail,
+            new FieldFloat,
+            new FieldInteger,
+            new FieldText,
+            new FieldTextLong,
+            new FieldUrl,
+            new FieldSlug
         ]);
     }
 

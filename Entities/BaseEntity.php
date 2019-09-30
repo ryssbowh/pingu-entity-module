@@ -16,11 +16,10 @@ use Pingu\Entity\Support\BaseEntityActions;
 use Pingu\Entity\Support\BaseEntityForms;
 use Pingu\Entity\Support\BaseEntityRoutes;
 use Pingu\Entity\Support\BaseEntityUris;
-use Pingu\Forms\Traits\Models\Formable;
 
 abstract class BaseEntity extends BaseModel implements EntityContract
 {
-    use HasRouteSlug, Formable;
+    use HasRouteSlug;
 
     public $adminListFields = [];
 
