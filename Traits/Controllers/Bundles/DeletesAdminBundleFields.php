@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 use Pingu\Entity\Forms\ConfirmBundleFieldDeletion;
 
 trait DeletesAdminBundleFields

@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 
 trait UpdatesAdminBundleFields
 {

@@ -2,26 +2,29 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Core\Entities\BaseModel;
+use Pingu\Entity\Entities\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait UpdatesAjaxEntity
 {
-	use UpdatesEntity;
+    use UpdatesEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onUpdateFailure(BaseModel $model, \Exception $exception)
-	{
-		throw new HttpException(422, $exception->getMessage());
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onUpdateFailure(Entity $entity, \Exception $exception)
+    {
+        if (env('APP_ENV') == 'local') {
+            throw $exception;
+        }
+        throw new HttpException(422, $exception->getMessage());
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onUpdateSuccess(BaseModel $model)
-	{
-		return ['model' => $model, 'message' => $model::friendlyname().' has been updated'];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onUpdateSuccess(Entity $entity)
+    {
+        return ['entity' => $entity, 'message' => $entity::friendlyname().' has been updated'];
+    }
 }

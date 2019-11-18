@@ -1,0 +1,14 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Pingu\Entity\Entities\Entity;
+use $POLICY_NAMESPACE$;
+
+class $CLASS$ extends Entity
+{
+    public function getPolicy(): string
+    {
+        return $POLICY_CLASS$::class;
+    }
+}

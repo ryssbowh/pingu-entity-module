@@ -3,9 +3,9 @@
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Pingu\Core\Exceptions\ParameterMissing;
-use Pingu\Entity\Contracts\BundleFieldContract;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Forms\AddBundleFieldForm;
+use Pingu\Field\Contracts\BundleFieldContract;
+use Pingu\Field\Forms\CreateBundleFieldForm;
 
 trait CreatesBundleFields
 {
@@ -14,29 +14,36 @@ trait CreatesBundleFields
      * 
      * @return mixed
      */
-    public function createField()
+    public function createField(BundleContract $bundle)
     {   
         $type = $this->request->input('type', false);
-        if(!$type){
+        if (!$type) {
             throw new ParameterMissing('type', 'get');
         }
-        $bundle = $this->getRouteAction('bundle');
         $url = $this->getStoreFieldUri($bundle);
-        $field = \BundleField::getRegisteredBundleField($type);
-        $form = new AddBundleFieldForm($field, $url);
-        $form->moveFieldUp('name');
-        
+        $field = \Field::getRegisteredBundleField($type);
+        $field = new $field;
+        $form = $field->forms()->create([$url]);
+
         return $this->onCreateFieldSuccess($form, $bundle, $field);
     }
 
     /**
      * Actions when create form is created
      * 
-     * @param  Form                 $form
-     * @param  BundleContract $bundle
-     * @param  BundleFieldContract  $field
+     * @param Form                 $form
+     * @param BundleContract $bundle
+     * @param BundleFieldContract  $field
      * 
      * @return mixed                            
      */
     abstract protected function onCreateFieldSuccess(Form $form, BundleContract $bundle, BundleFieldContract $field);
+
+    /**
+     * Get the store field uri
+     * 
+     * @param  BundleContract $bundle
+     * @return array
+     */
+    abstract protected function getStoreFieldUri(BundleContract $bundle): array;
 }

@@ -2,17 +2,25 @@
 
 namespace Pingu\Entity\Support;
 
-use Pingu\Entity\Contracts\Actions;
+use Pingu\Core\Support\Actions;
 
+/**
+ * Defines actions for a bundle
+ */
 class BaseBundleActions extends Actions
 {
-	public function actions(): array
-	{
-		return [
-			'indexFields' => [
-				'label' => 'Manage fields',
-				'url' => $this->object->bundleUris()->make('indexFields', $this->object, adminPrefix())
-			]
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function actions(): array
+    {
+        return [
+            'indexFields' => [
+                'label' => 'Manage fields',
+                'url' => function ($bundle) {
+                    return $bundle::uris()->make('indexFields', $bundle, adminPrefix());
+                }
+            ]
+        ];
+    }
 }

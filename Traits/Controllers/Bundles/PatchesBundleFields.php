@@ -4,7 +4,7 @@ namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Illuminate\Support\Collection;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait PatchesBundleFields
@@ -14,13 +14,12 @@ trait PatchesBundleFields
      * 
      * @return mixed
      */
-    public function patchFields()
+    public function patchFields(BundleContract $bundle)
     {
         $post = $this->request->post();
         if(!isset($post['models'])){
             return $this->onPatchFieldsFailure($bundle, new HttpException(422, "'models' must be set for a patch request"));
         }
-        $bundle = $this->getRouteAction('bundle');
         $post = $this->beforePatchFields($bundle, $post['models']);
         $models = $this->performPatchFields($bundle, $post);
         $this->afterSuccessfullPatchFields($bundle, $models);
@@ -40,7 +39,7 @@ trait PatchesBundleFields
         foreach($modelsData as $id => $data){
             try{
                 $item = BundleField::findOrFail($id);
-                $validated = $item->validateRequestValues($data, array_keys($data));
+                $validated = $item->validator()->makeValidator($data, true)->validate();
                 $item->saveWithRelations($validated);
                 $models[] = $item->refresh();
             }

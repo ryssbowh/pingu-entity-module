@@ -12,14 +12,14 @@ use Pingu\Entity\Traits\Controllers\Entities\StoresAjaxEntity;
 use Pingu\Entity\Traits\Controllers\Entities\UpdatesAjaxEntity;
 
 class AjaxEntityController extends BaseController
-{	
-	use CreatesAjaxEntity, 
-		StoresAjaxEntity, 
-		EditsAjaxEntity, 
-		UpdatesAjaxEntity, 
-		DeletesAjaxEntity, 
-		PatchesAjaxEntity, 
-		IndexesAjaxEntity;
+{   
+    use CreatesAjaxEntity, 
+        StoresAjaxEntity, 
+        EditsAjaxEntity, 
+        UpdatesAjaxEntity, 
+        DeletesAjaxEntity, 
+        PatchesAjaxEntity, 
+        IndexesAjaxEntity;
 }
 
 ?>

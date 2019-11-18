@@ -2,14 +2,20 @@
 
 namespace Pingu\Entity\Support;
 
-use Pingu\Entity\Contracts\Routes;
+use Pingu\Core\Support\Routes;
+use Pingu\Entity\Support\Bundle;
 use Pingu\Entity\Http\Controllers\AdminBundleController;
-use Pingu\Entity\Traits\MapsEntityRoutes;
 
 class BaseBundleRoutes extends Routes
 {
-    use MapsEntityRoutes;
+    public function __construct()
+    {
+        $this->routes = $this->routes();
+    }
 
+    /**
+     * @inheritDoc
+     */
     protected function routes(): array
     {
         return [
@@ -18,6 +24,9 @@ class BaseBundleRoutes extends Routes
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function routeMethods(): array
     {
         return [
@@ -31,43 +40,52 @@ class BaseBundleRoutes extends Routes
             'deleteField' => 'delete'
         ];
     }
-
-    protected function getRouteUri(string $name)
+    /**
+     * Registers all the routes for an index (as found in routes()) into Laravel Route system
+     * 
+     * @param string $routeIndex
+     */
+    protected function mapEntityRoutes(string $routeIndex)
     {
-        return $this->object->bundleUris()->$name();
-    }
-
-    protected function defaultController(string $index)
-    {
-        $class = $this->controllerNamespace().'\\'.class_basename(get_class($this->object)).ucfirst($index).'BundleController';
-        if(!class_exists($class)){
-            $class = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($index).'BundleController';
+        if (!isset($this->routes[$routeIndex])) {
+            return;
         }
-        return $class;
+
+        $controller = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
+
+        foreach ($this->routes[$routeIndex] as $name) {
+            $path = $routeIndex.'.'.$name;
+            $method = $this->routeMethods()[$name];
+
+            $action = $controller.'@'.$name;
+            $uris = \Uris::get(Bundle::class);
+
+            \Route::$method($uris->$name(), ['uses' => $action]);
+        }
     }
 
-    protected function getRouteParams(string $path, string $controllerAction): array
-    {
-        $array = ['uses' => $controllerAction, 'bundle' => $this->object];
-        return array_merge($this->routeParams()[$path] ?? [], $array);
-    }
-
+    /**
+     * Registers all bundle routes in Laravel Route system
+     */
     protected function mapBundleRoutes()
     {
         $routes = $this;
         \Route::middleware(['web', 'permission:access admin area', 'permission:manage bundles'])
             ->prefix(adminPrefix())
-            ->group(function() use ($routes){
+            ->group(function () use ($routes) {
                 $routes->mapEntityRoutes('admin');
             });
         \Route::middleware(['ajax', 'permission:manage bundles'])
             ->prefix(ajaxPrefix())
-            ->group(function() use ($routes){
+            ->group(function () use ($routes) {
                 $routes->mapEntityRoutes('ajax');
             });
     }
 
-    public function registerRoutes()
+    /**
+     * @inheritDoc
+     */
+    public function register()
     {
         $this->mapBundleRoutes();
     }

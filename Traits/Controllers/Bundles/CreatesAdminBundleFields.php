@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Contracts\BundleFieldContract;
+use Pingu\Field\Contracts\BundleFieldContract;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Forms\Support\Form;
 
@@ -10,6 +10,9 @@ trait CreatesAdminBundleFields
 {
     use CreatesBundleFields;
 
+    /**
+     * @inheritDoc
+     */
     protected function onCreateFieldSuccess(Form $form, BundleContract $bundle, BundleFieldContract $field)
     {
         return $this->getCreateFieldsView($form, $bundle, $field);
@@ -57,13 +60,10 @@ trait CreatesAdminBundleFields
     protected function addVariablesToCreateFieldsView(array &$with, BundleContract $bundle, BundleFieldContract $field){}
 
     /**
-     * Store uri
-     * 
-     * @param  BundleContract $bundle
-     * @return array
+     * @inheritDoc
      */
     protected function getStoreFieldUri(BundleContract $bundle): array
     {
-        return ['url' => $bundle->bundleUris()->make('storeField', $bundle, adminPrefix())];
+        return ['url' => $bundle::uris()->make('storeField', $bundle, adminPrefix())];
     }
 }

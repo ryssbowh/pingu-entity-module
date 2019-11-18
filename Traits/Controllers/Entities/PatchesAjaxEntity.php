@@ -3,18 +3,19 @@
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Support\Collection;
+use Pingu\Entity\Entities\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait PatchesAjaxEntity 
 {
-	use PatchesEntity;
+    use PatchesEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onPatchSuccess(Collection $models)
-	{
-		return ['models' => $models->toArray(), 'message' => $this->model::friendlyNames().' have been saved'];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onPatchSuccess(Entity $entity, Collection $models)
+    {
+        return ['models' => $models->toArray(), 'message' => $entity::friendlyNames().' have been saved'];
+    }
 
 }

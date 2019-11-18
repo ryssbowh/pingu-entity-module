@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 
 trait UpdatesAjaxBundleFields
 {
@@ -13,6 +13,6 @@ trait UpdatesAjaxBundleFields
      */
     protected function onUpdateFieldSuccess(BundleField $field)
     {
-        return ['model' => $field, 'message' =>'Field '.$field->instance->name.' has been updated'];
+        return ['model' => $field, 'message' =>'Field '.$field->name.' has been updated'];
     }
 }

@@ -2,19 +2,40 @@
 
 namespace Pingu\Entity\Contracts;
 
-use Pingu\Entity\Contracts\EntityContract;
+use Pingu\Entity\Entities\Entity;
 use Pingu\Forms\Support\Form;
 
 abstract class EntityForms
 {
-	public function __construct(EntityContract $entity)
-	{
-		$this->entity = $entity;
-	}
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
 
-	abstract public function create(array $action): Form;
+    /**
+     * Get create form
+     * 
+     * @param array  $args
+     * 
+     * @return Form
+     */
+    abstract public function create(array $args): Form;
 
-	abstract public function edit(array $action): Form;
+    /**
+     * Get edit form
+     *
+     * @param array  $args
+     * 
+     * @return Form
+     */
+    abstract public function edit(array $args): Form;
 
-	abstract public function delete(array $action): Form;
+    /**
+     * Get delete form
+     * 
+     * @param array  $args
+     * 
+     * @return Form
+     */
+    abstract public function delete(array $args): Form;
 }

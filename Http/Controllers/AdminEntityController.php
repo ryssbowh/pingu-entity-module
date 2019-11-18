@@ -12,14 +12,14 @@ use Pingu\Entity\Traits\Controllers\Entities\StoresAdminEntity;
 use Pingu\Entity\Traits\Controllers\Entities\UpdatesAdminEntity;
 
 class AdminEntityController extends BaseController
-{	
-	use EditsAdminEntity, 
-		UpdatesAdminEntity, 
-		CreatesAdminEntity, 
-		StoresAdminEntity, 
-		DeletesAdminEntity, 
-		PatchesAdminEntity, 
-		IndexesAdminEntity;
+{   
+    use EditsAdminEntity, 
+        UpdatesAdminEntity, 
+        CreatesAdminEntity, 
+        StoresAdminEntity, 
+        DeletesAdminEntity, 
+        PatchesAdminEntity, 
+        IndexesAdminEntity;
 }
 
 ?>

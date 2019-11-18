@@ -3,8 +3,7 @@
 namespace Pingu\Entity\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Pingu\Entity\Contracts\EntityContract;
-
+use Pingu\Entity\Entities\Entity;
 class EntityCreated
 {
     use SerializesModels;
@@ -16,7 +15,7 @@ class EntityCreated
      *
      * @return void
      */
-    public function __construct(EntityContract $entity)
+    public function __construct(Entity $entity)
     {
         $this->entity;
     }

@@ -11,13 +11,13 @@ use Pingu\Entity\Traits\Controllers\Bundles\StoresAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAjaxBundleFields;
 
 class AjaxBundleController extends BaseController
-{	
-	use CreatesAjaxBundleFields,
-		StoresAjaxBundleFields,
-		UpdatesAjaxBundleFields,
-		EditsAjaxBundleFields,
-		DeletesAjaxBundleFields,
-		PatchesAjaxBundleFields;
+{   
+    use CreatesAjaxBundleFields,
+        StoresAjaxBundleFields,
+        UpdatesAjaxBundleFields,
+        EditsAjaxBundleFields,
+        DeletesAjaxBundleFields,
+        PatchesAjaxBundleFields;
 }
 
 ?>

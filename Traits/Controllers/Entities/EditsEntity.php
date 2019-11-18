@@ -2,85 +2,85 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\BaseEntity;
+use Pingu\Entity\Entities\Entity;
 use Pingu\Forms\Support\Form;
 use Pingu\Forms\Support\ModelForm;
 
 trait EditsEntity
 {
-	/**
-	 * Edits a entity, builds a form and send it as string
-	 * 
-	 * @param  BaseEntity $entity
-	 * @return array
-	 */
-	public function edit(BaseEntity $entity)
-	{
-		$this->beforeEdit($entity);
-		$form = $this->getEditForm($entity);
+    /**
+     * Edits a entity, builds a form and send it as string
+     * 
+     * @param  Entity $entity
+     * @return array
+     */
+    public function edit(Entity $entity)
+    {
+        $this->beforeEdit($entity);
+        $form = $this->getEditForm($entity);
 
-		return $this->onEditFormCreated($form, $entity);
-	}
+        return $this->onEditFormCreated($form, $entity);
+    }
 
-	/**
-	 * Builds the form for an edit request
-	 * 
-	 * @param  BaseEntity $entity 
-	 * @return FormModel
-	 */
-	protected function getEditForm(BaseEntity $entity)
-	{
-		$url = $this->getUpdateUri($entity);
-		if(!is_array($url)){
-			$url = ['url' => $url];
-		}
+    /**
+     * Builds the form for an edit request
+     * 
+     * @param  Entity $entity 
+     * @return FormModel
+     */
+    protected function getEditForm(Entity $entity)
+    {
+        $url = $this->getUpdateUri($entity);
+        if (!is_array($url)) {
+            $url = ['url' => $url];
+        }
 
-		$form = $entity->forms()->edit($url);
+        $form = $entity->forms()->edit([$url, $entity]);
 
-		$this->afterEditFormCreated($form, $entity);
+        $this->afterEditFormCreated($form, $entity);
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * Callback before edit request
-	 *
-	 * @param BaseEntity $entity
-	 */
-	protected function beforeEdit(BaseEntity $entity){}
+    /**
+     * Callback before edit request
+     *
+     * @param Entity $entity
+     */
+    protected function beforeEdit(Entity $entity){}
 
-	/**
-	 * Gets the update uri
-	 * 
-	 * @return string
-	 */
-	protected function getUpdateUri(BaseEntity $entity)
-	{
-		return $entity->uris()->make('update', $entity, $this->getUpdateUriPrefix());
-	}
+    /**
+     * Gets the update uri
+     * 
+     * @return string
+     */
+    protected function getUpdateUri(Entity $entity)
+    {
+        return $entity->uris()->make('update', $entity, $this->getUpdateUriPrefix());
+    }
 
-	/**
-	 * Prefix the update uri
-	 * 
-	 * @return string
-	 */
-	protected function getUpdateUriPrefix()
-	{
-		return '';
-	}
+    /**
+     * Prefix the update uri
+     * 
+     * @return string
+     */
+    protected function getUpdateUriPrefix()
+    {
+        return '';
+    }
 
-	/**
-	 * Modify the edit form
-	 * 
-	 * @param  Form $form
-	 */
-	protected function afterEditFormCreated(Form $form, BaseEntity $entity){}
+    /**
+     * Modify the edit form
+     * 
+     * @param  Form $form
+     */
+    protected function afterEditFormCreated(Form $form, Entity $entity){}
 
-	/**
-	 * Response to client
-	 * 
-	 * @return mixed
-	 */
-	protected function onEditFormCreated(){}
+    /**
+     * Response to client
+     * 
+     * @return mixed
+     */
+    protected function onEditFormCreated(){}
 
 }

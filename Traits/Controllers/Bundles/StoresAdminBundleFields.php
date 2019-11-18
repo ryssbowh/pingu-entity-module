@@ -2,8 +2,8 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Contracts\BundleFieldContract;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Field\Entities\BundleField;
 
 trait StoresAdminBundleFields
 {
@@ -12,9 +12,9 @@ trait StoresAdminBundleFields
     /**
      * @inheritDoc
      */
-    protected function onStoreFieldSuccess(BundleFieldContract $field, BundleContract $bundle)
+    protected function onStoreFieldSuccess(BundleField $field, BundleContract $bundle)
     {
-        \Notify::success($field::friendlyName().' field '.$field->field->machineName.' has been saved');
-        return redirect($bundle->bundleUris()->make('indexFields', [], adminPrefix()));
+        \Notify::success($field::friendlyName().' field '.$field->name.' has been saved');
+        return redirect($bundle::uris()->make('indexFields', $bundle, adminPrefix()));
     }
 }

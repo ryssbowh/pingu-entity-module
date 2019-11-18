@@ -1,0 +1,23 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Pingu\Entity\Contracts\HasBundleContract;
+use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Traits\IsBundled;
+use $POLICY_NAMESPACE$;
+
+class $CLASS$ extends Entity implements HasBundleContract
+{
+    use IsBundled;
+
+    public function bundleName(): string
+    {
+        return 'my.bundle';
+    }
+
+    public function getPolicy(): string
+    {
+        return $POLICY_CLASS$::class;
+    }
+}

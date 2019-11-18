@@ -4,18 +4,16 @@ namespace Pingu\Entity\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
 use Pingu\Core\Support\ModuleServiceProvider;
-use Pingu\Entity\BundleField as BundleFieldFacade;
-use Pingu\Entity\Entities\BundleField;
-use Pingu\Entity\Entities\Fields\FieldBoolean;
-use Pingu\Entity\Entities\Fields\FieldDatetime;
-use Pingu\Entity\Entities\Fields\FieldEmail;
-use Pingu\Entity\Entities\Fields\FieldFloat;
-use Pingu\Entity\Entities\Fields\FieldInteger;
-use Pingu\Entity\Entities\Fields\FieldSlug;
-use Pingu\Entity\Entities\Fields\FieldText;
-use Pingu\Entity\Entities\Fields\FieldTextLong;
-use Pingu\Entity\Entities\Fields\FieldUrl;
+use Pingu\Entity\Bundle;
+use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Entity;
+use Pingu\Entity\Support\BaseBundleActions;
+use Pingu\Entity\Support\BaseBundleRoutes;
+use Pingu\Entity\Support\BaseBundleUris;
+use Pingu\Entity\Support\Bundle as BundleAbstract;
+use Pingu\Entity\Support\EntityActions;
+use Pingu\Entity\Support\EntityRoutes;
+use Pingu\Entity\Support\EntityUris;
 
 class EntityServiceProvider extends ModuleServiceProvider
 {
@@ -27,11 +25,7 @@ class EntityServiceProvider extends ModuleServiceProvider
     public function boot()
     {
         $this->registerConfig();
-        $this->registerBundleFields();
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'entity');
-        $this->extendValidationRules();
-
-        \ModelRoutes::registerSlugFromObject(new BundleField);
     }
 
     /**
@@ -43,27 +37,39 @@ class EntityServiceProvider extends ModuleServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
-        $this->app->singleton('core.entity', Entity::class);
-        $this->app->singleton('core.entity.field', BundleFieldFacade::class);
+        $this->app->singleton('entity.entity', Entity::class);
+        $this->app->singleton('entity.bundle', Bundle::class);
+        //Registers base bundle uris
+        \Uris::register(BundleAbstract::class, new BaseBundleUris);
+        //Binds bundle slug in Route system
+        \Route::bind('bundle', function ($value, $route) {
+            return \Bundle::get($value);
+        });
+        //Registers base bundle routes
+        \Routes::register(BundleAbstract::class, new BaseBundleRoutes);
+        //Register base entity routes
+        \Routes::register(EntityModel::class, new EntityRoutes);
+        //Register base entity uris
+        \Uris::register(EntityModel::class, new EntityUris);
+        //Register base entity actions
+        \Actions::register(EntityModel::class, new EntityActions);
+        $this->addRevisions();
     }
 
-    protected function registerBundleFields()
+    public function addRevisions()
     {
-        \BundleField::registerBundleFields([
-            new FieldBoolean,
-            new FieldDatetime,
-            new FieldEmail,
-            new FieldFloat,
-            new FieldInteger,
-            new FieldText,
-            new FieldTextLong,
-            new FieldUrl,
-            new FieldSlug
-        ]);
-    }
-
-    public function extendValidationRules()
-    {
+        EntityModel::routes()->addRoute('admin', 'revisions', 'get');
+        EntityModel::uris()->add('revisions', '@entity/{@entity}/revisions');
+        EntityModel::actions()->add(
+            'revisions', 
+            'Revisions', 
+            function ($user) {
+                return $user::uris()->make('revisions', $user);
+            },
+            function () {
+                return \Auth::user()->hasPermissionTo('view revisions');
+            }
+        );
     }
 
     /**
@@ -75,6 +81,9 @@ class EntityServiceProvider extends ModuleServiceProvider
     {
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'entity'
+        );
+        $this->replaceConfigFrom(
+            __DIR__.'/../Config/modules.php', 'modules'
         );
     }
 }

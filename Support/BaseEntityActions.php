@@ -2,21 +2,31 @@
 
 namespace Pingu\Entity\Support;
 
-use Pingu\Entity\Contracts\Actions;
+use Pingu\Core\Support\Actions;
+use Pingu\Entity\Entities\Entity;
 
 class BaseEntityActions extends Actions
 {
-	public function actions(): array
-	{
-		return [
-			'edit' => [
-				'label' => 'Edit',
-				'url' => $this->object->uris()->make('edit', $this->object, adminPrefix())
-			],
-			'delete' => [
-				'label' => 'Delete',
-				'url' => $this->object->uris()->make('confirmDelete', $this->object, adminPrefix())
-			]
-		];
-	}
+    protected $entity;
+
+    /**
+     * Constructor. Will add the base entity actions
+     * 
+     * @param Entity $entity
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+        $entityActions = Entity::actions()->all();
+        $this->addMany($entityActions);
+        $this->replaceMany($this->actions());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function actions(): array
+    {
+        return [];
+    }
 }

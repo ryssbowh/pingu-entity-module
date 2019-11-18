@@ -2,36 +2,36 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\BaseEntity;
+use Pingu\Entity\Entities\Entity;
 use Pingu\Forms\Support\Form;
 
 trait CreatesAjaxEntity
 {
-	use CreatesEntity;
+    use CreatesEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onCreateFormCreated(Form $form, BaseEntity $entity)
-	{	
-		return ['form' => $form->renderAsString()];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onCreateFormCreated(Form $form, Entity $entity)
+    {   
+        return ['form' => $form->__toString()];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function afterCreateFormCreated(Form $form, BaseEntity $entity)
-	{
-		$form->addViewSuggestion('forms.modal')
-			->addClass('js-ajax-form')
-			->option('title', 'Add a '.$entity::friendlyName());
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function afterCreateFormCreated(Form $form, Entity $entity)
+    {
+        $form->addViewSuggestion('forms.modal')
+            ->isAjax()
+            ->option('title', 'Add a '.$entity::friendlyName());
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getStoreUriPrefix()
-	{
-		return ajaxPrefix();
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function getStoreUriPrefix()
+    {
+        return ajaxPrefix();
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 
 trait DeletesAjaxBundleFields
 {
@@ -13,6 +13,6 @@ trait DeletesAjaxBundleFields
      */
     protected function onDeleteFieldSuccess(BundleField $field)
     {
-        return ['model' => $field, 'message' => 'Field '.$field->instance->name.' has been deleted'];
+        return ['model' => $field, 'message' => 'Field '.$field->name.' has been deleted'];
     }
 }

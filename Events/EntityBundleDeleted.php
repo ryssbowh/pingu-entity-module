@@ -6,10 +6,10 @@ use Pingu\Entity\Contracts\BundleContract;
 
 class EntityBundleDeleted
 {
-	public $bundle;
+    public $bundle;
 
-	public function __construct(BundleContract $bundle)
-	{
-		$this->bundle = $bundle;
-	}
+    public function __construct(BundleContract $bundle)
+    {
+        $this->bundle = $bundle;
+    }
 }

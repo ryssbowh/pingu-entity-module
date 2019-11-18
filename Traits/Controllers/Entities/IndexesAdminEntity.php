@@ -3,57 +3,58 @@
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Database\Eloquent\Collection;
-use Pingu\Entity\Contracts\EntityContract;
+use Pingu\Entity\Entities\Entity;
 
 trait IndexesAdminEntity 
 {
-	use IndexesEntity;
+    use IndexesEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onIndexSuccess(EntityContract $entity, Collection $entities)
-	{
-		return $this->getIndexView($entity, $entities);
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onIndexSuccess(Entity $entity, Collection $entities)
+    {
+        return $this->getIndexView($entity, $entities);
+    }
 
-	/**
-	 * Get the view for a create request
-	 *
-	 * @param  EntityContract $entity
-	 * @param  Collection $entities
-	 * @return view
-	 */
-	protected function getIndexView(EntityContract $entity, Collection $entities)
-	{
-		$canCreate = $entity->accessor()->create();
-		$createUrl = $entity->uris()->make('create', [], adminPrefix());
-		$with = [
-			'total' => $entities->count(),
-			'entities' => $entities,
-			'entity' => $entity,
-			'canCreate' => $canCreate,
-			'createUrl' => $createUrl
-		];
-		$this->addVariablesToIndexView($with);
-		return view($this->getIndexViewName($entity))->with($with);
-	}
+    /**
+     * Get the view for a create request
+     *
+     * @param Entity     $entity
+     * @param Collection $entities
+     * 
+     * @return view
+     */
+    protected function getIndexView(Entity $entity, Collection $entities)
+    {
+        $createUrl = $entity::uris()->make('create', [], adminPrefix());
+        $with = [
+            'total' => $entities->count(),
+            'entities' => $entities,
+            'entity' => $entity,
+            'createUrl' => $createUrl,
+            'type' => class_machine_name($entity)
+        ];
+        $this->addVariablesToIndexView($with);
+        return view($this->getIndexViewName($entity))->with($with);
+    }
 
-	/**
-	 * View name for creating models
-	 *
-	 * @param  EntityContract $entity
-	 * @return string
-	 */
-	protected function getIndexViewName(EntityContract $entity)
-	{
-		return 'entity::indexEntities';
-	}
+    /**
+     * View name for creating models
+     *
+     * @param Entity $entity
+     * 
+     * @return string
+     */
+    protected function getIndexViewName(Entity $entity)
+    {
+        return 'entity::indexEntities';
+    }
 
-	/**
-	 * Callback to add variables to the view
-	 * 
-	 * @param array &$with
-	 */
-	protected function addVariablesToIndexView(array &$with){}
+    /**
+     * Callback to add variables to the view
+     * 
+     * @param array &$with
+     */
+    protected function addVariablesToIndexView(array &$with){}
 }

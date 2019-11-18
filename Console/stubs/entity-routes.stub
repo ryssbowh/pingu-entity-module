@@ -1,0 +1,9 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Pingu\Entity\Support\BaseEntityRoutes;
+
+class $CLASS$ extends BaseEntityRoutes
+{
+}

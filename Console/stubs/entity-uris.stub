@@ -1,0 +1,14 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Pingu\Entity\Support\BaseEntityUris;
+
+class $CLASS$ extends BaseEntityUris
+{
+    protected function uris(): array
+    {
+        return [
+        ];
+    }
+}

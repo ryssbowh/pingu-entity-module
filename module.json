@@ -4,13 +4,14 @@
     "description": "Pingu Entity API",
     "keywords": [],
     "core": 1,
-    "order": 1,
+    "order": -99,
     "providers": [
-        "Pingu\\Entity\\Providers\\EntityServiceProvider"
+        "Pingu\\Entity\\Providers\\EntityServiceProvider",
+        "Pingu\\Entity\\Providers\\CommandServiceProvider"
     ],
     "aliases": {
         "Entity": "Pingu\\Entity\\Facades\\Entity",
-        "BundleField": "Pingu\\Entity\\Facades\\BundleField"
+        "Bundle": "Pingu\\Entity\\Facades\\Bundle"
     },
     "files": [
         "functions.php"

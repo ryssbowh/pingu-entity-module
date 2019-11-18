@@ -10,8 +10,8 @@ class StoreEntityRequest extends FormRequest
 
     public function getBundle()
     {
-        if(!$this->bundle){
-            $this->bundle = \Entity::getRegisteredBundle($this->route()->parameters()['bundle']);
+        if (!$this->bundle) {
+            $this->bundle = \Bundle::get($this->route()->parameters()['bundle']);
         }
         return $this->bundle;
     }

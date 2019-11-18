@@ -2,8 +2,8 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Contracts\BundleFieldContract;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Field\Entities\BundleField;
 
 trait StoresAjaxBundleFields
 {
@@ -12,8 +12,8 @@ trait StoresAjaxBundleFields
     /**
      * @inheritDoc
      */
-    protected function onStoreFieldSuccess(BundleFieldContract $field, BundleContract $bundle)
+    protected function onStoreFieldSuccess(BundleField $field, BundleContract $bundle)
     {
-        return ['model' => $field, 'message' => 'Field '.$field->field->name." has been created"];
+        return ['model' => $field, 'message' => 'Field '.$field->name." has been created"];
     }
 }

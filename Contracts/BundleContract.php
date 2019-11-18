@@ -2,44 +2,35 @@
 
 namespace Pingu\Entity\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
-use Pingu\Entity\Contracts\Routes;
-use Pingu\Entity\Contracts\Uris;
-use Pingu\Entity\Entities\BundleField;
-use Pingu\Forms\Support\Field;
+use Pingu\Core\Contracts\HasActionsContract;
+use Pingu\Core\Contracts\HasRoutesContract;
+use Pingu\Core\Contracts\HasUrisContract;
+use Pingu\Field\Contracts\HasFields;
 
-interface BundleContract extends HasActionsContract, HasAccessorContract
+interface BundleContract extends 
+    HasFields,
+    HasActionsContract,
+    HasUrisContract,
+    HasRoutesContract
 {
-	/**
-     * Name for this bundle
-     *
+    /**
+     * Machine name
+     * 
      * @return string
      */
     public function bundleName(): string;
 
+    /**
+     * Friendly name
+     * 
+     * @return string
+     */
     public function bundleFriendlyName(): string;
 
-    public function bundleUris(): Uris;
-
-    public function bundleRoutes(): Routes;
-
-    public function getRouteKey();
-
-	/**
-	 * Fields associated to this bundle
-	 * 
-	 * @return Collection
-	 */
-	public function bundleFields(): Collection;
-
-	/**
-	 * Build a form field class
-	 * 
-	 * @param  string $name
-	 * @return Field
-	 */
-	public function buildBundleFieldClass(string $name): Field;
-
-	public function getEntityBundleField(string $name): BundleField;
-
+    /**
+     * Route key name
+     * 
+     * @return string
+     */
+    public function getRouteKey(): string;
 }

@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
@@ -11,13 +12,17 @@ use Pingu\Forms\Support\Form;
 
 class BundledEntityController extends BaseController
 {
-	 /**
+    /**
      * Show the form for creating a new resource.
-     * @return Response
+     * 
+     * @param Request $request
+     * @param string  $bundle
+     *
+     * @return View
      */
     public function create(Request $request, string $bundle)
     {
-    	$bundle = \Entity::getRegisteredBundle($bundle);
+        $bundle = \Bundle::get($bundle);
         $form = $this->getAddForm($bundle);
 
         return view('entity::addEntity')->with([
@@ -28,12 +33,12 @@ class BundledEntityController extends BaseController
 
     protected function getAddForm(BundleContract $bundle): Form
     {
-    	return new AddEntityForm($bundle, $this->getStoreUri($bundle));
+        return new AddEntityForm($bundle, $this->getStoreUri($bundle));
     }
 
     protected function getStoreUri(BundleContract $bundle): array
     {
-    	return ['url' => adminPrefix().replaceUriSlugs(\Entity::storeEntityUri(), [$bundle->bundleName()])];
+        return ['url' => adminPrefix().replaceUriSlugs(\Entity::storeEntityUri(), [$bundle->name()])];
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 use Pingu\Forms\Support\Form;
 
 trait EditsAdminBundleFields
@@ -57,14 +57,10 @@ trait EditsAdminBundleFields
     protected function addVariablesToEditFieldView(array &$with, BundleField $field){}
 
     /**
-     * update uri
-     * 
-     * @param  BundleField $field
-     * 
-     * @return array
+     * @inheritDoc
      */
     protected function getUpdateFieldUri(BundleContract $bundle, BundleField $field)
     {
-        return ['url' => $bundle->bundleUris()->make('updateField', [$field], adminPrefix())];
+        return ['url' => $bundle::uris()->make('updateField', [$bundle, $field], adminPrefix())];
     }
 }

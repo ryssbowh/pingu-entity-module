@@ -13,11 +13,11 @@ use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAdminBundleFields;
 
 class AdminBundleController extends BaseController
 {
-	use IndexesAdminBundleFields, 
-		CreatesAdminBundleFields,
-		StoresAdminBundleFields,
-		UpdatesAdminBundleFields,
-		EditsAdminBundleFields,
-		DeletesAdminBundleFields,
-		PatchesAdminBundleFields;
+    use IndexesAdminBundleFields, 
+        CreatesAdminBundleFields,
+        StoresAdminBundleFields,
+        UpdatesAdminBundleFields,
+        EditsAdminBundleFields,
+        DeletesAdminBundleFields,
+        PatchesAdminBundleFields;
 }

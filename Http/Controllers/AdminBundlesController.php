@@ -13,14 +13,14 @@ use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAdminBundleFields;
 
 class AdminBundlesController extends BaseController
 {
-	public function index()
-	{
-		$bundles = [];
-		foreach(\Entity::allRegisteredBundles() as $bundle){
-			$bundles[class_basename($bundle)][] = $bundle;
-		}
-		return view('entity::bundles')->with([
-			'bundles' => $bundles
-		]);
-	}
+    public function index()
+    {
+        $bundles = [];
+        foreach (\Bundle::all() as $bundle) {
+            $bundles[class_basename($bundle)][] = $bundle;
+        }
+        return view('entity::bundles')->with([
+            'bundles' => $bundles
+        ]);
+    }
 }

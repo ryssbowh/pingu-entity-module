@@ -2,31 +2,31 @@
 
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
-use Pingu\Entity\Contracts\BundleFieldContract;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Field\Contracts\BundleFieldContract;
 use Pingu\Forms\Support\Form;
 
 trait CreatesAjaxBundleFields
 {
     use CreatesBundleFields;
 
+    /**
+     * @inheritDoc
+     */
     protected function onCreateFieldSuccess(Form $form, BundleContract $bundle, BundleFieldContract $field)
     {
         $form->addViewSuggestion('forms.modal')
             ->isAjax()
-            ->removeField('weight')
+            ->removeElement('weight')
             ->option('title', 'Add a '.$field::friendlyName(). ' field');
-        return ['form' => $form->renderAsString()];
+        return ['form' => $form->__toString()];
     }
 
     /**
-     * Store uri
-     * 
-     * @param  BundleContract $bundle
-     * @return array
+     * @inheritDoc
      */
     protected function getStoreFieldUri(BundleContract $bundle): array
     {
-        return ['url' => $bundle->bundleUris()->make('storeField', [], ajaxPrefix())];
+        return ['url' => $bundle::uris()->make('storeField', $bundle, ajaxPrefix())];
     }
 }

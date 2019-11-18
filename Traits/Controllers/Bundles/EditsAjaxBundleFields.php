@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\BundleField;
+use Pingu\Field\Entities\BundleField;
 use Pingu\Forms\Support\Form;
 
 trait EditsAjaxBundleFields
@@ -17,20 +17,16 @@ trait EditsAjaxBundleFields
     {
         $form->addViewSuggestion('forms.modal')
             ->isAjax()
-            ->removeField('weight')
-            ->option('title', 'Edit field '.$field->instance->name);
-        return ['form' => $form->renderAsString()];
+            ->removeElement('weight')
+            ->option('title', 'Edit field '.$field->name);
+        return ['form' => $form->__toString()];
     }
 
     /**
-     * update uri
-     * 
-     * @param  BundleField $field
-     * 
-     * @return array
+     * @inheritDoc
      */
     protected function getUpdateFieldUri(BundleContract $bundle, BundleField $field)
     {
-        return ['url' => $bundle->bundleUris()->make('updateField', [$field], ajaxPrefix())];
+        return ['url' => $bundle::uris()->make('updateField', [$bundle, $field], ajaxPrefix())];
     }
 }
