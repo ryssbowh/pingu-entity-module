@@ -2,11 +2,12 @@
 
 namespace $NAMESPACE$;
 
-use Pingu\User\Entities\User;
-use Pingu\Entity\Entities\Entity;
 use $ENTITY_CLASS$;
+use Pingu\Core\Support\Policy;
+use Pingu\Entity\Entities\Entity;
+use Pingu\User\Entities\User;
 
-class $CLASS$
+class $CLASS$ extends Policy
 {
     protected function userOrGuest(?User $user)
     {
