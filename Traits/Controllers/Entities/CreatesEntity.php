@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Forms\Support\Form;
 use Pingu\Forms\Support\ModelForm;
@@ -16,9 +17,10 @@ trait CreatesEntity
     public function create()
     {   
         $entity = $this->getRouteAction('entity');
+        $bundle = $this->request->route('bundle');
         
-        $this->beforeCreate($entity);
-        $form = $this->getCreateForm($entity);
+        $this->beforeCreate($entity, $bundle);
+        $form = $this->getCreateForm($entity, $bundle);
         
         return $this->onCreateFormCreated($form, $entity);
     }
@@ -28,7 +30,7 @@ trait CreatesEntity
      * 
      * @param Entity $entity
      */
-    protected function beforeCreate(Entity $entity){}
+    protected function beforeCreate(Entity $entity, ?BundleContract $bundle){}
 
     /**
      * Builds the form for a create request
@@ -37,11 +39,11 @@ trait CreatesEntity
      * 
      * @return Form
      */
-    protected function getCreateForm(Entity $entity)
+    protected function getCreateForm(Entity $entity, ?BundleContract $bundle)
     {
-        $url = $this->getStoreUri($entity);
+        $url = $this->getStoreUri($entity, $bundle);
 
-        $form = $entity->forms()->create([$url]);
+        $form = $entity->forms()->create([$url, $bundle]);
 
         $this->afterCreateFormCreated($form, $entity);
 
@@ -72,9 +74,9 @@ trait CreatesEntity
      * 
      * @return array
      */
-    protected function getStoreUri(Entity $entity)
+    protected function getStoreUri(Entity $entity, ?BundleContract $bundle)
     {
-        return ['url' => $entity->uris()->make('store', [], $this->getStoreUriPrefix())];
+        return ['url' => $entity->uris()->make('store', $bundle, $this->getStoreUriPrefix())];
     }
 
     /**

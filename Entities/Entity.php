@@ -16,8 +16,10 @@ use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Core\Traits\HasUrisThroughFacade;
 use Pingu\Entity\Facades\Entity as EntityFacade;
 use Pingu\Entity\Support\BaseEntityActions;
+use Pingu\Entity\Support\BaseEntityForms;
 use Pingu\Entity\Support\BaseEntityRoutes;
 use Pingu\Entity\Support\BaseEntityUris;
+use Pingu\Forms\Support\FormRepository;
 
 abstract class Entity extends BaseModel implements 
     HasRouteSlugContract,
@@ -37,6 +39,11 @@ abstract class Entity extends BaseModel implements
      * @inheritDoc
      */
     abstract public function getPolicy(): string;
+
+    public function forms(): FormRepository
+    {
+        return new BaseEntityForms($this);
+    }
 
     /**
      * Entity machine name

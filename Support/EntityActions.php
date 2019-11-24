@@ -15,7 +15,6 @@ class EntityActions extends Actions
             'edit' => [
                 'label' => 'Edit',
                 'url' => function ($entity) {
-                    debug(debug_backtrace());
                     return $entity::uris()->make('edit', $entity, adminPrefix());
                 },
                 'access' => function ($entity) {

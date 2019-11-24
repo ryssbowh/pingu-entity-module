@@ -15,6 +15,26 @@ use Pingu\Entity\Support\EntityBundleUris;
 trait IsBundle
 {
     /**
+     * Bundle class associated to that entity
+     * 
+     * @return string
+     */
+    public abstract static function bundleClass(): string;
+
+    /**
+     * Boots this trait.
+     * Will register the bundle of that entity when created
+     */
+    public static function bootIsBundle()
+    {
+        static::created( function ($entity) {
+            $class = $entity::bundleClass();
+            $bundle = new $class($entity);
+            \Bundle::registerBundle($bundle);
+        });
+    }
+
+    /**
      * @inheritDoc
      */
     protected function getActionsInstance(): Actions
