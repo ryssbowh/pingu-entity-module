@@ -9,36 +9,76 @@ use Pingu\User\Entities\User;
 
 class $CLASS$ extends Policy
 {
-    protected function userOrGuest(?User $user)
+    /**
+     * Get the model that handles permissions
+
+     * @param  ?User $user
+     * @return User|Role
+     */
+    protected function userOrGuest(?User $user): bool
     {
         return $user ? $user : \Permissions::guestRole();
     }
 
-    public function index(?User $user)
+    /**
+     * Index policy rule
+     * @param ?User $user         [description]
+     * @return bool
+     */
+    public function index(?User $user): bool
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('view '. $ENTITY$::friendlyNames());
     }
 
-    public function view(?User $user, Entity $entity)
+    /**
+     * View policy rule
+
+     * @param ?User  $user
+     * @param Entity $entity
+
+     * @return bool
+     */
+    public function view(?User $user, Entity $entity): bool
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('view '.$entity::friendlyNames());
     }
 
-    public function edit(?User $user, Entity $entity)
+    /**
+     * Edit policy rule
+
+     * @param ?User  $user         
+     * @param Entity $entity       
+
+     * @return bool
+     */
+    public function edit(?User $user, Entity $entity): bool
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('edit '.$entity::friendlyNames());
     }
 
-    public function delete(?User $user, Entity $entity)
+    /**
+     * Delete policy rule
+
+     * @param ?User  $user         
+     * @param Entity $entity       
+     * @return bool
+     */
+    public function delete(?User $user, Entity $entity): bool
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('delete '.$entity::friendlyNames());
     }
 
-    public function create(?User $user)
+    /**
+     * Create policy rule
+
+     * @param  ?User $user
+     * @return bool
+     */
+    public function create(?User $user): bool
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('create '. $ENTITY$::friendlyNames());

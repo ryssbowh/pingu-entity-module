@@ -6,6 +6,9 @@ use Pingu\Entity\Support\BaseEntityActions;
 
 class $CLASS$ extends BaseEntityActions
 {
+    /**
+     * @inheritDoc
+     */
     public function actions(): array
     {
         return [

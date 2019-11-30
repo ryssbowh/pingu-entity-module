@@ -7,6 +7,9 @@ use $POLICY_NAMESPACE$;
 
 class $CLASS$ extends Entity
 {
+    /**
+     * @inheritDoc
+     */
     public function getPolicy(): string
     {
         return $POLICY_CLASS$::class;

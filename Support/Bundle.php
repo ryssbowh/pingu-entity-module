@@ -41,7 +41,7 @@ abstract class Bundle implements BundleContract
     public function fields(): FieldRepository
     {
         $_this = $this;
-        return \Field::getBundleFieldRepository(
+        return \Field::getFieldRepository(
             $this,
             function () use ($_this) {
                 return new BundleFieldsRepository($_this);
@@ -55,7 +55,7 @@ abstract class Bundle implements BundleContract
     public function validator(): FieldsValidator
     {
         $_this = $this;
-        return \Field::getBundleFieldsValidator(
+        return \Field::getFieldsValidator(
             $this,
             function () use ($_this) {
                 return $_this->getFieldsValidator();

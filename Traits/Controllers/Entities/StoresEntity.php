@@ -4,6 +4,7 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\Entity;
 
 trait StoresEntity
@@ -16,10 +17,15 @@ trait StoresEntity
     public function store(Request $request)
     {
         $entity = $this->getRouteAction('entity');
+        $bundle = $this->request->route('bundle');
+
+        if ($bundle) {
+            $entity->setBundle($bundle);
+        }
 
         try{
-            $this->beforeStore($entity);
-            $validated = $this->validateStoreRequest($entity);
+            $this->beforeStore($entity, $bundle);
+            $validated = $this->validateStoreRequest($entity, $bundle);
             $this->performStore($entity, $validated);
             $this->afterStoreSuccess($entity);
         }
@@ -46,7 +52,7 @@ trait StoresEntity
      *
      * @param Entity $entity
      */
-    protected function beforeStore(Entity $entity)
+    protected function beforeStore(Entity $entity, ?BundleContract $bundle)
     {
     }
 
@@ -57,10 +63,10 @@ trait StoresEntity
      * 
      * @return array
      */
-    protected function validateStoreRequest(Entity $entity): array
+    protected function validateStoreRequest(Entity $entity, ?BundleContract $bundle): array
     {
-        $validator = $this->getStoreValidator($entity);
-        $this->modifyStoreValidator($validator);
+        $validator = $this->getStoreValidator($entity, $bundle);
+        $this->modifyStoreValidator($validator, $bundle);
         $validator->validate();
         $validated = $validator->validated();
         return $entity->validator()->castValues($validated);
@@ -71,7 +77,7 @@ trait StoresEntity
      * 
      * @return Validator
      */
-    protected function getStoreValidator(Entity $entity): Validator
+    protected function getStoreValidator(Entity $entity, ?BundleContract $bundle): Validator
     {
         return $entity->validator()->makeValidator($this->request->except('_token'), false);
     }
@@ -81,7 +87,7 @@ trait StoresEntity
      * 
      * @param Validator $validator
      */
-    protected function modifyStoreValidator(Validator $validator)
+    protected function modifyStoreValidator(Validator $validator, ?BundleContract $bundle)
     {
 
     }

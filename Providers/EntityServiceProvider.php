@@ -53,7 +53,6 @@ class EntityServiceProvider extends ModuleServiceProvider
         \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
-        $this->addRevisions();
     }
 
     public function addRevisions()

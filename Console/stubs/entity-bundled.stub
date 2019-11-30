@@ -11,11 +11,17 @@ class $CLASS$ extends Entity implements HasBundleContract
 {
     use IsBundled;
 
+    /**
+     * @inheritDoc
+     */
     public function bundleName(): string
     {
         return 'my.bundle';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getPolicy(): string
     {
         return $POLICY_CLASS$::class;

@@ -36,10 +36,17 @@ abstract class Entity extends BaseModel implements
     protected $routes;
 
     /**
-     * @inheritDoc
+     * Policy class for this entity
+     * 
+     * @return string
      */
     abstract public function getPolicy(): string;
 
+    /**
+     * Forms class for this entity
+     * 
+     * @return FormRepository
+     */
     public function forms(): FormRepository
     {
         return new BaseEntityForms($this);

@@ -8,8 +8,8 @@ use Pingu\Forms\Support\Form;
 
 class BaseEntityForms extends BaseForms
 {
-    public function create(array $args): Form
-    {
-        return new BaseEntityCreateForm($this->model, ...$args);
-    }
+    // public function create(array $args): Form
+    // {
+    //     return new BaseEntityCreateForm($this->model, ...$args);
+    // }
 }

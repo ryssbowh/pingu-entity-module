@@ -2,8 +2,10 @@
 
 namespace Pingu\Entity\Traits;
 
+use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Support\BundledEntityRoutes;
 use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Field\Traits\HasBundleFields;
 
@@ -13,6 +15,8 @@ use Pingu\Field\Traits\HasBundleFields;
 trait IsBundled
 {
     use HasBundleFields;
+
+    protected $bundle;
     
     /**
      * Bundle name getter
@@ -20,6 +24,13 @@ trait IsBundled
      * @return string
      */
     abstract public function bundleName(): string;
+
+    public function setBundle(BundleContract $bundle)
+    {
+        $this->bundle = $bundle;
+        $this->fields()->setBundle($bundle);
+        $this->fillable($this->getFillable());
+    }
     
     /**
      * Bundle getter
@@ -28,8 +39,11 @@ trait IsBundled
      */
     public function bundle(): ?BundleContract
     {
+        if ($this->bundle) {
+            return $this->bundle;
+        }
         if ($name = $this->bundleName()) {
-            return \Bundle::get($this->bundleName());
+            return \Bundle::get($name);
         }
         return null;
     }
@@ -46,5 +60,5 @@ trait IsBundled
             return new $class($this);
         }
         return new BundledEntityUris($this);
-    }
+    } 
 }

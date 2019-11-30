@@ -6,6 +6,9 @@ use Pingu\Entity\Support\BaseEntityUris;
 
 class $CLASS$ extends BaseEntityUris
 {
+    /**
+     * @inheritDoc
+     */
     protected function uris(): array
     {
         return [

@@ -18,6 +18,10 @@ trait CreatesEntity
     {   
         $entity = $this->getRouteAction('entity');
         $bundle = $this->request->route('bundle');
+
+        if ($bundle) {
+            $entity->fields()->setBundle($bundle);
+        }
         
         $this->beforeCreate($entity, $bundle);
         $form = $this->getCreateForm($entity, $bundle);

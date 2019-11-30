@@ -15,4 +15,9 @@ class EntityException extends \Exception{
     {
         return new static("'$name' is not a registered entity");
     }
+
+    public static function bundleNotSet(Entity $entity)
+    {
+        return new static("You must set the bundle of ".get_class($entity)." with \$entity->fields()->setBundle(BundleContract \$bundle) before accessing its fields");
+    }
 }
