@@ -73,15 +73,19 @@ trait EditsRevision
     /**
      * Modify the edit form
      * 
-     * @param  Form $form
+     * @param Form $form
      */
-    protected function afterEditRevisionFormCreated(Form $form, Entity $entity, FieldRevision $revision){}
+    protected function afterEditRevisionFormCreated(Form $form, Entity $entity, FieldRevision $revision)
+    {
+    }
 
     /**
      * Response to client
      * 
      * @return mixed
      */
-    protected function onEditRevisionFormCreated(){}
+    protected function onEditRevisionFormCreated()
+    {
+    }
 
 }

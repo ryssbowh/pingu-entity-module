@@ -15,7 +15,7 @@ abstract class EntityForms
     /**
      * Get create form
      * 
-     * @param array  $args
+     * @param array $args
      * 
      * @return Form
      */
@@ -24,7 +24,7 @@ abstract class EntityForms
     /**
      * Get edit form
      *
-     * @param array  $args
+     * @param array $args
      * 
      * @return Form
      */
@@ -33,7 +33,7 @@ abstract class EntityForms
     /**
      * Get delete form
      * 
-     * @param array  $args
+     * @param array $args
      * 
      * @return Form
      */

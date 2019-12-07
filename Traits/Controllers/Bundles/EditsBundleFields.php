@@ -11,7 +11,7 @@ trait EditsBundleFields
     /**
      * Edit request
      * 
-     * @param Bundle $bundle
+     * @param Bundle      $bundle
      * @param BundleField $field
      * 
      * @return mixed
@@ -37,7 +37,7 @@ trait EditsBundleFields
     /**
      * update uri
      * 
-     * @param  BundleField $field
+     * @param BundleField $field
      * 
      * @return array
      */

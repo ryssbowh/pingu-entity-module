@@ -67,12 +67,14 @@ class ModuleMakeEntityPolicy extends GeneratorCommand
         
         $namespace = $this->getClassNamespace($module);
 
-        return (new Stub("/entity-policy.stub", [
+        return (new Stub(
+            "/entity-policy.stub", [
             'NAMESPACE'    => $this->getClassNamespace($module),
             'CLASS'        => $class,
             'ENTITY'       => $entity,
             'ENTITY_CLASS' => $this->getEntityNamespace($namespace, $entity)
-        ]))->render();
+            ]
+        ))->render();
     }
 
     /**

@@ -33,7 +33,7 @@ class BaseEntityRoutes extends Routes
     /**
      * Merge this class definition middlewares with the base entity middlewares
      * 
-     * @param array  $baseMiddlewares
+     * @param array $baseMiddlewares
      * 
      * @return array
      */
@@ -145,9 +145,11 @@ class BaseEntityRoutes extends Routes
     {
         $routes = $this;
         \Route::middleware(['web', 'permission:browse site'])
-            ->group(function() use ($routes) {
-                $routes->mapEntityRoutes('web');
-            });
+            ->group(
+                function () use ($routes) {
+                    $routes->mapEntityRoutes('web');
+                }
+            );
     }
 
     /**
@@ -158,9 +160,11 @@ class BaseEntityRoutes extends Routes
         $routes = $this;
         \Route::prefix(ajaxPrefix())
             ->middleware('ajax')
-            ->group(function() use ($routes) {
-                $routes->mapEntityRoutes('ajax');
-            });
+            ->group(
+                function () use ($routes) {
+                    $routes->mapEntityRoutes('ajax');
+                }
+            );
     }
 
     /**
@@ -171,9 +175,11 @@ class BaseEntityRoutes extends Routes
         $routes = $this;
         \Route::middleware(['web', 'permission:access admin area'])
             ->prefix(adminPrefix())
-            ->group(function() use ($routes) {
-                $routes->mapEntityRoutes('admin');
-            });
+            ->group(
+                function () use ($routes) {
+                    $routes->mapEntityRoutes('admin');
+                }
+            );
     }
 
     /**

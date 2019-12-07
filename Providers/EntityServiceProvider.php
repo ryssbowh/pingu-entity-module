@@ -45,9 +45,11 @@ class EntityServiceProvider extends ModuleServiceProvider
         //Registers base bundle uris
         \Uris::register(BundleAbstract::class, new BaseBundleUris);
         //Binds bundle slug in Route system
-        \Route::bind('bundle', function ($value, $route) {
-            return \Bundle::get($value);
-        });
+        \Route::bind(
+            'bundle', function ($value, $route) {
+                return \Bundle::get($value);
+            }
+        );
         //Registers base bundle routes
         \Routes::register(BundleAbstract::class, new BaseBundleRoutes);
         //Register base entity routes

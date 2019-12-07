@@ -72,14 +72,18 @@ class BaseBundleRoutes extends Routes
         $routes = $this;
         \Route::middleware(['web', 'permission:access admin area', 'permission:manage bundles'])
             ->prefix(adminPrefix())
-            ->group(function () use ($routes) {
-                $routes->mapEntityRoutes('admin');
-            });
+            ->group(
+                function () use ($routes) {
+                    $routes->mapEntityRoutes('admin');
+                }
+            );
         \Route::middleware(['ajax', 'permission:manage bundles'])
             ->prefix(ajaxPrefix())
-            ->group(function () use ($routes) {
-                $routes->mapEntityRoutes('ajax');
-            });
+            ->group(
+                function () use ($routes) {
+                    $routes->mapEntityRoutes('ajax');
+                }
+            );
     }
 
     /**

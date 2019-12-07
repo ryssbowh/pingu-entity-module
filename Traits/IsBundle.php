@@ -27,11 +27,13 @@ trait IsBundle
      */
     public static function bootIsBundle()
     {
-        static::created( function ($entity) {
-            $class = $entity::bundleClass();
-            $bundle = new $class($entity);
-            \Bundle::registerBundle($bundle);
-        });
+        static::created(
+            function ($entity) {
+                    $class = $entity::bundleClass();
+                    $bundle = new $class($entity);
+                    \Bundle::registerBundle($bundle);
+            }
+        );
     }
 
     /**

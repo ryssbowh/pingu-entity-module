@@ -8,7 +8,8 @@ use Pingu\Field\Entities\BundleField;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait PatchesBundleFields
-{   
+{
+   
     /**
      * Patch fields
      * 
@@ -17,7 +18,7 @@ trait PatchesBundleFields
     public function patchFields(BundleContract $bundle)
     {
         $post = $this->request->post();
-        if(!isset($post['models'])){
+        if(!isset($post['models'])) {
             return $this->onPatchFieldsFailure($bundle, new HttpException(422, "'models' must be set for a patch request"));
         }
         $post = $this->beforePatchFields($bundle, $post['models']);
@@ -30,7 +31,7 @@ trait PatchesBundleFields
      * Perform patch
      * 
      * @param  BundleContract $bundle
-     * @param  array                $modelsData
+     * @param  array          $modelsData
      * @return Collection
      */
     protected function performPatchFields(BundleContract $bundle, array $modelsData)
@@ -54,37 +55,41 @@ trait PatchesBundleFields
      * Before patching. Returns the post array
      *
      * @param  BundleContract $bundle
-     * @param  array  $post
+     * @param  array          $post
      * @return array
      */
-    protected function beforePatchFields(BundleContract $bundle, array $post){
+    protected function beforePatchFields(BundleContract $bundle, array $post)
+    {
         return $post;
     }
 
     /**
      * Returns reponse after failed patch
      *
-     * @param  BundleContract $bundle
-     * @param  \Exception $e
+     * @param BundleContract $bundle
+     * @param \Exception     $e
      */
-    protected function onPatchFieldsFailure(BundleContract $bundle, \Exception $e){
+    protected function onPatchFieldsFailure(BundleContract $bundle, \Exception $e)
+    {
         throw $e;
     }
 
     /**
      * Actions after successfull patch
      *
-     * @param  BundleContract $bundle
-     * @param  Collection $models
+     * @param BundleContract $bundle
+     * @param Collection     $models
      */
-    protected function afterSuccessfullPatchFields(BundleContract $bundle, Collection $models){}
+    protected function afterSuccessfullPatchFields(BundleContract $bundle, Collection $models)
+    {
+    }
 
     /**
      * Returns reponse after successfull patch
      *
      * @param  BundleContract $bundle
-     * @param  Collection $models
-     * @return  mixed
+     * @param  Collection     $models
+     * @return mixed
      */
     abstract protected function onPatchFieldsSuccess(BundleContract $bundle, Collection $models);
 }

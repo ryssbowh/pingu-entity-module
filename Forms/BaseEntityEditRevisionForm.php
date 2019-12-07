@@ -8,7 +8,8 @@ use Pingu\Forms\Forms\BaseModelEditForm;
 use Pingu\Forms\Support\Fields\Submit;
 
 class BaseEntityEditRevisionForm extends BaseModelEditForm
-{   
+{
+   
     /**
      * @var FieldRevision
      */

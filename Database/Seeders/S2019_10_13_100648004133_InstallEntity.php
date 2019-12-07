@@ -20,14 +20,16 @@ class S2019_10_13_100648004133_InstallEntity extends MigratableSeeder
         $admin = Menu::findByMachineName('admin-menu');
         $structure = MenuItem::findByMachineName('admin-menu.structure');
 
-        MenuItem::create([
+        MenuItem::create(
+            [
             'name' => 'Bundles',
             'weight' => 0,
             'active' => 1,
             'deletable' => 0,
             'url' => 'core.structure.bundles',
             'permission_id' => $perm->id
-        ], $admin, $structure);
+            ], $admin, $structure
+        );
     }
 
     /**

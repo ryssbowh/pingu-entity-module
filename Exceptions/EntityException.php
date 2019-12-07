@@ -4,7 +4,8 @@ namespace Pingu\Entity\Exceptions;
 
 use Pingu\Entity\Entities\Entity;
 
-class EntityException extends \Exception{
+class EntityException extends \Exception
+{
 
     public static function registered(Entity $entity)
     {

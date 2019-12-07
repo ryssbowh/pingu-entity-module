@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Pingu\Entity\Entities\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait PatchesAdminEntity 
+trait PatchesAdminEntity
 {
     use PatchesEntity;
 
@@ -21,7 +21,8 @@ trait PatchesAdminEntity
     /**
      * @inheritDoc
      */
-    protected function afterSuccessfullPatch(Entity $entity, Collection $entities){
+    protected function afterSuccessfullPatch(Entity $entity, Collection $entities)
+    {
         \Notify::success($entity::friendlyNames().' have been saved');
     }
 
@@ -30,7 +31,7 @@ trait PatchesAdminEntity
      */
     protected function onPatchFailure(Entity $entity, \Exception $e)
     {
-        if(env('APP_ENV') == 'local'){
+        if(env('APP_ENV') == 'local') {
             throw $e;
         }
         \Notify::danger('Error while saving : '.$entity::friendlyName());

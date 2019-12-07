@@ -14,7 +14,7 @@ trait PatchesAdminBundleFields
      */
     protected function onPatchFieldsError(BundleContract $bundle, \Exception $e)
     {
-        if(env('APP_ENV') == 'local'){
+        if(env('APP_ENV') == 'local') {
             throw $e;
         }
         \Notify::danger('Error : '.$e->getMessage());

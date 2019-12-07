@@ -20,7 +20,7 @@ trait CreatesAdminEntity
     /**
      * Get the view for a create request
      * 
-     * @param Form $form
+     * @param Form   $form
      * @param Entity $entity
      *
      * @return view
@@ -52,9 +52,11 @@ trait CreatesAdminEntity
      *
      * @param Entity $entity
      * 
-     * @param array &$with
+     * @param array  &$with
      */
-    protected function addVariablesToCreateView(array &$with, Entity $entity){}
+    protected function addVariablesToCreateView(array &$with, Entity $entity)
+    {
+    }
 
     /**
      * @inheritDoc

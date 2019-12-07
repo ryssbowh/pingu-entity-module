@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Pingu\Entity\Entities\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait PatchesEntity 
+trait PatchesEntity
 {
     public function patch()
     {
@@ -40,7 +40,7 @@ trait PatchesEntity
     /**
      * Before patching. Returns the post array
      * 
-     * @param  array  $post
+     * @param  array $post
      * @return array
      */
     protected function beforePatch(array $post)
@@ -51,24 +51,26 @@ trait PatchesEntity
     /**
      * Actions after successfull patch
      * 
-     * @param  Collection $models
+     * @param Collection $models
      */
     protected function afterSuccessfullPatch(Entity $entity, Collection $models)
-    {}
+    {
+    }
 
     /**
      * Returns reponse after successfull patch
      * 
      * @param  Collection $models
-     * @return  mixed
+     * @return mixed
      */
     protected function onPatchSuccess(Entity $entity, Collection $models)
-    {}
+    {
+    }
 
     /**
      * Returns reponse after failed patch
      * 
-     * @param  \Exception $e
+     * @param \Exception $e
      */
     protected function onPatchFailure(\Exception $e)
     {

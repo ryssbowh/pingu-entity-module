@@ -34,7 +34,9 @@ trait CreatesEntity
      * 
      * @param Entity $entity
      */
-    protected function beforeCreate(Entity $entity, ?BundleContract $bundle){}
+    protected function beforeCreate(Entity $entity, ?BundleContract $bundle)
+    {
+    }
 
     /**
      * Builds the form for a create request
@@ -60,16 +62,20 @@ trait CreatesEntity
      * @param Form   $form
      * @param Entity $entity
      */
-    protected function afterCreateFormCreated(Form $form, Entity $entity){}
+    protected function afterCreateFormCreated(Form $form, Entity $entity)
+    {
+    }
 
     /**
      * Callback after the create form is created
      * 
-     * @param Form $form
+     * @param Form   $form
      * 
      * @param Entity $entity
      */
-    protected function onCreateFormCreated(Form $form, Entity $entity){}
+    protected function onCreateFormCreated(Form $form, Entity $entity)
+    {
+    }
 
     /**
      * Get the url for a store request

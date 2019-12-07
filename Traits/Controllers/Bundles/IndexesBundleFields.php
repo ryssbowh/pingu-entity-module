@@ -24,7 +24,9 @@ trait IndexesBundleFields
     /**
      * Actions before indexing fields
      * 
-     * @param  BundleContract $bundle
+     * @param BundleContract $bundle
      */
-    protected function beforeIndexFields(BundleContract $bundle){}
+    protected function beforeIndexFields(BundleContract $bundle)
+    {
+    }
 }

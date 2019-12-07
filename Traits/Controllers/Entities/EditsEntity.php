@@ -47,7 +47,9 @@ trait EditsEntity
      *
      * @param Entity $entity
      */
-    protected function beforeEdit(Entity $entity){}
+    protected function beforeEdit(Entity $entity)
+    {
+    }
 
     /**
      * Gets the update uri
@@ -72,15 +74,19 @@ trait EditsEntity
     /**
      * Modify the edit form
      * 
-     * @param  Form $form
+     * @param Form $form
      */
-    protected function afterEditFormCreated(Form $form, Entity $entity){}
+    protected function afterEditFormCreated(Form $form, Entity $entity)
+    {
+    }
 
     /**
      * Response to client
      * 
      * @return mixed
      */
-    protected function onEditFormCreated(){}
+    protected function onEditFormCreated()
+    {
+    }
 
 }

@@ -65,10 +65,12 @@ class ModuleMakeEntityUris extends GeneratorCommand
         $class = $entity = $this->getClass();
         $class .= 'Uris';
 
-        return (new Stub("/entity-uris.stub", [
+        return (new Stub(
+            "/entity-uris.stub", [
             'NAMESPACE'    => $this->getClassNamespace($module),
             'CLASS'        => $class
-        ]))->render();
+            ]
+        ))->render();
     }
 
     /**

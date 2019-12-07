@@ -33,7 +33,9 @@ trait DeletesAdminEntity
         return ['url' => $entity->uris()->make('delete', $entity, adminPrefix())];
     }
 
-    protected function addVariablesToDeleteView(&$with){}
+    protected function addVariablesToDeleteView(&$with)
+    {
+    }
 
     /**
      * @inheritDoc
@@ -58,7 +60,8 @@ trait DeletesAdminEntity
     /**
      * @inheritDoc
      */
-    protected function afterSuccessfullDeletion(Entity $entity){
+    protected function afterSuccessfullDeletion(Entity $entity)
+    {
         \Notify::success($entity::friendlyName().' has been deleted');
     }
 

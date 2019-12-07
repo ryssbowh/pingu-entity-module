@@ -11,6 +11,6 @@ class BaseEntityForms extends BaseForms
 {
     public function editRevision(array $args): Form
     {
-        return new BaseEntityEditRevisionForm( ...$args);
+        return new BaseEntityEditRevisionForm(...$args);
     }
 }

@@ -11,7 +11,8 @@ trait EditsAdminRevision
 
     /**
      * Return the view for an edit request
-     * @param  Form $form
+     *
+     * @param  Form   $form
      * @param  Entity $entity 
      * @return view
      */
@@ -31,12 +32,14 @@ trait EditsAdminRevision
     /**
      * @inheritDoc
      */
-    protected function afterEditRevisionFormCreated(Form $form, Entity $entity){}
+    protected function afterEditRevisionFormCreated(Form $form, Entity $entity)
+    {
+    }
 
     /**
      * View name for editing models
      *
-     * @param Entity $entity
+     * @param  Entity $entity
      * @return string
      */
     protected function getEditRevisionViewName(Entity $entity)
@@ -50,7 +53,9 @@ trait EditsAdminRevision
      * @param array     &$with
      * @param Basemodel $entity
      */
-    protected function addVariablesToEditRevisionView(array &$with, Entity $entity){}
+    protected function addVariablesToEditRevisionView(array &$with, Entity $entity)
+    {
+    }
 
     /**
      * @inheritDoc

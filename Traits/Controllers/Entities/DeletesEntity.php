@@ -28,14 +28,18 @@ trait DeletesEntity
      * 
      * @param Entity $entity
      */
-    public function beforeDeletion(Entity $entity){}
+    public function beforeDeletion(Entity $entity)
+    {
+    }
 
     /**
      * Actions to do after the entity is deleted
      * 
      * @param Entity $entity
      */
-    public function afterSuccessfullDeletion(Entity $entity){}
+    public function afterSuccessfullDeletion(Entity $entity)
+    {
+    }
 
     /**
      * Perform the actual deletion
@@ -53,7 +57,9 @@ trait DeletesEntity
      * @param Entity
      * @param \Exception $e
      */
-    protected function onDeleteFailure(Entity $entity, \Exception $e){}
+    protected function onDeleteFailure(Entity $entity, \Exception $e)
+    {
+    }
 
     /**
      * Response when deletion succeeds
@@ -61,6 +67,7 @@ trait DeletesEntity
      * @param Entity $entity
      */
     protected function onDeleteSuccess(Entity $entity)
-    {}
+    {
+    }
 
 }

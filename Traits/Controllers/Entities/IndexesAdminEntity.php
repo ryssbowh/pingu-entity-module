@@ -5,7 +5,7 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 use Illuminate\Database\Eloquent\Collection;
 use Pingu\Entity\Entities\Entity;
 
-trait IndexesAdminEntity 
+trait IndexesAdminEntity
 {
     use IndexesEntity;
 
@@ -56,5 +56,7 @@ trait IndexesAdminEntity
      * 
      * @param array &$with
      */
-    protected function addVariablesToIndexView(array &$with){}
+    protected function addVariablesToIndexView(array &$with)
+    {
+    }
 }

@@ -23,7 +23,7 @@ trait IndexesAdminBundleFields
     /**
      * Get the view for a create request
      * 
-     * @param  Collection $fields
+     * @param  Collection     $fields
      * @param  BundleContract $bundle
      * @return view
      */
@@ -62,7 +62,9 @@ trait IndexesAdminBundleFields
      * 
      * @param array &$with
      */
-    protected function addVariablesToIndexFieldsView(array &$with, BundleContract $bundle, Collection $fields){}
+    protected function addVariablesToIndexFieldsView(array &$with, BundleContract $bundle, Collection $fields)
+    {
+    }
     
 
 }

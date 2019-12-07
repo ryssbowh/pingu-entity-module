@@ -4,15 +4,15 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Database\Eloquent\Collection;
 
-trait IndexesAjaxEntity 
+trait IndexesAjaxEntity
 {
-	use IndexesEntity;
+    use IndexesEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onIndexSuccess(string $entity, Collection $entities)
-	{
-		return ['entities' => $entities->toArray(), 'total' => $entities->count()];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onIndexSuccess(string $entity, Collection $entities)
+    {
+        return ['entities' => $entities->toArray(), 'total' => $entities->count()];
+    }
 }

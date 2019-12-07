@@ -8,6 +8,6 @@ use Pingu\Entity\Events\EntityBundleDeleted;
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-    	EntityBundleDeleted::class => [DeleteBundleFields::class]
+        EntityBundleDeleted::class => [DeleteBundleFields::class]
     ];
 }

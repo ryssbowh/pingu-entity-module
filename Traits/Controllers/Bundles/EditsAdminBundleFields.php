@@ -21,8 +21,8 @@ trait EditsAdminBundleFields
     /**
      * Get the view for a edit field request
      *
-     * @param  Form $form
-     * @param  Collection $fields
+     * @param  Form           $form
+     * @param  Collection     $fields
      * @param  BundleContract $entity
      * @return view
      */
@@ -51,10 +51,12 @@ trait EditsAdminBundleFields
     /**
      * Callback to add variables to the view
      *
-     * @param array &$with
+     * @param array       &$with
      * @param BundleField $field
      */
-    protected function addVariablesToEditFieldView(array &$with, BundleField $field){}
+    protected function addVariablesToEditFieldView(array &$with, BundleField $field)
+    {
+    }
 
     /**
      * @inheritDoc

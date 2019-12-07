@@ -6,7 +6,8 @@ use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Exceptions\EntityBundleException;
 
 class Bundle
-{   
+{
+   
     protected $bundles = [];
 
     /**
@@ -27,7 +28,7 @@ class Bundle
     /**
      * Checks if a bundle is registered
      *
-     * @param string  $name
+     * @param string $name
      * 
      * @return boolean
      */

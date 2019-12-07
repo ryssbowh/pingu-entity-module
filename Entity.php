@@ -6,7 +6,8 @@ use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Exceptions\EntityException;
 
 class Entity
-{   
+{
+   
     protected $entities = [];
     protected $uris = [];
 
@@ -30,7 +31,7 @@ class Entity
     /**
      * Checks if an entity is registered
      * 
-     * @param string  $name
+     * @param string $name
      * 
      * @return boolean
      */

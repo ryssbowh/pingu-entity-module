@@ -29,7 +29,7 @@ trait StoresAdminEntity
      */
     protected function onStoreFailure(Entity $entity, $exception)
     {
-        if(env('APP_ENV') == 'local'){
+        if(env('APP_ENV') == 'local') {
             throw $exception;
         }
         \Notify::danger('Error while creating '.$entity::friendlyName());

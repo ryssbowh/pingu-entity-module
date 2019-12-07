@@ -61,17 +61,23 @@ trait IndexesEntity
      * 
      * @return mixed
      */
-    protected function onIndexSuccess(Entity $entity, Collection $entities){}
+    protected function onIndexSuccess(Entity $entity, Collection $entities)
+    {
+    }
 
     /**
      * Modify the index query
      * 
      * @param Builder $query
      */
-    public function modifyIndexQuery(Builder $query){}
+    public function modifyIndexQuery(Builder $query)
+    {
+    }
 
     /**
      * Actions before indexing
      */
-    public function beforeIndex(Entity $entity){}
+    public function beforeIndex(Entity $entity)
+    {
+    }
 }

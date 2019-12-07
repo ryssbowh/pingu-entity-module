@@ -65,10 +65,12 @@ class ModuleMakeEntityActions extends GeneratorCommand
         $class = $entity = $this->getClass();
         $class .= 'Actions';
 
-        return (new Stub("/entity-actions.stub", [
+        return (new Stub(
+            "/entity-actions.stub", [
             'NAMESPACE'    => $this->getClassNamespace($module),
             'CLASS'        => $class
-        ]))->render();
+            ]
+        ))->render();
     }
 
     /**

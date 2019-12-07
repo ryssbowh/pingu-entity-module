@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Pingu\Entity\Entities\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait PatchesAjaxEntity 
+trait PatchesAjaxEntity
 {
     use PatchesEntity;
 

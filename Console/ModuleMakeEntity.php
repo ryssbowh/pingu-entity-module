@@ -117,12 +117,14 @@ class ModuleMakeEntity extends GeneratorCommand
 
         $namespace = $this->getClassNamespace($module);
 
-        return (new Stub("/$stub.stub", [
+        return (new Stub(
+            "/$stub.stub", [
             'NAMESPACE'    => $namespace,
             'CLASS'        => $this->getClass(),
             'POLICY_CLASS' => $this->getFileName().'Policy',
             'POLICY_NAMESPACE' => $namespace.'\\Policies\\'.$this->getFileName().'Policy'
-        ]))->render();
+            ]
+        ))->render();
     }
 
     /**

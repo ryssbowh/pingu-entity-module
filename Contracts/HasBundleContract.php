@@ -6,7 +6,8 @@ use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Field\Contracts\HasFields;
 
 interface HasBundleContract
-{   
+{
+   
     /**
      * Bundle getter
      * 

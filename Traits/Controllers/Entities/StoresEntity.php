@@ -105,7 +105,7 @@ trait StoresEntity
     /**
      * Returns response when store fails
      * 
-     * @param Entity  $entity
+     * @param Entity     $entity
      * @param \Exception $exception
      * 
      * @return mixed

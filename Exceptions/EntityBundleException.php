@@ -4,7 +4,8 @@ namespace Pingu\Entity\Exceptions;
 
 use Pingu\Entity\Contracts\BundleContract;
 
-class EntityBundleException extends \Exception{
+class EntityBundleException extends \Exception
+{
 
     public static function registered(BundleContract $bundle)
     {

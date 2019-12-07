@@ -36,25 +36,34 @@ class CommandServiceProvider extends ServiceProvider
     }
     /**
      * Registers the serve command
-     *
      */
     protected function registerCommands()
     {
-        $this->app->bind('command.moduleMakeEntity', function ($app) {
-            return new ModuleMakeEntity();
-        });
-        $this->app->bind('command.moduleMakeEntityPolicy', function ($app) {
-            return new ModuleMakeEntityPolicy();
-        });
-        $this->app->bind('command.ModuleMakeEntityRoutes', function ($app) {
-            return new ModuleMakeEntityRoutes();
-        });
-        $this->app->bind('command.ModuleMakeEntityActions', function ($app) {
-            return new ModuleMakeEntityActions();
-        });
-        $this->app->bind('command.ModuleMakeEntityUris', function ($app) {
-            return new ModuleMakeEntityUris();
-        });
+        $this->app->bind(
+            'command.moduleMakeEntity', function ($app) {
+                return new ModuleMakeEntity();
+            }
+        );
+        $this->app->bind(
+            'command.moduleMakeEntityPolicy', function ($app) {
+                return new ModuleMakeEntityPolicy();
+            }
+        );
+        $this->app->bind(
+            'command.ModuleMakeEntityRoutes', function ($app) {
+                return new ModuleMakeEntityRoutes();
+            }
+        );
+        $this->app->bind(
+            'command.ModuleMakeEntityActions', function ($app) {
+                return new ModuleMakeEntityActions();
+            }
+        );
+        $this->app->bind(
+            'command.ModuleMakeEntityUris', function ($app) {
+                return new ModuleMakeEntityUris();
+            }
+        );
         $this->commands($this->commands);
     }
     /**

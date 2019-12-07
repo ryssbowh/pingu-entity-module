@@ -27,10 +27,10 @@ trait StoresBundleFields
     /**
      * Perform store
      * 
-     * @param BundleFieldContract  $field
-     * @param array                $fieldValidated
-     * @param array                $genericValidated
-     * @param BundleContract $bundle
+     * @param BundleFieldContract $field
+     * @param array               $fieldValidated
+     * @param array               $genericValidated
+     * @param BundleContract      $bundle
      * 
      * @return BundleFieldContract
      */
@@ -42,8 +42,8 @@ trait StoresBundleFields
     /**
      * Action when sore is successfull
      * 
-     * @param  BundleFieldContract  $field
-     * @param  BundleContract $bundle
+     * @param  BundleFieldContract $field
+     * @param  BundleContract      $bundle
      * @return mixed
      */
     abstract protected function onStoreFieldSuccess(BundleField $field, BundleContract $bundle);

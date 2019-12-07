@@ -65,10 +65,12 @@ class ModuleMakeEntityRoutes extends GeneratorCommand
         $class = $entity = $this->getClass();
         $class .= 'Routes';
 
-        return (new Stub("/entity-routes.stub", [
+        return (new Stub(
+            "/entity-routes.stub", [
             'NAMESPACE'    => $this->getClassNamespace($module),
             'CLASS'        => $class
-        ]))->render();
+            ]
+        ))->render();
     }
 
     /**

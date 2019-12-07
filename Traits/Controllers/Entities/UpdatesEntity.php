@@ -36,15 +36,17 @@ trait UpdatesEntity
     /**
      * Do stuff before updating
      * 
-     * @param  Entity $entity
+     * @param Entity $entity
      */
-    protected function beforeUpdate(Entity $entity){}
+    protected function beforeUpdate(Entity $entity)
+    {
+    }
 
     /**
      * Performs update
      * 
      * @param Entity $entity
-     * @param array     $validated
+     * @param array  $validated
      */
     protected function performUpdate(Entity $entity, array $validated)
     {
@@ -54,24 +56,30 @@ trait UpdatesEntity
     /**
      * Response when entity can't be saved
      * 
-     * @param Entity $entity
+     * @param Entity     $entity
      * @param \Exception $exception 
      */
-    protected function onUpdateFailure(Entity $entity, \Exception $exception){}
+    protected function onUpdateFailure(Entity $entity, \Exception $exception)
+    {
+    }
 
     /**
      * do things after a successfull update
      * 
      * @param Entity $entity
      */
-    protected function afterSuccessfullUpdate(Entity $entity){}
+    protected function afterSuccessfullUpdate(Entity $entity)
+    {
+    }
 
     /**
      * do things after a successfull update that didn't change the entity's attributes
      * 
      * @param Entity $entity
      */
-    protected function afterUnchangedUpdate(Entity $entity){}
+    protected function afterUnchangedUpdate(Entity $entity)
+    {
+    }
 
     /**
      * Response after a successfull update
@@ -80,7 +88,9 @@ trait UpdatesEntity
      * 
      * @return array
      */
-    protected function onUpdateSuccess(Entity $entity){}
+    protected function onUpdateSuccess(Entity $entity)
+    {
+    }
 
     /**
      * Validates a request and return validated array
@@ -114,5 +124,7 @@ trait UpdatesEntity
      * 
      * @param Validator $validator
      */
-    protected function modifyUpdateValidator(Validator $validator){}
+    protected function modifyUpdateValidator(Validator $validator)
+    {
+    }
 }

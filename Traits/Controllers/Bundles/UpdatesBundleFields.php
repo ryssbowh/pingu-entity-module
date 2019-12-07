@@ -13,7 +13,7 @@ trait UpdatesBundleFields
     /**
      * Update request
      * 
-     * @param Request $request
+     * @param Request     $request
      * @param BundleField $field
      * 
      * @return mixed

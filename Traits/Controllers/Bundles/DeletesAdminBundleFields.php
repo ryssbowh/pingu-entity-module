@@ -21,10 +21,12 @@ trait DeletesAdminBundleFields
         $bundle = $this->getRouteAction('bundle');
         $url = ['url' => $bundle->bundleUris()->make('deleteField', [$field], adminPrefix())];
         $form = new ConfirmBundleFieldDeletion($field, $url);
-        return view('entity::deleteField',[
+        return view(
+            'entity::deleteField', [
             'form' => $form,
             'field' => $field
-        ]);
+            ]
+        );
     }
 
     /**

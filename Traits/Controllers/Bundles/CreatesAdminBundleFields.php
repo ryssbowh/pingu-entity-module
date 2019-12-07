@@ -21,8 +21,8 @@ trait CreatesAdminBundleFields
     /**
      * Get the view for a create request
      *
-     * @param  Form $form
-     * @param  Collection $fields
+     * @param  Form           $form
+     * @param  Collection     $fields
      * @param  BundleContract $bundle
      * @return view
      */
@@ -42,7 +42,7 @@ trait CreatesAdminBundleFields
     /**
      * View name for creating a field
      *
-     * @param BundleContract $bundle
+     * @param  BundleContract $bundle
      * @return string
      */
     protected function getCreateFieldsViewName(BundleContract $bundle)
@@ -53,11 +53,13 @@ trait CreatesAdminBundleFields
     /**
      * Callback to add variables to the view
      *
-     * @param array &$with
-     * @param BundleContract $bundle
+     * @param array               &$with
+     * @param BundleContract      $bundle
      * @param BundleFieldContract $field
      */
-    protected function addVariablesToCreateFieldsView(array &$with, BundleContract $bundle, BundleFieldContract $field){}
+    protected function addVariablesToCreateFieldsView(array &$with, BundleContract $bundle, BundleFieldContract $field)
+    {
+    }
 
     /**
      * @inheritDoc

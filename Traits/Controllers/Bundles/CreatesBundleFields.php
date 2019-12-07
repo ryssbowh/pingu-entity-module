@@ -31,9 +31,9 @@ trait CreatesBundleFields
     /**
      * Actions when create form is created
      * 
-     * @param Form                 $form
-     * @param BundleContract $bundle
-     * @param BundleFieldContract  $field
+     * @param Form                $form
+     * @param BundleContract      $bundle
+     * @param BundleFieldContract $field
      * 
      * @return mixed                            
      */

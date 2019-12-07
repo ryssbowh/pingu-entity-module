@@ -5,15 +5,15 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 use Pingu\Core\Entities\BaseModel;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-trait StoresAjaxEntity 
+trait StoresAjaxEntity
 {
-	use StoresEntity;
+    use StoresEntity;
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function onStoreSuccess(BaseModel $model)
-	{
-		return ['model' => $model, 'message' => $model::friendlyName()." has been created"];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function onStoreSuccess(BaseModel $model)
+    {
+        return ['model' => $model, 'message' => $model::friendlyName()." has been created"];
+    }
 }
