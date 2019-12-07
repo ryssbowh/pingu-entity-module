@@ -19,6 +19,10 @@ Example : The User entity has basic fields (username, password) and also belong 
 
 An entity that wishes to use Bundle fields must use the trait `HasBundleFields`, which is included in the `IsBundled` trait.
 
+### Revisions
+
+Any entity can use revisions if it implements the `hasRevisionContract` and optionnaly uses the `HasRevisions` trait.
+
 ### Routes
 
 Every entity has a Routes class accessible through `MyEntity::routes()`, by default it defines basic crud uris : 'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete' and 'delete' and that, for 3 different namespace : 'admin', 'ajax' and 'web'.
