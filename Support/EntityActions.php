@@ -4,6 +4,7 @@ namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Actions;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Field\Contracts\HasRevisionsContract;
 
 class EntityActions extends Actions
 {
@@ -29,6 +30,15 @@ class EntityActions extends Actions
                 },
                 'access' => function (Entity $entity) {
                     return \Gate::check('delete', $entity);
+                }
+            ],
+            'revisions' => [
+                'label' => 'Revisions',
+                'url' => function (Entity $entity) {
+                    return $entity::uris()->make('indexRevisions', $entity, adminPrefix());
+                },
+                'access' => function (Entity $entity) {
+                    return ($entity instanceof HasRevisionsContract and \Gate::check('viewRevisions', $entity));
                 }
             ]
         ];

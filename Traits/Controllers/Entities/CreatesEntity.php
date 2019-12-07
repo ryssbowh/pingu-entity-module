@@ -20,7 +20,7 @@ trait CreatesEntity
         $bundle = $this->request->route('bundle');
 
         if ($bundle) {
-            $entity->fields()->setBundle($bundle);
+            $entity->setBundle($bundle);
         }
         
         $this->beforeCreate($entity, $bundle);

@@ -2,10 +2,11 @@
 
 namespace Pingu\Entity\Support;
 
+use Pingu\Core\Support\Policy;
 use Pingu\Entity\Entities\Entity;
 use Pingu\User\Entities\User;
 
-class BaseEntityPolicy
+class BaseEntityPolicy extends Policy
 {
     protected function userOrGuest(?User $user)
     {
@@ -33,12 +34,24 @@ class BaseEntityPolicy
     public function delete(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('delete '.$entity::friendlyNames());
+        return $user->hasPermissionTo('delete '.$entity::machineNames());
     }
 
     public function create(?User $user, string $entity)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('edit '.$entity::friendlyNames());
+    }
+
+    public function viewRevisions(?User $user, Entity $entity)
+    {
+        $user = $this->userOrGuest($user);
+        return $user->hasPermissionTo('view revisions');
+    }
+
+    public function restoreRevision(?User $user, Entity $entity)
+    {
+        $user = $this->userOrGuest($user);
+        return ($user->hasPermissionTo('restore revisions') and $this->create($user, $entity));
     }
 }

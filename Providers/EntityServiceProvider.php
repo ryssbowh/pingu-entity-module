@@ -3,10 +3,12 @@
 namespace Pingu\Entity\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Routing\Router;
 use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Entity\Bundle;
 use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Entity;
+use Pingu\Entity\Http\Middleware\HasRevisions;
 use Pingu\Entity\Support\BaseBundleActions;
 use Pingu\Entity\Support\BaseBundleRoutes;
 use Pingu\Entity\Support\BaseBundleUris;
@@ -22,8 +24,9 @@ class EntityServiceProvider extends ModuleServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router)
     {
+        $router->aliasMiddleware('hasRevisions', HasRevisions::class);
         $this->registerConfig();
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'entity');
     }
@@ -53,22 +56,6 @@ class EntityServiceProvider extends ModuleServiceProvider
         \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
-    }
-
-    public function addRevisions()
-    {
-        EntityModel::routes()->addRoute('admin', 'revisions', 'get');
-        EntityModel::uris()->add('revisions', '@entity/{@entity}/revisions');
-        EntityModel::actions()->add(
-            'revisions', 
-            'Revisions', 
-            function ($user) {
-                return $user::uris()->make('revisions', $user);
-            },
-            function () {
-                return \Auth::user()->hasPermissionTo('view revisions');
-            }
-        );
     }
 
     /**

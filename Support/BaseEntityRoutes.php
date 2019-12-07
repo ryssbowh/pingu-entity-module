@@ -2,10 +2,12 @@
 
 namespace Pingu\Entity\Support;
 
+use Illuminate\Support\Arr;
 use Pingu\Content\Entities\ContentType;
 use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Page\Entities\Page;
 
 class BaseEntityRoutes extends Routes
 {
@@ -39,10 +41,24 @@ class BaseEntityRoutes extends Routes
     {
         $middlewares = [];
         foreach ($baseMiddlewares as $index => $baseMiddleware) {
-            $new = str_replace('@class', get_class($this->object), $baseMiddleware);
-            $middlewares[$index] = str_replace('@slug', $this->object::routeSlug(), $new);
+            $middlewares[$index] = $this->replaceMiddlewareSlugs($baseMiddleware);
         }
-        return array_merge($middlewares, $this->middlewares());
+        $thisMiddlewares = [];
+        foreach ($this->middlewares() as $index => $thisMiddleware) {
+            $thisMiddlewares[$index] = $this->replaceMiddlewareSlugs($thisMiddleware);
+        }
+        return array_merge($middlewares, $thisMiddlewares);
+    }
+
+    protected function replaceMiddlewareSlugs($middlewares)
+    {
+        $out = [];
+        $middlewares = Arr::wrap($middlewares);
+        foreach ($middlewares as $middleware) {
+            $middleware = str_replace('@class', get_class($this->object), $middleware);
+            $out[] = str_replace('@slug', $this->object::routeSlug(), $middleware);
+        }
+        return $out;
     }
 
     /**
@@ -107,6 +123,11 @@ class BaseEntityRoutes extends Routes
             $action = ['uses' => $controller.'@'.$name, 'entity' => $this->object];
 
             $route = \Route::$method($uri, $action);
+
+            // if(get_class($this->object) == Page::class){
+            //     dump($uri);
+            //     dump($this->getMiddlewares($name));
+            // }
 
             if ($routeName = $this->getNames($path)) {
                 $route->name($routeName);

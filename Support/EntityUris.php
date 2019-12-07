@@ -20,7 +20,9 @@ class EntityUris extends Uris
             'delete' => '@entity/{@entity}/delete',
             'edit' => '@entity/{@entity}/edit',
             'update' => '@entity/{@entity}',
-            'patch' => '@entities'
+            'patch' => '@entities',
+            'indexRevisions' => '@entity/{@entity}/revisions',
+            'editRevision' => '@entity/{@entity}/revision/{id}',
         ];
     }
 }

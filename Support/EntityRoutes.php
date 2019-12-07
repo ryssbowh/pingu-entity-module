@@ -14,7 +14,7 @@ class EntityRoutes extends Routes
     {
         return [
             'admin' => [
-                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete'
+                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete', 'indexRevisions', 'editRevision'
             ],
             'ajax' => [
                 'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete'
@@ -31,15 +31,10 @@ class EntityRoutes extends Routes
     protected function methods(): array
     {
         return [
-            'index' => 'get',
-            'view' => 'get',
-            'create' => 'get',
             'store' => 'post',
-            'edit' => 'get',
             'update' => 'put',
             'patch' => 'patch',
-            'confirmDelete' => 'get',
-            'delete' => 'delete'
+            'delete' => 'delete',
         ];
     }
 
@@ -57,7 +52,9 @@ class EntityRoutes extends Routes
             'update' => 'can:edit,@slug',
             'patch' => 'can:edit,@slug',
             'confirmDelete' => 'can:delete,@slug',
-            'delete' => 'can:delete,@slug'
+            'delete' => 'can:delete,@slug',
+            'indexRevisions' => 'hasRevisions:@slug',
+            'editRevisions' => 'hasRevisions:@slug'
         ];
     }
 

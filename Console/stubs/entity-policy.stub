@@ -3,84 +3,10 @@
 namespace $NAMESPACE$;
 
 use $ENTITY_CLASS$;
-use Pingu\Core\Support\Policy;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\BaseEntityPolicy;
 use Pingu\User\Entities\User;
 
-class $CLASS$ extends Policy
+class $CLASS$ extends BaseEntityPolicy
 {
-    /**
-     * Get the model that handles permissions
-
-     * @param  ?User $user
-     * @return User|Role
-     */
-    protected function userOrGuest(?User $user): bool
-    {
-        return $user ? $user : \Permissions::guestRole();
-    }
-
-    /**
-     * Index policy rule
-     * @param ?User $user         [description]
-     * @return bool
-     */
-    public function index(?User $user): bool
-    {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '. $ENTITY$::friendlyNames());
-    }
-
-    /**
-     * View policy rule
-
-     * @param ?User  $user
-     * @param Entity $entity
-
-     * @return bool
-     */
-    public function view(?User $user, Entity $entity): bool
-    {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '.$entity::friendlyNames());
-    }
-
-    /**
-     * Edit policy rule
-
-     * @param ?User  $user         
-     * @param Entity $entity       
-
-     * @return bool
-     */
-    public function edit(?User $user, Entity $entity): bool
-    {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('edit '.$entity::friendlyNames());
-    }
-
-    /**
-     * Delete policy rule
-
-     * @param ?User  $user         
-     * @param Entity $entity       
-     * @return bool
-     */
-    public function delete(?User $user, Entity $entity): bool
-    {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('delete '.$entity::friendlyNames());
-    }
-
-    /**
-     * Create policy rule
-
-     * @param  ?User $user
-     * @return bool
-     */
-    public function create(?User $user): bool
-    {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('create '. $ENTITY$::friendlyNames());
-    }
 }
