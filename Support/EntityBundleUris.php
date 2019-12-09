@@ -16,7 +16,6 @@ class EntityBundleUris extends BaseEntityUris
             'indexFields' => 'bundles/{bundle}/fields',
             'editField' => 'bundles/{bundle}/fields/{'.BundleField::routeSlug().'}/edit',
             'storeField' => 'bundles/{bundle}/fields',
-            'patchFields' => 'bundles/{bundle}/fields',
             'createField' => 'bundles/{bundle}/fields/create',
             'updateField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}',
             'confirmDeleteField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',

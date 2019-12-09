@@ -14,26 +14,58 @@ use Pingu\Core\Support\Uris;
 use Pingu\Core\Traits\HasActionsThroughFacade;
 use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Core\Traits\HasUrisThroughFacade;
+use Pingu\Entity\Events\RegisteredEntity;
+use Pingu\Entity\Events\RegisteringEntity;
 use Pingu\Entity\Facades\Entity as EntityFacade;
 use Pingu\Entity\Support\BaseEntityActions;
 use Pingu\Entity\Support\BaseEntityForms;
 use Pingu\Entity\Support\BaseEntityRoutes;
 use Pingu\Entity\Support\BaseEntityUris;
+use Pingu\Field\Contracts\HasRevisionsContract;
+use Pingu\Field\Support\FieldLayout;
+use Pingu\Field\Traits\HasFormLayout;
+use Pingu\Field\Traits\HasRevisions;
 use Pingu\Forms\Support\FormRepository;
 
 abstract class Entity extends BaseModel implements 
     HasRouteSlugContract,
     HasUrisContract,
-    HasActionsContract
+    HasActionsContract,
+    HasRevisionsContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
-        HasActionsThroughFacade;
+        HasActionsThroughFacade,
+        HasRevisions;
 
     public $adminListFields = [];
 
     protected $routes;
+
+    protected $observables = ['registering', 'registered'];
+
+    /**
+     * Register a registering model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function registering($callback)
+    {
+        static::registerModelEvent('registering', $callback);
+    }
+
+    /**
+     * Register a registered model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function registered($callback)
+    {
+        static::registerModelEvent('registered', $callback);
+    }
 
     /**
      * Policy class for this entity
@@ -109,10 +141,12 @@ abstract class Entity extends BaseModel implements
      */
     public function register()
     {
+        $this->fireModelEvent('registering');
         EntityFacade::registerEntity($this);
         \Uris::register(get_class($this), $this->getUrisInstance());
         \Routes::register(get_class($this), $this->getRoutesInstance());
         \Actions::register(get_class($this), $this->getActionsInstance());
         \Policies::register(get_class($this), $this->getPolicy());
+        $this->fireModelEvent('registered');
     }
 }

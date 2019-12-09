@@ -2,7 +2,6 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Contracts\HasBundleContract;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Field\Support\FieldRevision;
 use Pingu\Forms\Support\Form;

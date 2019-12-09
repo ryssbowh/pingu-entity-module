@@ -17,7 +17,7 @@ class AdminBundlesController extends BaseController
     {
         $bundles = [];
         foreach (\Bundle::all() as $bundle) {
-            $bundles[class_basename($bundle)][] = $bundle;
+            $bundles[friendlyClassname($bundle)][] = $bundle;
         }
         return view('entity::bundles')->with(
             [

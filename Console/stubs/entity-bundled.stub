@@ -2,15 +2,12 @@
 
 namespace $NAMESPACE$;
 
-use Pingu\Entity\Contracts\HasBundleContract;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Entities\BundledEntity;
 use Pingu\Entity\Traits\IsBundled;
 use $POLICY_NAMESPACE$;
 
-class $CLASS$ extends Entity implements HasBundleContract
+class $CLASS$ extends BundledEntity
 {
-    use IsBundled;
-
     /**
      * @inheritDoc
      */

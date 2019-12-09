@@ -1,21 +1,16 @@
-<?php 
+<?php
 
-namespace Pingu\Entity\Traits;
+namespace Pingu\Entity\Entities;
 
-use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Support\BundledEntityRoutes;
 use Pingu\Entity\Support\BundledEntityUris;
-use Pingu\Field\Support\FieldLayoutBundled;
 use Pingu\Field\Traits\HasBundleFields;
+use Pingu\Field\Traits\HasFormLayout;
 
-/**
- * This trait is to be used on entities that have a bundle
- */
-trait IsBundled
+abstract class BundledEntity extends Entity
 {
-    use HasBundleFields;
+    use HasBundleFields, HasFormLayout;
 
     protected $bundle;
     
@@ -24,7 +19,7 @@ trait IsBundled
      * 
      * @return string
      */
-    abstract public function bundleName(): string;
+    abstract public function bundleName(): ?string;
 
     public function setBundle(BundleContract $bundle)
     {
@@ -62,23 +57,5 @@ trait IsBundled
             return new $class($this);
         }
         return new BundledEntityUris($this);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function registerFormLayout()
-    {
-        if ($bundle = $this->bundleName()) {
-            \Field::registerFormLayout($bundle, new FieldLayoutBundled($this));
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function formLayout()
-    {
-        return \Field::getFormLayout((new static)->bundleName());
     }
 }

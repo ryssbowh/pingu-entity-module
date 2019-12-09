@@ -5,11 +5,9 @@ namespace Pingu\Entity\Events;
 use Illuminate\Queue\SerializesModels;
 use Pingu\Entity\Entities\Entity;
 
-class EntityCreated
+class RegisteringEntity
 {
     use SerializesModels;
-
-    public $entity;
 
     /**
      * Create a new event instance.
@@ -18,7 +16,7 @@ class EntityCreated
      */
     public function __construct(Entity $entity)
     {
-        $this->entity;
+        $this->entity = $entity;
     }
 
     /**

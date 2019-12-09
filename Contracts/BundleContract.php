@@ -33,4 +33,11 @@ interface BundleContract extends
      * @return string
      */
     public function getRouteKey(): string;
+
+    /**
+     * The entity class this bundle is for
+     * 
+     * @return string
+     */
+    public function entityFor(): string;
 }

@@ -16,7 +16,6 @@ class S2019_10_13_100648004133_InstallEntity extends MigratableSeeder
     public function run(): void
     {
         $perm = Permission::findOrCreate(['name' => 'manage bundles', 'section' => 'Core']);
-        $perm = Permission::findOrCreate(['name' => 'view revisions', 'section' => 'Core']);
         $admin = Menu::findByMachineName('admin-menu');
         $structure = MenuItem::findByMachineName('admin-menu.structure');
 

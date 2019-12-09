@@ -19,8 +19,8 @@ class BaseBundleRoutes extends Routes
     protected function routes(): array
     {
         return [
-            'admin' => ['indexFields', 'editField', 'storeField', 'patchFields', 'createField', 'updateField', 'deleteField', 'confirmDeleteField'],
-            'ajax' => ['editField', 'storeField', 'patchFields', 'createField', 'updateField', 'deleteField']
+            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField'],
+            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField']
         ];
     }
 
@@ -33,7 +33,6 @@ class BaseBundleRoutes extends Routes
             'indexFields' => 'get',
             'editField' => 'get',
             'storeField' => 'post',
-            'patchFields' => 'patch',
             'createField' => 'get',
             'updateField' => 'put',
             'confirmDeleteField' => 'get',

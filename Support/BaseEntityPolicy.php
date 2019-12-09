@@ -15,43 +15,36 @@ class BaseEntityPolicy extends Policy
 
     public function index(?User $user)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '.$entity::friendlyNames());
+        return false;
     }
 
     public function view(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '.$entity::friendlyNames());
+        return false;
     }
 
     public function edit(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('edit '.$entity::friendlyNames());
+        return false;
     }
 
     public function delete(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('delete '.$entity::machineNames());
+        return false;
     }
 
-    public function create(?User $user, string $entity)
+    public function create(?User $user)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('edit '.$entity::friendlyNames());
+        return false;
     }
 
     public function viewRevisions(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view revisions');
+        return false;
     }
 
     public function restoreRevision(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
-        return ($user->hasPermissionTo('restore revisions') and $this->create($user, $entity));
+        return false;
     }
 }
