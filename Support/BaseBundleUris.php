@@ -13,15 +13,18 @@ class BaseBundleUris extends Uris
     public function uris(): array
     {
         return [
-            'indexFields' => 'bundles/{bundle}/fields',
-            'editField' => 'bundles/{bundle}/fields/{'.BundleField::routeSlug().'}/edit',
-            'storeField' => 'bundles/{bundle}/fields',
-            'patchFields' => 'bundles/{bundle}/fields',
-            'createField' => 'bundles/{bundle}/fields/create',
-            'updateField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}',
-            'confirmDeleteField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
-            'deleteField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
-            'formLayout' => 'bunles/{bundle}/form-layout'
+            'indexFields' => 'bundle/{bundle}/fields',
+            'editField' => 'bundle/{bundle}/fields/{'.BundleField::routeSlug().'}/edit',
+            'storeField' => 'bundle/{bundle}/fields',
+            'patchFields' => 'bundle/{bundle}/fields',
+            'createField' => 'bundle/{bundle}/fields/create',
+            'updateField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}',
+            'confirmDeleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
+            'deleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
+            'formLayout' => 'bundle/{bundle}/form-layout',
+            'formLayoutOptions' => 'bundle/{bundle}/form-layout-options/{form_layout}',
+            'validateFormLayoutOptions' => 'bundle/{bundle}/form-layout-options/{form_layout}',
+            'patchFormLayout' => 'bundle/{bundle}/form-layout',
         ];
     }
 }

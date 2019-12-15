@@ -19,8 +19,8 @@ class BaseBundleRoutes extends Routes
     protected function routes(): array
     {
         return [
-            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField'],
-            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField']
+            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'formLayout'],
+            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout', 'formLayoutOptions', 'validateFormLayoutOptions']
         ];
     }
 
@@ -30,15 +30,14 @@ class BaseBundleRoutes extends Routes
     protected function routeMethods(): array
     {
         return [
-            'indexFields' => 'get',
-            'editField' => 'get',
             'storeField' => 'post',
-            'createField' => 'get',
             'updateField' => 'put',
-            'confirmDeleteField' => 'get',
-            'deleteField' => 'delete'
+            'deleteField' => 'delete',
+            'patchFormLayout' => 'patch',
+            'validateFormLayoutOptions' => 'post'
         ];
     }
+
     /**
      * Registers all the routes for an index (as found in routes()) into Laravel Route system
      * 
@@ -53,13 +52,12 @@ class BaseBundleRoutes extends Routes
         $controller = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
 
         foreach ($this->routes[$routeIndex] as $name) {
-            $path = $routeIndex.'.'.$name;
-            $method = $this->routeMethods()[$name];
+            $method = $this->routeMethods()[$name] ?? 'get';
 
             $action = $controller.'@'.$name;
             $uris = \Uris::get(Bundle::class);
 
-            \Route::$method($uris->$name(), ['uses' => $action]);
+            \Route::$method($uris->get($name), ['uses' => $action]);
         }
     }
 

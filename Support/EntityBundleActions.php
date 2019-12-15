@@ -8,7 +8,7 @@ class EntityBundleActions extends BaseEntityActions
 {
     /**
      * Make the actions for this bundle.
-     * This method can be called either with the entity of the bundle as parameter
+     * This method can be called either with an entity or a bundle as parameter
      * 
      * @param $object
      * 

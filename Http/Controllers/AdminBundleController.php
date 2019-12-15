@@ -7,6 +7,7 @@ use Pingu\Entity\Traits\Controllers\Bundles\CreatesAdminBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\DeletesAdminBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\EditsAdminBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\IndexesAdminBundleFields;
+use Pingu\Entity\Traits\Controllers\Bundles\IndexesFormLayout;
 use Pingu\Entity\Traits\Controllers\Bundles\PatchesAdminBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\StoresAdminBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAdminBundleFields;
@@ -19,5 +20,6 @@ class AdminBundleController extends BaseController
         UpdatesAdminBundleFields,
         EditsAdminBundleFields,
         DeletesAdminBundleFields,
-        PatchesAdminBundleFields;
+        PatchesAdminBundleFields,
+        IndexesFormLayout;
 }

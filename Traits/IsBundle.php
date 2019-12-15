@@ -29,9 +29,9 @@ trait IsBundle
     {
         static::created(
             function ($entity) {
-                    $class = $entity::bundleClass();
-                    $bundle = new $class($entity);
-                    \Bundle::registerBundle($bundle);
+                $class = $entity::bundleClass();
+                $bundle = new $class($entity);
+                \Bundle::registerBundle($bundle);
             }
         );
     }

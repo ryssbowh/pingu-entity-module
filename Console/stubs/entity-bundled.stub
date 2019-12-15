@@ -3,7 +3,6 @@
 namespace $NAMESPACE$;
 
 use Pingu\Entity\Entities\BundledEntity;
-use Pingu\Entity\Traits\IsBundled;
 use $POLICY_NAMESPACE$;
 
 class $CLASS$ extends BundledEntity

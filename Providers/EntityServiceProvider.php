@@ -16,6 +16,7 @@ use Pingu\Entity\Support\Bundle as BundleAbstract;
 use Pingu\Entity\Support\EntityActions;
 use Pingu\Entity\Support\EntityRoutes;
 use Pingu\Entity\Support\EntityUris;
+use Pingu\Field\Entities\FormLayout;
 
 class EntityServiceProvider extends ModuleServiceProvider
 {
@@ -58,6 +59,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
+        \ModelRoutes::registerSlugFromObject(new FormLayout);
     }
 
     /**

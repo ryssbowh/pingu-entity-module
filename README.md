@@ -17,7 +17,7 @@ A method is available for you to do so : `ServiceProvider->registerEntities(arra
 En entity can be bundled or not. A bundled entity will have access to the bundle field API through its bundle.
 Example : The User entity has basic fields (username, password) and also belong to the bundle User, where any extra field can be defined.
 
-An entity that wishes to use Bundle fields must use the trait `HasBundleFields`, which is included in the `IsBundled` trait.
+An entity that wishes to use Bundle fields must extends `BundledEntity`.
 
 ### Revisions
 

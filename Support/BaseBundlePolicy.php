@@ -35,4 +35,10 @@ class BaseBundlePolicy
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('manages bundles');
     }
+
+    public function createGroups(?User $user, BundleContract $bundle)
+    {
+        $user = $this->userOrGuest($user);
+        return $user->hasPermissionTo('manages bundles');
+    }
 }

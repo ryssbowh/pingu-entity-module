@@ -3,6 +3,7 @@
 namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Uris;
+use Pingu\Entity\Support\Bundle;
 use Pingu\Field\Entities\BundleField;
 
 class EntityBundleUris extends BaseEntityUris
@@ -12,14 +13,6 @@ class EntityBundleUris extends BaseEntityUris
      */
     protected function uris(): array
     {
-        return [
-            'indexFields' => 'bundles/{bundle}/fields',
-            'editField' => 'bundles/{bundle}/fields/{'.BundleField::routeSlug().'}/edit',
-            'storeField' => 'bundles/{bundle}/fields',
-            'createField' => 'bundles/{bundle}/fields/create',
-            'updateField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}',
-            'confirmDeleteField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
-            'deleteField' => 'bundles/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete'
-        ];
+        return \Uris::get(Bundle::class)->all();
     }
 }

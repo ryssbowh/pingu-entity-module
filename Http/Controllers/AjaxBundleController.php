@@ -6,6 +6,7 @@ use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Traits\Controllers\Bundles\CreatesAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\DeletesAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\EditsAjaxBundleFields;
+use Pingu\Entity\Traits\Controllers\Bundles\EditsAjaxFormLayoutOptions;
 use Pingu\Entity\Traits\Controllers\Bundles\PatchesAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\StoresAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAjaxBundleFields;
@@ -18,7 +19,8 @@ class AjaxBundleController extends BaseController
         UpdatesAjaxBundleFields,
         EditsAjaxBundleFields,
         DeletesAjaxBundleFields,
-        PatchesAjaxBundleFields;
+        PatchesAjaxBundleFields,
+        EditsAjaxFormLayoutOptions;
 }
 
 ?>

@@ -17,6 +17,7 @@ use Pingu\Entity\Traits\HasActions;
 use Pingu\Field\Contracts\FieldContract;
 use Pingu\Field\Contracts\FieldRepository;
 use Pingu\Field\Contracts\FieldsValidator;
+use Pingu\Field\Support\FieldLayoutBundle;
 use Pingu\Field\Support\FieldRepository\BundleFieldsRepository;
 use Pingu\Field\Support\FieldValidator\BundleFieldsValidator;
 use Pingu\Field\Traits\HasFields;
@@ -90,11 +91,20 @@ abstract class Bundle implements BundleContract
     }
 
     /**
+     * Get form layout instance from Field facade
+     */
+    public function formLayout()
+    {
+        return \Field::getFormLayout($this->bundleName());
+    }
+
+    /**
      * Registers this bundle
      */
     public function register()
     {
         BundleFacade::registerBundle($this);
         \Actions::register(get_class($this), $this->getActionsInstance());
+        \Field::registerFormLayout($this->bundleName(), new FieldLayoutBundle($this));
     }
 }

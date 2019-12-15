@@ -20,6 +20,12 @@ class BaseBundleActions extends Actions
                 'url' => function ($bundle) {
                     return $bundle::uris()->make('indexFields', $bundle, adminPrefix());
                 }
+            ],
+            'formLayout' => [
+                'label' => 'Form layout',
+                'url' => function ($bundle) {
+                    return $bundle::uris()->make('formLayout', $bundle, adminPrefix());
+                }
             ]
         ];
     }

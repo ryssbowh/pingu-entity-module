@@ -41,8 +41,6 @@ abstract class Entity extends BaseModel implements
 
     public $adminListFields = [];
 
-    protected $routes;
-
     protected $observables = ['registering', 'registered'];
 
     /**
