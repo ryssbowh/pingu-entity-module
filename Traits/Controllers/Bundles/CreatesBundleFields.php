@@ -16,10 +16,7 @@ trait CreatesBundleFields
      */
     public function createField(BundleContract $bundle)
     {   
-        $type = $this->request->input('type', false);
-        if (!$type) {
-            throw new ParameterMissing('type', 'get');
-        }
+        $type = $this->requireParameter('type');
         $url = $this->getStoreFieldUri($bundle);
         $field = \Field::getRegisteredBundleField($type);
         $field = new $field;

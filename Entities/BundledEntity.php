@@ -4,15 +4,20 @@ namespace Pingu\Entity\Entities;
 
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Support\FieldLayoutBundled;
 use Pingu\Field\Traits\HasBundleFields;
+use Pingu\Forms\Support\FormRepository;
 
 abstract class BundledEntity extends Entity
 {
     use HasBundleFields;
 
+    /**
+     * @var ?BundleContract
+     */
     protected $bundle;
     
     /**
@@ -63,8 +68,8 @@ abstract class BundledEntity extends Entity
     /**
      * @inheritDoc
      */
-    protected function fieldLayoutInstance(): FieldLayout
+    public function forms(): FormRepository
     {
-        return new FieldLayoutBundled($this);
+        return new BundledEntityForms($this);
     }
 }

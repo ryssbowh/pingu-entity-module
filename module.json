@@ -6,6 +6,8 @@
     "core": 1,
     "order": -99,
     "providers": [
+        "Pingu\\Entity\\Providers\\RouteServiceProvider",
+        "Pingu\\Entity\\Providers\\EventServiceProvider",
         "Pingu\\Entity\\Providers\\EntityServiceProvider",
         "Pingu\\Entity\\Providers\\CommandServiceProvider"
     ],

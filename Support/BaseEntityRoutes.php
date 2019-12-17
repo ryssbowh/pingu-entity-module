@@ -116,18 +116,16 @@ class BaseEntityRoutes extends Routes
         foreach ($routes as $name) {
             $path = $routeIndex.'.'.$name;
             $method = $this->getMethods($name);
-            if (!$controller = $this->getControllers($path)) {
-                $controller = $defaultController;
+            $controller = $this->getControllers($path) ?? $defaultController;
+
+            if (!strpos($controller, '@')) {
+                $controller .= '@'.$name;
             }
+
             $uri = $this->object->uris()->get($name);
-            $action = ['uses' => $controller.'@'.$name, 'entity' => $this->object];
+            $action = ['uses' => $controller, 'entity' => $this->object];
 
             $route = \Route::$method($uri, $action);
-
-            // if(get_class($this->object) == Page::class){
-            //     dump($uri);
-            //     dump($this->getMiddlewares($name));
-            // }
 
             if ($routeName = $this->getNames($path)) {
                 $route->name($routeName);

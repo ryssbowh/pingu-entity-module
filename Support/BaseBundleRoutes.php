@@ -3,8 +3,10 @@
 namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Routes;
-use Pingu\Entity\Support\Bundle;
 use Pingu\Entity\Http\Controllers\AdminBundleController;
+use Pingu\Entity\Http\Controllers\AdminFormLayoutController;
+use Pingu\Entity\Http\Controllers\AjaxFormLayoutController;
+use Pingu\Entity\Support\Bundle;
 
 class BaseBundleRoutes extends Routes
 {
@@ -20,7 +22,7 @@ class BaseBundleRoutes extends Routes
     {
         return [
             'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'formLayout'],
-            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout', 'formLayoutOptions', 'validateFormLayoutOptions']
+            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout']
         ];
     }
 
@@ -33,8 +35,18 @@ class BaseBundleRoutes extends Routes
             'storeField' => 'post',
             'updateField' => 'put',
             'deleteField' => 'delete',
-            'patchFormLayout' => 'patch',
-            'validateFormLayoutOptions' => 'post'
+            'patchFormLayout' => 'patch'
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function controllers(): array
+    {
+        return [
+            'admin.formLayout' => AdminFormLayoutController::class.'@indexBundle',
+            'ajax.patchFormLayout' => AjaxFormLayoutController::class.'@patch',
         ];
     }
 
@@ -49,15 +61,20 @@ class BaseBundleRoutes extends Routes
             return;
         }
 
-        $controller = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
+        $uris = \Uris::get(Bundle::class);
+        $defaultController = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
 
         foreach ($this->routes[$routeIndex] as $name) {
+            $path = $routeIndex.'.'.$name;
+
             $method = $this->routeMethods()[$name] ?? 'get';
+            $controller = $this->controllers()[$path] ?? $defaultController;
+ 
+            if (!strpos($controller, '@')) {
+                $controller .= '@'.$name;
+            }
 
-            $action = $controller.'@'.$name;
-            $uris = \Uris::get(Bundle::class);
-
-            \Route::$method($uris->get($name), ['uses' => $action]);
+            \Route::$method($uris->get($name), ['uses' => $controller]);
         }
     }
 

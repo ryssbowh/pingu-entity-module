@@ -30,6 +30,17 @@ class EntityServiceProvider extends ModuleServiceProvider
         $router->aliasMiddleware('hasRevisions', HasRevisions::class);
         $this->registerConfig();
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'entity');
+
+        \Asset::container('modules')->add('entity-js', 'module-assets/Entity.js');
+
+        $this->app->booted(function () {
+            \JsConfig::setMany(
+                [
+                'entity.uris.viewFormLayoutOptions' => route_by_name('entity.ajax.viewFormLayoutOptions')->uri(),
+                'entity.uris.editFormLayoutOptions' => route_by_name('entity.ajax.editFormLayoutOptions')->uri(),
+                ]
+            );
+        });
     }
 
     /**
@@ -39,8 +50,6 @@ class EntityServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
-        $this->app->register(EventServiceProvider::class);
-        $this->app->register(RouteServiceProvider::class);
         $this->app->singleton('entity.entity', Entity::class);
         $this->app->singleton('entity.bundle', Bundle::class);
         //Registers base bundle uris
@@ -59,7 +68,6 @@ class EntityServiceProvider extends ModuleServiceProvider
         \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
-        \ModelRoutes::registerSlugFromObject(new FormLayout);
     }
 
     /**
