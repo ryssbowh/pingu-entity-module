@@ -31,7 +31,8 @@ trait IsBundle
             function ($entity) {
                 $class = $entity::bundleClass();
                 $bundle = new $class($entity);
-                \Bundle::registerBundle($bundle);
+                $bundle->register();
+                // \Bundle::registerBundle($bundle);
             }
         );
     }

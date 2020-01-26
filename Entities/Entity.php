@@ -21,23 +21,19 @@ use Pingu\Entity\Support\BaseEntityActions;
 use Pingu\Entity\Support\BaseEntityForms;
 use Pingu\Entity\Support\BaseEntityRoutes;
 use Pingu\Entity\Support\BaseEntityUris;
-use Pingu\Field\Contracts\HasRevisionsContract;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Traits\HasFormLayout;
-use Pingu\Field\Traits\HasRevisions;
 use Pingu\Forms\Support\FormRepository;
 
 abstract class Entity extends BaseModel implements 
     HasRouteSlugContract,
     HasUrisContract,
-    HasActionsContract,
-    HasRevisionsContract
+    HasActionsContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
-        HasActionsThroughFacade,
-        HasRevisions;
+        HasActionsThroughFacade;
 
     public $adminListFields = [];
 
