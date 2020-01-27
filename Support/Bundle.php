@@ -95,7 +95,7 @@ abstract class Bundle implements BundleContract
      */
     public function formLayout()
     {
-        return \Field::getFormLayout($this->bundleName());
+        return \Field::getFormLayout($this->bundleName())->load();
     }
 
     /**

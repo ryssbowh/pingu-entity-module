@@ -33,7 +33,8 @@ abstract class Entity extends BaseModel implements
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
-        HasActionsThroughFacade;
+        HasActionsThroughFacade,
+        HasFormLayout;
 
     public $adminListFields = [];
 
