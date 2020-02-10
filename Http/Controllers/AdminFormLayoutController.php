@@ -14,7 +14,7 @@ class AdminFormLayoutController extends BaseController
             'entity::indexFormLayout', 
             [
                 'fields' => $bundle->fields()->getAll(),
-                'layout' => $bundle->formLayout(),
+                'layout' => \Field::getBundleFormLayout($bundle),
                 'bundle' => $bundle,
                 'canCreateGroups' => \Gate::check('createGroups', $bundle)
             ], 

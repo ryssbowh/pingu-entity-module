@@ -10,6 +10,7 @@ An entity is a "enhanced" model that defines a couple of things :
 - uris : uris for this entity, the system provides with basic CRUD uris
 - actions : actions attached to an entity (edit, delete)
 - policy : permission access for that entity
+- form layout : Layout for the form to add this entity
 
 Every entity must be registered in the `Entity` facade in order to be available throughout the application. Typically it happens in the `register` method of your service providers.
 A method is available for you to do so : `ServiceProvider->registerEntities(array $entities)`
