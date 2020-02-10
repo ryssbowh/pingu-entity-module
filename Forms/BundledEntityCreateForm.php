@@ -21,7 +21,7 @@ class BundledEntityCreateForm extends Form
     {
         $this->action = $action;
         $this->entity = $entity;
-        $this->formLayout = $entity->bundle()->formLayout();
+        $this->formLayout = $entity->formLayout();
         parent::__construct();
     }
 

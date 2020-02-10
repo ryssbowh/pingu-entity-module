@@ -7,7 +7,7 @@ use Pingu\Entity\Forms\BundledEntityEditForm;
 use Pingu\Forms\Support\BaseForms;
 use Pingu\Forms\Support\Form;
 
-class BundledEntityForms extends BaseForms
+class BundledEntityForms extends BaseEntityForms
 {
     /**
      * @inheritDoc

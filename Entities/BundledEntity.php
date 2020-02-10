@@ -7,7 +7,6 @@ use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Field\Support\FieldLayout;
-use Pingu\Field\Support\FieldLayoutBundled;
 use Pingu\Field\Traits\HasBundleFields;
 use Pingu\Forms\Support\FormRepository;
 
@@ -71,5 +70,13 @@ abstract class BundledEntity extends Entity
     public function forms(): FormRepository
     {
         return new BundledEntityForms($this);
+    }
+
+        /**
+     * Get form layout instance from Field facade
+     */
+    public function formLayout()
+    {
+        return \Field::getBundleFormLayout($this->bundle())->load();
     }
 }

@@ -36,11 +36,10 @@ trait PatchesFormLayout
             foreach ($data['models'] ?? [] as $data) {
                 $layout = FormLayout::findOrFail($data['id']);
                 $layout->fill([
-                    'group_id' => $group->id,
                     'weight' => $data['weight'],
                     'options' => json_decode($data['options']),
                     'widget' => $data['widget']
-                ])->save();
+                ])->group()->associate($group)->save();
             }
             
         }

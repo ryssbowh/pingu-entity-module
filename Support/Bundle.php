@@ -91,14 +91,6 @@ abstract class Bundle implements BundleContract
     }
 
     /**
-     * Get form layout instance from Field facade
-     */
-    public function formLayout()
-    {
-        return \Field::getFormLayout($this->bundleName())->load();
-    }
-
-    /**
      * Registers this bundle
      */
     public function register()
