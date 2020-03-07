@@ -40,7 +40,7 @@ class AjaxFormLayoutController extends BaseController
             ->isAjax()
             ->option('title', 'Edit Options');
         return \Response::json(
-            ['form' => $form->__toString()],
+            ['html' => $form->__toString()],
             200, 
             ['Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
         );

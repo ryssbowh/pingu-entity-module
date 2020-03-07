@@ -14,7 +14,7 @@ trait CreatesAjaxEntity
      */
     protected function onCreateFormCreated(Form $form, Entity $entity)
     {   
-        return ['form' => $form->__toString()];
+        return ['html' => $form->__toString()];
     }
 
     /**

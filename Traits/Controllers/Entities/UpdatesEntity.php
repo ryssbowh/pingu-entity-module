@@ -105,7 +105,7 @@ trait UpdatesEntity
         $this->modifyUpdateValidator($validator);
         $validator->validate();
         $validated = $validator->validated();
-        $validated = $entity->validator()->uploadFiles($validated);
+        $validated = $entity->validator()->uploadMedias($validated);
         return $entity->validator()->castValues($validated);
     }
 

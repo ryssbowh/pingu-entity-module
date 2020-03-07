@@ -25,7 +25,10 @@ trait PatchesEntity
         $models = collect();
         foreach ($modelsData as $id => $data) {
             try{
-                $item = $entity::findOrFail($id);
+                $item = $entity::find($id);
+                if (!$item) {
+                    continue;
+                }
                 $validated = $item->validator()->makeValidator($data, true)->validate();
                 $item->saveWithRelations($validated);
                 $models[] = $item->refresh();

@@ -69,6 +69,7 @@ trait StoresEntity
         $this->modifyStoreValidator($validator, $bundle);
         $validator->validate();
         $validated = $validator->validated();
+        $validated = $entity->validator()->uploadMedias($validated);
         return $entity->validator()->castValues($validated);
     }
 

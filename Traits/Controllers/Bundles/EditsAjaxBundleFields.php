@@ -19,7 +19,7 @@ trait EditsAjaxBundleFields
             ->isAjax()
             ->removeElement('weight')
             ->option('title', 'Edit field '.$field->name);
-        return ['form' => $form->__toString()];
+        return ['html' => $form->__toString()];
     }
 
     /**

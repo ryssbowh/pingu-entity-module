@@ -14,7 +14,7 @@ trait EditsAjaxEntity
      */
     protected function onEditFormCreated(Form $form, Entity $model)
     {   
-        return ['form' => $form->__toString()];
+        return ['html' => $form->__toString()];
     }
 
     /**

@@ -19,7 +19,7 @@ trait CreatesAjaxBundleFields
             ->isAjax()
             ->removeElement('weight')
             ->option('title', 'Add a '.$field::friendlyName(). ' field');
-        return ['form' => $form->__toString()];
+        return ['html' => $form->__toString()];
     }
 
     /**
