@@ -25,7 +25,12 @@ trait DeletesAdminEntity
             'entity' => $entity
         ];
         $this->addVariablesToDeleteView($with);
-        return view('entity::deleteEntity')->with($with);
+        return view()->first($this->getDeleteViewNames($entity), $with);
+    }
+
+    protected function getDeleteViewNames(Entity $entity)
+    {
+        return ['pages.entities.'.$entity->entityType().'.delete', 'pages.entities.delete'];
     }
 
     protected function getDeleteUri(Entity $entity)

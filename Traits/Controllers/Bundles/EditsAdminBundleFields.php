@@ -35,17 +35,18 @@ trait EditsAdminBundleFields
 
         $this->addVariablesToEditFieldView($with, $field);
         
-        return view($this->getEditFieldViewName())->with($with);
+        return view()->first($this->getEditFieldViewNames($bundle), $with);
     }
 
     /**
-     * View name for editing a field
+     * View names for editing a field
      *
+     * @param  BundleContract $bundle
      * @return string
      */
-    protected function getEditFieldViewName()
+    protected function getEditFieldViewNames(BundleContract $bundle)
     {
-        return 'entity::editField';
+        return ['pages.bundles.'.$bundle->bundleName().'.editField', 'pages.bundles.editField'];
     }
 
     /**

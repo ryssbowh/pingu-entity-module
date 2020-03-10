@@ -36,7 +36,7 @@ trait IndexesAdminEntity
             'type' => class_machine_name($entity)
         ];
         $this->addVariablesToIndexView($with);
-        return view($this->getIndexViewName($entity))->with($with);
+        return view()->first($this->getIndexViewNames($entity), $with);
     }
 
     /**
@@ -46,9 +46,9 @@ trait IndexesAdminEntity
      * 
      * @return string
      */
-    protected function getIndexViewName(Entity $entity)
+    protected function getIndexViewNames(Entity $entity)
     {
-        return 'entity::indexEntities';
+        return ['pages.entities.'.$entity->entityType().'.index', 'pages.entities.index'];
     }
 
     /**

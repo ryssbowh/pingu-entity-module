@@ -19,7 +19,7 @@ class AdminBundlesController extends BaseController
         foreach (\Bundle::all() as $bundle) {
             $bundles[friendly_classname($bundle)][] = $bundle;
         }
-        return view('entity::bundles')->with(
+        return view('pages.bundles.index')->with(
             [
             'bundles' => $bundles
             ]

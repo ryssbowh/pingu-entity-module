@@ -41,6 +41,16 @@ abstract class Entity extends BaseModel implements
     protected $observables = ['registering', 'registered'];
 
     /**
+     * Description of this entity (title, name etc)
+     * 
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->getKey();
+    }
+
+    /**
      * Register a registering model event with the dispatcher.
      *
      * @param  \Closure|string  $callback

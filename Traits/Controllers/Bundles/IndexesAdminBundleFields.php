@@ -44,7 +44,7 @@ trait IndexesAdminBundleFields
         ];
         $this->addVariablesToIndexFieldsView($with, $bundle, $fields);
         
-        return view($this->getIndexFieldsViewName($bundle))->with($with);
+        return view()->first($this->getIndexFieldViewName($bundle), $with);
     }
 
     /**
@@ -52,9 +52,9 @@ trait IndexesAdminBundleFields
      * 
      * @return string
      */
-    protected function getIndexFieldsViewName(BundleContract $bundle)
+    protected function getIndexFieldViewName(BundleContract $bundle)
     {
-        return 'entity::indexFields';
+        return ['pages.bundles.'.$bundle->bundleName().'.indexFields', 'pages.bundles.indexFields'];
     }
 
     /**

@@ -18,7 +18,7 @@ trait IndexesAdminRevisions
     public function onIndexRevisionsSuccess(Entity $entity, Collection $revisions)
     {   
         \ContextualLinks::addFromObject($entity);
-        return view('entity::indexRevisions')->with(
+        return view('pages.revisions.index')->with(
             [
             'revisions' => $revisions,
             'entity' => $entity

@@ -24,7 +24,7 @@ trait EditsAdminEntity
             'entity' => $entity,
         ];
         $this->addVariablesToEditView($with, $entity);
-        return view($this->getEditViewName($entity))->with($with);
+        return view()->first($this->getEditViewNames($entity), $with);
     }
 
     /**
@@ -40,9 +40,9 @@ trait EditsAdminEntity
      * @param  Entity $entity
      * @return string
      */
-    protected function getEditViewName(Entity $entity)
+    protected function getEditViewNames(Entity $entity)
     {
-        return 'entity::editEntity';
+        return ['pages.entities.'.$entity->entityType().'.edit', 'pages.entities.edit'];
     }
 
     /**

@@ -26,7 +26,7 @@ trait EditsAdminRevision
             'revision' => $form->revision()
         ];
         $this->addVariablesToEditRevisionView($with, $entity);
-        return view($this->getEditRevisionViewName($entity))->with($with);
+        return view()->first($this->getEditRevisionViewNames($entity), $with);
     }
 
     /**
@@ -42,9 +42,9 @@ trait EditsAdminRevision
      * @param  Entity $entity
      * @return string
      */
-    protected function getEditRevisionViewName(Entity $entity)
+    protected function getEditRevisionViewNames(Entity $entity)
     {
-        return 'entity::editRevision';
+        return ['pages.revisions.'.$entity->entityType().'.edit', 'pages.revisions.edit'];
     }
 
     /**

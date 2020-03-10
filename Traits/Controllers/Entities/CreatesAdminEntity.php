@@ -32,7 +32,7 @@ trait CreatesAdminEntity
             'entity' => $entity,
         ];
         $this->addVariablesToCreateView($with, $entity);
-        return view($this->getCreateViewName($entity))->with($with);
+        return view()->first($this->getCreateViewNames($entity), $with);
     }
 
     /**
@@ -44,7 +44,7 @@ trait CreatesAdminEntity
      */
     protected function getCreateViewName(Entity $entity)
     {
-        return 'entity::createEntity';
+        return ['pages.entities.'.$entity->entityType().'.create', 'pages.entities.create'];
     }
 
     /**

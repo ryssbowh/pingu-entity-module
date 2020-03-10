@@ -36,7 +36,7 @@ trait CreatesAdminBundleFields
 
         $this->addVariablesToCreateFieldsView($with, $bundle, $field);
         
-        return view($this->getCreateFieldsViewName($bundle))->with($with);
+        return view()->first($this->getCreateFieldViewNames($bundle), $with);
     }
 
     /**
@@ -45,9 +45,9 @@ trait CreatesAdminBundleFields
      * @param  BundleContract $bundle
      * @return string
      */
-    protected function getCreateFieldsViewName(BundleContract $bundle)
+    protected function getCreateFieldViewNames(BundleContract $bundle)
     {
-        return 'entity::createField';
+        return ['pages.bundles.'.$bundle->bundleName().'.createField', 'pages.bundles.createField'];
     }
 
     /**

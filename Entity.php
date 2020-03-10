@@ -54,4 +54,14 @@ class Entity
         }
         return $this->entities[$name];
     }
+
+    /**
+     * Get all registered entities
+     * 
+     * @return array
+     */
+    public function getRegisteredEntities()
+    {
+        return $this->entities;
+    }
 }

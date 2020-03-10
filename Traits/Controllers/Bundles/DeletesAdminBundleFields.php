@@ -21,12 +21,23 @@ trait DeletesAdminBundleFields
         $bundle = $this->getRouteAction('bundle');
         $url = ['url' => $bundle->bundleUris()->make('deleteField', [$field], adminPrefix())];
         $form = new ConfirmBundleFieldDeletion($field, $url);
-        return view(
-            'entity::deleteField', [
+        return view()->first(
+            $this->getDeleteFieldViewNames($bundle), [
             'form' => $form,
             'field' => $field
             ]
         );
+    }
+
+    /**
+     * View name for deleting a field
+     *
+     * @param  BundleContract $bundle
+     * @return string
+     */
+    protected function getDeleteFieldViewNames(BundleContract $bundle)
+    {
+        return ['pages.bundles.'.$bundle->bundleName().'.deleteField', 'pages.bundles.deleteField'];
     }
 
     /**
