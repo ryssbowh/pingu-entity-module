@@ -29,7 +29,7 @@ class EntityServiceProvider extends ModuleServiceProvider
     {
         $router->aliasMiddleware('hasRevisions', HasRevisions::class);
         $this->registerConfig();
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'entity');
+        $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'entity');
 
         \Asset::container('modules')->add('entity-js', 'module-assets/Entity.js');
 
