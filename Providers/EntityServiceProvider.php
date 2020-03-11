@@ -84,7 +84,7 @@ class EntityServiceProvider extends ModuleServiceProvider
             __DIR__.'/../Config/modules.php', 'modules'
         );
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('module-entity.php')
-        ], 'config');
+            __DIR__.'/../Config/config.php' => config_path('entity.php')
+        ], 'entity-config');
     }
 }
