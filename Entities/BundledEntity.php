@@ -8,7 +8,7 @@ use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Traits\HasBundleFields;
-use Pingu\Forms\Support\FormRepository;
+use Pingu\Forms\Contracts\FormRepositoryContract;
 
 abstract class BundledEntity extends Entity
 {
@@ -67,7 +67,7 @@ abstract class BundledEntity extends Entity
     /**
      * @inheritDoc
      */
-    public function forms(): FormRepository
+    public function forms(): FormRepositoryContract
     {
         return new BundledEntityForms($this);
     }

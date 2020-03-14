@@ -23,7 +23,7 @@ use Pingu\Entity\Support\BaseEntityRoutes;
 use Pingu\Entity\Support\BaseEntityUris;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Traits\HasFormLayout;
-use Pingu\Forms\Support\FormRepository;
+use Pingu\Forms\Contracts\FormRepositoryContract;
 
 abstract class Entity extends BaseModel implements 
     HasRouteSlugContract,
@@ -82,9 +82,9 @@ abstract class Entity extends BaseModel implements
     /**
      * Forms class for this entity
      * 
-     * @return FormRepository
+     * @return EntityFormRepositoryContract
      */
-    public function forms(): FormRepository
+    public function forms(): FormRepositoryContract
     {
         return new BaseEntityForms($this);
     }

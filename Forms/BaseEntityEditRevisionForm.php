@@ -51,7 +51,7 @@ class BaseEntityEditRevisionForm extends BaseModelEditForm
             } else {
                 $value = $this->revision->value($field->machineName());
             }
-            $out[] = $field->toformElement()->setValue($value);
+            $out[] = $field->toFormElement()->setValue($value);
         }
         $out[] = new Submit(
             '_submit', 

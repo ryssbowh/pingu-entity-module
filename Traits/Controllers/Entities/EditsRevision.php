@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
+use Illuminate\Support\Arr;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Field\Support\FieldRevision;
 use Pingu\Forms\Support\Form;
@@ -37,10 +38,7 @@ trait EditsRevision
      */
     protected function getRevisionForm(Entity $entity, FieldRevision $revision)
     {
-        $url = $this->getRestoreRevisionUri($entity, $revision);
-        if (!is_array($url)) {
-            $url = ['url' => $url];
-        }
+        $url = Arr::wrap($this->getRestoreRevisionUri($entity, $revision));
 
         $form = $entity->forms()->editRevision([$url, $entity, $revision]);
 

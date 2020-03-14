@@ -2,8 +2,10 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Forms\Support\Form;
 
 trait IndexesAdminEntity
 {
@@ -12,7 +14,7 @@ trait IndexesAdminEntity
     /**
      * @inheritDoc
      */
-    protected function onIndexSuccess(Entity $entity, Collection $entities)
+    protected function onIndexSuccess(Entity $entity, LengthAwarePaginator $entities)
     {
         return $this->getIndexView($entity, $entities);
     }
@@ -25,18 +27,30 @@ trait IndexesAdminEntity
      * 
      * @return view
      */
-    protected function getIndexView(Entity $entity, Collection $entities)
+    protected function getIndexView(Entity $entity, LengthAwarePaginator $entities)
     {
         $createUrl = $entity::uris()->make('create', [], adminPrefix());
         $with = [
-            'total' => $entities->count(),
             'entities' => $entities,
             'entity' => $entity,
             'createUrl' => $createUrl,
-            'type' => class_machine_name($entity)
+            'filterForm' => $this->getIndexFilterForm($entity)
         ];
         $this->addVariablesToIndexView($with);
         return view()->first($this->getIndexViewNames($entity), $with);
+    }
+
+    /**
+     * Get the form to filter an entity
+     *
+     * @param Entity $entity
+     *
+     * @return Form
+     */
+    protected function getIndexFilterForm(Entity $entity): Form
+    {
+        $indexUrl = $entity::uris()->make('index', [], adminPrefix());
+        return $entity->forms()->filter($entity->getFilterable(), ['url' => $indexUrl]);
     }
 
     /**

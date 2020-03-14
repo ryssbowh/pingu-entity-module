@@ -20,7 +20,6 @@ use Pingu\Field\Contracts\FieldsValidator;
 use Pingu\Field\Support\FieldLayoutBundle;
 use Pingu\Field\Support\FieldRepository\BundleFieldsRepository;
 use Pingu\Field\Support\FieldValidator\BundleFieldsValidator;
-use Pingu\Field\Traits\HasFields;
 use Pingu\Forms\Support\Field;
 
 abstract class Bundle implements BundleContract

@@ -42,7 +42,7 @@ trait CreatesAdminEntity
      * 
      * @return string
      */
-    protected function getCreateViewName(Entity $entity)
+    protected function getCreateViewNames(Entity $entity)
     {
         return ['pages.entities.'.$entity->entityType().'.create', 'pages.entities.create'];
     }

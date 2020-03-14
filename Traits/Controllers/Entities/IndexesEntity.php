@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Pingu\Entity\Entities\Entity;
@@ -40,15 +41,11 @@ trait IndexesEntity
 
         $this->modifyIndexQuery($query);
 
-        $count = $query->count();
-
         if ($sortField) {
             $query->orderBy($sortField, $sortOrder);
         }
 
-        $query->offset(($pageIndex-1) * $pageSize)->take($pageSize);
-
-        $entities = $query->get();
+        $entities = $query->paginate($pageSize, ['*'], 'page');
 
         return $this->onIndexSuccess($entity, $entities);
     }
@@ -57,11 +54,11 @@ trait IndexesEntity
      * Response
      *
      * @param Entity     $entity
-     * @param Collection $entities
+     * @param LengthAwarePaginator $entities
      * 
      * @return mixed
      */
-    protected function onIndexSuccess(Entity $entity, Collection $entities)
+    protected function onIndexSuccess(Entity $entity, LengthAwarePaginator $entities)
     {
     }
 

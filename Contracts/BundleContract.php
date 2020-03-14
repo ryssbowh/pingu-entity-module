@@ -5,10 +5,10 @@ namespace Pingu\Entity\Contracts;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
-use Pingu\Field\Contracts\HasFields;
+use Pingu\Field\Contracts\DefinesFields;
 
 interface BundleContract extends 
-    HasFields,
+    DefinesFields,
     HasActionsContract,
     HasUrisContract,
     HasRoutesContract

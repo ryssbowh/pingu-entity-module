@@ -2,28 +2,23 @@
 
 namespace Pingu\Entity\Forms;
 
-class BundledEntityEditForm extends BundledEntityCreateForm
-{
+use Pingu\Forms\Forms\BaseModelEditForm;
 
+class BundledEntityEditForm extends BaseModelEditForm
+{
     /**
-     * Method for this form, POST GET DELETE PATCH and PUT are valid
-     * 
-     * @return string
+     * @inheritDoc
      */
-    public function method(): string
+    public function groups(): array
     {
-        return 'PUT';
+        return $this->model->formLayout()->toFormGroups();
     }
 
     /**
-     * Name for this form, ideally it would be application unique, 
-     * best to prefix it with the name of the module it's for.
-     * only alphanumeric and hyphens
-     * 
-     * @return string
+     * @inheritDoc
      */
     public function name(): string
     {
-        return 'edit-'.class_machine_name($this->entity);
+        return 'edit-entity-'.$this->model->entityType();
     }
 }
