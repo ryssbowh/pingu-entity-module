@@ -13,12 +13,4 @@ class BundledEntityEditForm extends BaseModelEditForm
     {
         return $this->model->formLayout()->toFormGroups();
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function name(): string
-    {
-        return 'edit-entity-'.$this->model->entityType();
-    }
 }

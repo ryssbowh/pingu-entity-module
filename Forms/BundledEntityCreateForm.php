@@ -13,12 +13,4 @@ class BundledEntityCreateForm extends BaseModelCreateForm
     {
         return $this->model->formLayout()->toFormGroups();
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function name(): string
-    {
-        return 'create-entity-'.$this->model->entityType();
-    }
 }
