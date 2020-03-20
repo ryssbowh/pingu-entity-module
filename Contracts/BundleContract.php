@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Contracts;
 
+use Illuminate\Database\Eloquent\Collection;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
@@ -40,4 +41,11 @@ interface BundleContract extends
      * @return string
      */
     public function entityFor(): string;
+
+    /**
+     * All entities that have this bundle
+     * 
+     * @return Collection
+     */
+    public function entities(): Collection;
 }
