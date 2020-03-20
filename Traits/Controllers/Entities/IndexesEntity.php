@@ -21,31 +21,28 @@ trait IndexesEntity
         $this->beforeIndex($entity);
 
         $filters = $this->request->input('filters', []);
-        $pageIndex = $this->request->input('pageIndex', 1);
         $pageSize = $this->request->input('pageSize', $entity->getPerPage());
         $sortField = $this->request->input('sortField', $entity->getKeyName());
         $sortOrder = $this->request->input('sortOrder', 'asc');
 
         $fields = $entity->fields();
-        $query = $entity->newQuery();
+        $query = $entity->select($entity->getTable().'.*');
         foreach ($filters as $fieldName => $value) {
             if (!$fields->has($fieldName)) {
                 continue;
             }
-            
             if (!is_null($value)) {
-                $field = $fields->get($fieldName);
-                $field->filterQueryModifier($query, $value);
+                $fields->get($fieldName)->filterQueryModifier($query, $value, $entity);
             }
         }
 
         $this->modifyIndexQuery($query);
 
-        if ($sortField) {
-            $query->orderBy($sortField, $sortOrder);
-        }
+        $query->orderBy($entity->getTable().'.'.$sortField, $sortOrder);
 
         $entities = $query->paginate($pageSize, ['*'], 'page');
+
+        $entities->appends($this->request->input());
 
         return $this->onIndexSuccess($entity, $entities);
     }
