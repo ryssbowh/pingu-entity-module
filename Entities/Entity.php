@@ -113,6 +113,11 @@ abstract class Entity extends BaseModel implements
         return new BaseEntityUris($this);
     }
 
+    protected function defaultRouteInstance()
+    {
+        return new BaseEntityRoutes($this);
+    }
+
     /**
      * Routes instance for this entity
      * 
@@ -124,7 +129,7 @@ abstract class Entity extends BaseModel implements
         if (class_exists($class)) {
             return new $class($this);
         }
-        return new BaseEntityRoutes($this);
+        return $this->defaultRouteInstance();
     }
     
     /**

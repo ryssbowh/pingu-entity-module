@@ -3,6 +3,7 @@
 namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Policy;
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\Entity;
 use Pingu\User\Entities\User;
 
@@ -33,7 +34,7 @@ class BaseEntityPolicy extends Policy
         return false;
     }
 
-    public function create(?User $user)
+    public function create(?User $user, ?BundleContract $bundle = null)
     {
         return false;
     }

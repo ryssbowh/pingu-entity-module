@@ -3,15 +3,20 @@
 namespace Pingu\Entity\Support;
 
 use Illuminate\Support\Arr;
-use Pingu\Content\Entities\ContentType;
 use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Entities\Entity;
-use Pingu\Page\Entities\Page;
+use Pingu\Entity\Support\EntityRoutes;
 
 class BaseEntityRoutes extends Routes
 {
     protected $object;
+
+    /**
+     * Route class for Entity
+     * @var EntityRoutes
+     */
+    protected $baseEntityRoutes;
 
     /**
      * Constructor. Will merge the routes, methods, middlewares, names and controllers
@@ -22,12 +27,17 @@ class BaseEntityRoutes extends Routes
     public function __construct(HasUrisContract $object)
     {
         $this->object = $object;
-        $baseEntityRoutes = \Routes::get(Entity::class);
-        $this->routes = array_merge_recursive($baseEntityRoutes->getRoutes(), $this->routes());
-        $this->methods = array_merge($baseEntityRoutes->getMethods(), $this->methods());
-        $this->middlewares = $this->mergeMiddlewares($baseEntityRoutes->getMiddlewares());
-        $this->names = array_merge($baseEntityRoutes->getNames(), $this->names());
-        $this->controllers = array_merge($baseEntityRoutes->getControllers(), $this->controllers());
+        $this->baseEntityRoutes = \Routes::get(Entity::class);
+        $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
+        $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
+        $this->middlewares = $this->mergeMiddlewares($this->getBaseEntityMiddlewares());
+        $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
+        $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
+    }
+
+    protected function getBaseEntityMiddlewares()
+    {
+        return $this->baseEntityRoutes->getMiddlewares();
     }
 
     /**
@@ -50,6 +60,15 @@ class BaseEntityRoutes extends Routes
         return array_merge($middlewares, $thisMiddlewares);
     }
 
+    /**
+     * Replaces slugs within middlewares . slug can be @class or @slug
+     * which will be replaced respectively by the entity class and
+     * the entity route key
+     * 
+     * @param array $middlewares
+     * 
+     * @return array
+     */
     protected function replaceMiddlewareSlugs($middlewares)
     {
         $out = [];
@@ -123,6 +142,7 @@ class BaseEntityRoutes extends Routes
             }
 
             $uri = $this->object->uris()->get($name);
+
             $action = ['uses' => $controller, 'entity' => $this->object];
 
             $route = \Route::$method($uri, $action);

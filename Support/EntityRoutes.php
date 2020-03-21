@@ -5,6 +5,13 @@ namespace Pingu\Entity\Support;
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Traits\MapsEntityRoutes;
 
+/**
+ * This class defines all the routes, names, middlewares and methods for every entity.
+ * This Route class does NOT register any routes in Laravel.
+ *
+ * Its purpose is not to be extended, all the attributes here will be re-used in the BaseEntityRoutes class.
+ * 
+ */
 class EntityRoutes extends Routes
 {
     /**
@@ -50,7 +57,7 @@ class EntityRoutes extends Routes
             'store' => 'can:create,@class',
             'edit' => 'can:edit,@slug',
             'update' => 'can:edit,@slug',
-            'patch' => 'can:edit,@slug',
+            'patch' => 'can:edit,@class',
             'confirmDelete' => 'can:delete,@slug',
             'delete' => 'can:delete,@slug',
             'indexRevisions' => 'hasRevisions:@slug',

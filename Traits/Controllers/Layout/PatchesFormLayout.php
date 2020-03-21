@@ -34,10 +34,13 @@ trait PatchesFormLayout
             $group = $this->findOrCreateGroup($data);
             $groupIds[] = $group->id;
             foreach ($data['models'] ?? [] as $data) {
+                $field = \FormField::getRegisteredField($data['widget']);
+                $options = \FormField::getRegisteredOptions($field);
+                $options = (new $options)->castValues(json_decode($data['options'], true));
                 $layout = FormLayout::findOrFail($data['id']);
                 $layout->fill([
                     'weight' => $data['weight'],
-                    'options' => json_decode($data['options']),
+                    'options' => $options,
                     'widget' => $data['widget']
                 ])->group()->associate($group)->save();
             }

@@ -16,4 +16,4 @@
  */
 Route::get('/bundles', ['uses' => 'AdminBundlesController@index'])
     ->name('core.structure.bundles')
-    ->middleware('can:manage bundles');
+    ->middleware('permission:manage bundles');

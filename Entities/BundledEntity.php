@@ -4,6 +4,7 @@ namespace Pingu\Entity\Entities;
 
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Support\BaseBundledEntityRoutes;
 use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Field\Support\FieldLayout;
@@ -29,7 +30,6 @@ abstract class BundledEntity extends Entity
     public function setBundle(BundleContract $bundle)
     {
         $this->bundle = $bundle;
-        $this->fields()->setBundle($bundle);
         $this->fillable($this->getFillable());
         $this->registerFormLayout();
     }
@@ -62,6 +62,11 @@ abstract class BundledEntity extends Entity
             return new $class($this);
         }
         return new BundledEntityUris($this);
+    }
+
+    protected function defaultRouteInstance()
+    {
+        return new BaseBundledEntityRoutes($this);
     }
 
     /**

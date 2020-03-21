@@ -97,5 +97,6 @@ abstract class Bundle implements BundleContract
         BundleFacade::registerBundle($this);
         \Actions::register(get_class($this), $this->getActionsInstance());
         \Field::registerFormLayout($this->bundleName(), new FieldLayoutBundle($this));
+        \Policies::register($this, $this->getPolicy());
     }
 }
