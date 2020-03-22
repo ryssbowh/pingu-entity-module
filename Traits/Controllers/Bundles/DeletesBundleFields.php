@@ -28,7 +28,6 @@ trait DeletesBundleFields
      */
     protected function performDeleteField(BundleField $field)
     {
-        $field->instance->delete();
         $field->delete();
     }
 

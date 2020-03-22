@@ -7,6 +7,7 @@ use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Field\Contracts\DefinesFields;
+use Pingu\Field\Support\FieldLayout;
 
 interface BundleContract extends 
     DefinesFields,
@@ -48,4 +49,11 @@ interface BundleContract extends
      * @return Collection
      */
     public function entities(): Collection;
+
+    /**
+     * Get the layout class for this bundle
+     * 
+     * @return FormLayout
+     */
+    public function formLayout(): FieldLayout;
 }

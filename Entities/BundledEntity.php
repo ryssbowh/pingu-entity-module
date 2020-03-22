@@ -80,8 +80,8 @@ abstract class BundledEntity extends Entity
         /**
      * Get form layout instance from Field facade
      */
-    public function formLayout()
+    public function formLayout(): FieldLayout
     {
-        return \Field::getBundleFormLayout($this->bundle())->load();
+        return $this->bundle()->formLayout();
     }
 }

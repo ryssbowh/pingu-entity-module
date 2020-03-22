@@ -32,7 +32,16 @@ trait IsBundle
                 $class = $entity::bundleClass();
                 $bundle = new $class($entity);
                 $bundle->register();
-                // \Bundle::registerBundle($bundle);
+
+                $bundle->formLayout()->create();
+            }
+        );
+
+        static::deleting(
+            function ($entity) {
+                $class = $entity::bundleClass();
+                $bundle = new $class($entity);
+                $bundle->formLayout()->delete();
             }
         );
     }
