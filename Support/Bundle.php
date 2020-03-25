@@ -18,6 +18,8 @@ use Pingu\Field\Contracts\FieldContract;
 use Pingu\Field\Contracts\FieldRepository;
 use Pingu\Field\Contracts\FieldsValidator;
 use Pingu\Field\Entities\FormLayout;
+use Pingu\Field\Support\FieldDisplay\FieldDisplay;
+use Pingu\Field\Support\FieldDisplay\FieldDisplayBundle;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Support\FieldLayoutBundle;
 use Pingu\Field\Support\FieldRepository\BundleFieldsRepository;
@@ -74,6 +76,14 @@ abstract class Bundle implements BundleContract
     }
 
     /**
+     * @inheritDoc
+     */
+    public function display(): FieldDisplay
+    {
+        return \FieldDisplay::getBundleDisplay($this)->load();
+    }
+
+    /**
      * Actions class for this bundle
      * 
      * @return Actions
@@ -100,6 +110,14 @@ abstract class Bundle implements BundleContract
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getRouteKey(): string
+    {
+        return $this->bundleName();
+    }
+
+    /**
      * Registers this bundle
      */
     public function register()
@@ -107,6 +125,7 @@ abstract class Bundle implements BundleContract
         BundleFacade::registerBundle($this);
         \Actions::register(get_class($this), $this->getActionsInstance());
         \Field::registerFormLayout($this->bundleName(), new FieldLayoutBundle($this));
+        \FieldDisplay::registerDisplay($this->bundleName(), new FieldDisplayBundle($this));
         \Policies::register($this, $this->getPolicy());
     }
 }

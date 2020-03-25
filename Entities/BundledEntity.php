@@ -31,7 +31,7 @@ abstract class BundledEntity extends Entity
     {
         $this->bundle = $bundle;
         $this->fillable($this->getFillable());
-        $this->registerFormLayout();
+        // $this->registerFormLayout();
     }
     
     /**

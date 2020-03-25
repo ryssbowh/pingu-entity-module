@@ -7,6 +7,7 @@ use Illuminate\Routing\Router;
 use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Entity\Bundle;
 use Pingu\Entity\Entities\Entity as EntityModel;
+use Pingu\Entity\Entities\ViewMode;
 use Pingu\Entity\Entity;
 use Pingu\Entity\Http\Middleware\HasRevisions;
 use Pingu\Entity\Support\BaseBundleActions;
@@ -20,6 +21,10 @@ use Pingu\Field\Entities\FormLayout;
 
 class EntityServiceProvider extends ModuleServiceProvider
 {
+    protected $entities = [
+        ViewMode::class
+    ];
+
     /**
      * Boot the application events.
      *
@@ -31,16 +36,9 @@ class EntityServiceProvider extends ModuleServiceProvider
         $this->registerConfig();
         $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'entity');
 
-        \Asset::container('modules')->add('entity-js', 'module-assets/Entity.js');
+        // \Asset::container('modules')->add('entity-js', 'module-assets/Entity.js');
 
-        $this->app->booted(function () {
-            \JsConfig::setMany(
-                [
-                'entity.uris.viewFormLayoutOptions' => route_by_name('entity.ajax.viewFormLayoutOptions')->uri(),
-                'entity.uris.editFormLayoutOptions' => route_by_name('entity.ajax.editFormLayoutOptions')->uri(),
-                ]
-            );
-        });
+        $this->registerJsConfig();
     }
 
     /**
@@ -68,6 +66,20 @@ class EntityServiceProvider extends ModuleServiceProvider
         \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
+    }
+
+    protected function registerJsConfig()
+    {
+        $this->app->booted(function () {
+            \JsConfig::setMany(
+                [
+                'entity.uris.viewFormLayoutOptions' => route_by_name('entity.ajax.viewFormLayoutOptions')->uri(),
+                'entity.uris.editFormLayoutOptions' => route_by_name('entity.ajax.editFormLayoutOptions')->uri(),
+                'entity.uris.viewDisplayOptions' => route_by_name('entity.ajax.viewDisplayOptions')->uri(),
+                'entity.uris.editDisplayOptions' => route_by_name('entity.ajax.editDisplayOptions')->uri(),
+                ]
+            );
+        });
     }
 
     /**

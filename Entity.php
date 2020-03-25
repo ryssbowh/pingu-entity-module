@@ -2,14 +2,23 @@
 
 namespace Pingu\Entity;
 
+use Pingu\Entity\Contracts\RenderableContract;
 use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Exceptions\EntityException;
 
 class Entity
 {
-   
+    /**
+     * List of registered entities
+     * @var array
+     */
     protected $entities = [];
-    protected $uris = [];
+
+    /**
+     * List of renderable entities
+     * @var array
+     */
+    protected $renderableEntities = [];
 
     /**
      * Registers an entity
@@ -23,7 +32,10 @@ class Entity
         if ($this->isEntityRegistered($entity->entityType())) {
             throw EntityException::registered($entity);
         }
-        $this->entities[$entity->entityType()] = $entity;
+        if ($entity instanceof RenderableContract) {
+            $this->renderableEntities[] = get_class($entity);
+        }
+        $this->entities[$entity->entityType()] = get_class($entity);
         //Register entity route slug
         \ModelRoutes::registerSlugFromObject($entity);
     }
@@ -38,6 +50,19 @@ class Entity
     public function isEntityRegistered(string $name): bool
     {
         return isset($this->entities[$name]);
+    }
+
+    /**
+     * Checks if an entity is registered
+     * 
+     * @param string|object $entity
+     * 
+     * @return boolean
+     */
+    public function isEntityRenderable($entity): bool
+    {
+        $entity = object_to_class($entity);
+        return in_array($entity, $this->renderableEntities);
     }
 
     /**
@@ -63,5 +88,15 @@ class Entity
     public function getRegisteredEntities()
     {
         return $this->entities;
+    }
+
+    /**
+     * Get all registered entities names
+     * 
+     * @return array
+     */
+    public function getRegisteredEntitiesNames()
+    {
+        return array_keys($this->entities);
     }
 }

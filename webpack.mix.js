@@ -11,7 +11,8 @@ var publicPath = 'module-assets/';
 mix.webpackConfig({
   resolve: {
     alias: {
-      'FormLayout': path.resolve(assetPath + '/js/components', './FormLayout')
+      'FormLayout': path.resolve(assetPath + '/js/components', './FormLayout'),
+      'FieldDisplay': path.resolve(assetPath + '/js/components', './FieldDisplay')
     }
   }
 });

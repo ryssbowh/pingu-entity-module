@@ -15,30 +15,36 @@ class BaseBundlePolicy
     public function indexFields(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('manages bundles');
+        return $user->hasPermissionTo('manage fields');
     }
 
     public function editFields(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('manages bundles');
+        return $user->hasPermissionTo('manage fields');
     }
 
     public function deleteFields(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('manages bundles');
+        return $user->hasPermissionTo('manage fields');
     }
 
     public function createFields(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('manages bundles');
+        return $user->hasPermissionTo('manage fields');
     }
 
-    public function createGroups(?User $user, BundleContract $bundle)
+    public function formLayout(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('manages bundles');
+        return $user->hasPermissionTo('manage layout');
+    }
+
+    public function display(?User $user, BundleContract $bundle)
+    {
+        $user = $this->userOrGuest($user);
+        return $user->hasPermissionTo('manage display');
     }
 }

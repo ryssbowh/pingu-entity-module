@@ -4,7 +4,9 @@ namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Http\Controllers\AdminBundleController;
+use Pingu\Entity\Http\Controllers\AdminDisplayController;
 use Pingu\Entity\Http\Controllers\AdminFormLayoutController;
+use Pingu\Entity\Http\Controllers\AjaxDisplayController;
 use Pingu\Entity\Http\Controllers\AjaxFormLayoutController;
 use Pingu\Entity\Support\Bundle;
 
@@ -21,8 +23,26 @@ class BaseBundleRoutes extends Routes
     protected function routes(): array
     {
         return [
-            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'formLayout'],
-            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout']
+            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'formLayout', 'display'],
+            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout', 'patchDisplay']
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function middlewares(): array
+    {
+        return [
+            'indexFields' => 'can:indexFields,@slug',
+            'editField' => 'can:editFields,@slug',
+            'storeField' => 'can:createFields,@slug',
+            'createField' => 'can:createFields,@slug',
+            'updateField' => 'can:editFields,@slug',
+            'deleteField' => 'can:editFields,@slug',
+            'confirmDeleteField' => 'can:deleteFields,@slug',
+            'formLayout' => 'can:formLayout,@slug',
+            'display' => 'can:display,@slug'
         ];
     }
 
@@ -35,7 +55,8 @@ class BaseBundleRoutes extends Routes
             'storeField' => 'post',
             'updateField' => 'put',
             'deleteField' => 'delete',
-            'patchFormLayout' => 'patch'
+            'patchFormLayout' => 'patch',
+            'patchDisplay' => 'patch',
         ];
     }
 
@@ -45,8 +66,10 @@ class BaseBundleRoutes extends Routes
     protected function controllers(): array
     {
         return [
-            'admin.formLayout' => AdminFormLayoutController::class.'@indexBundle',
+            'admin.formLayout' => AdminFormLayoutController::class.'@index',
+            'admin.display' => AdminDisplayController::class.'@index',
             'ajax.patchFormLayout' => AjaxFormLayoutController::class.'@patch',
+            'ajax.patchDisplay' => AjaxDisplayController::class.'@patch',
         ];
     }
 

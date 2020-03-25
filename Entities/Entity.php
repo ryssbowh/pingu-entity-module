@@ -14,6 +14,7 @@ use Pingu\Core\Support\Uris;
 use Pingu\Core\Traits\HasActionsThroughFacade;
 use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Core\Traits\HasUrisThroughFacade;
+use Pingu\Core\Traits\Models\HasRouteSlug;
 use Pingu\Entity\Events\RegisteredEntity;
 use Pingu\Entity\Events\RegisteringEntity;
 use Pingu\Entity\Facades\Entity as EntityFacade;
@@ -24,31 +25,24 @@ use Pingu\Entity\Support\BaseEntityUris;
 use Pingu\Field\Support\FieldLayout;
 use Pingu\Field\Traits\HasFormLayout;
 use Pingu\Forms\Contracts\FormRepositoryContract;
+use Pingu\Forms\Traits\Models\HasForms;
 
-abstract class Entity extends BaseModel implements 
-    HasRouteSlugContract,
+abstract class Entity extends BaseModel implements
     HasUrisContract,
-    HasActionsContract
+    HasActionsContract,
+    HasRouteSlugContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
         HasActionsThroughFacade,
-        HasFormLayout;
+        HasFormLayout,
+        HasForms,
+        HasRouteSlug;
 
     public $adminListFields = [];
 
     protected $observables = ['registering', 'registered'];
-
-    /**
-     * Description of this entity (title, name etc)
-     * 
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getKey();
-    }
 
     /**
      * Register a registering model event with the dispatcher.

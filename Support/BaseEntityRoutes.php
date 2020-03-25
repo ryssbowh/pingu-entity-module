@@ -3,14 +3,16 @@
 namespace Pingu\Entity\Support;
 
 use Illuminate\Support\Arr;
-use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Entity\Support\EntityRoutes;
 
 class BaseEntityRoutes extends Routes
 {
-    protected $object;
+    /**
+     * @var Entity
+     */
+    protected $entity;
 
     /**
      * Route class for Entity
@@ -22,11 +24,11 @@ class BaseEntityRoutes extends Routes
      * Constructor. Will merge the routes, methods, middlewares, names and controllers
      * from the base entity routes which can be overriden by extended classes
      * 
-     * @param HasUrisContract $object
+     * @param HasUrisContract $entity
      */
-    public function __construct(HasUrisContract $object)
+    public function __construct(Entity $entity)
     {
-        $this->object = $object;
+        $this->entity = $entity;
         $this->baseEntityRoutes = \Routes::get(Entity::class);
         $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
         $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
@@ -74,8 +76,8 @@ class BaseEntityRoutes extends Routes
         $out = [];
         $middlewares = Arr::wrap($middlewares);
         foreach ($middlewares as $middleware) {
-            $middleware = str_replace('@class', get_class($this->object), $middleware);
-            $out[] = str_replace('@slug', $this->object::routeSlug(), $middleware);
+            $middleware = str_replace('@class', get_class($this->entity), $middleware);
+            $out[] = str_replace('@slug', $this->entity::routeSlug(), $middleware);
         }
         return $out;
     }
@@ -91,7 +93,7 @@ class BaseEntityRoutes extends Routes
      */
     protected function defaultController(string $index): string
     {
-        $class = $this->controllerNamespace().'\\'.class_basename(get_class($this->object)).ucfirst($index).'Controller';
+        $class = $this->controllerNamespace().'\\'.class_basename(get_class($this->entity)).ucfirst($index).'Controller';
         if (!class_exists($class)) {
             $class = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($index).'EntityController';
         }
@@ -106,7 +108,7 @@ class BaseEntityRoutes extends Routes
      */
     protected function controllerNamespace(): string
     {
-        $namespace = get_class($this->object);
+        $namespace = get_class($this->entity);
         $elems = explode('\\', $namespace);
         while (last($elems) != 'Entities') {
             if (sizeof($elems) == 0) {
@@ -141,15 +143,16 @@ class BaseEntityRoutes extends Routes
                 $controller .= '@'.$name;
             }
 
-            $uri = $this->object->uris()->get($name);
+            $uri = $this->entity->uris()->get($name);
 
-            $action = ['uses' => $controller, 'entity' => $this->object];
+            $action = ['uses' => $controller, 'entity' => $this->entity];
 
             $route = \Route::$method($uri, $action);
 
             if ($routeName = $this->getNames($path)) {
-                $route->name($routeName);
+                $routeName = $this->entity::routeSlug().'.'.$routeIndex.'.'.$name; 
             }
+            $route->name($routeName);
             if ($middleware = $this->getMiddlewares($name)) {
                 $route->middleware($middleware);
             }
