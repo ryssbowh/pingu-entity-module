@@ -15,8 +15,7 @@ trait EditsAjaxBundleFields
      */
     protected function onEditFieldSuccess(Form $form, BundleField $field)
     {
-        $form->addViewSuggestion('forms.modal')
-            ->isAjax()
+        $form->isAjax()
             ->removeElement('weight')
             ->option('title', 'Edit field '.$field->name);
         return ['html' => $form->__toString()];

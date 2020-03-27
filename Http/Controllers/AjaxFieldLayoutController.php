@@ -5,14 +5,14 @@ namespace Pingu\Entity\Http\Controllers;
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Traits\Controllers\Layout\EditsFormLayoutOptions;
-use Pingu\Entity\Traits\Controllers\Layout\PatchesFormLayout;
+use Pingu\Entity\Traits\Controllers\Layout\EditsFieldLayoutOptions;
+use Pingu\Entity\Traits\Controllers\Layout\PatchesFieldLayout;
 use Pingu\Forms\Support\Form;
 
-class AjaxFormLayoutController extends BaseController
+class AjaxFieldLayoutController extends BaseController
 {
-    use PatchesFormLayout,
-        EditsFormLayoutOptions;
+    use PatchesFieldLayout,
+        EditsFieldLayoutOptions;
 
     public function view(string $field)
     {
@@ -36,13 +36,9 @@ class AjaxFormLayoutController extends BaseController
 
     public function onFormLayoutOptionsSuccess(Form $form)
     {
-        $form->addViewSuggestion('forms.modal')
-            ->isAjax()
-            ->option('title', 'Edit Options');
-        return \Response::json(
-            ['html' => $form->__toString()],
-            200, 
-            ['Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
-        );
+        $form->isAjax()
+            ->option('title', 'Edit Options')
+            ->attribute('autocomplete', 'off');
+        return ['html' => $form->__toString()];
     }
 }

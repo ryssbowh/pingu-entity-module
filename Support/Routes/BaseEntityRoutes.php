@@ -1,11 +1,10 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Routes;
 
 use Illuminate\Support\Arr;
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Entities\Entity;
-use Pingu\Entity\Support\EntityRoutes;
 
 class BaseEntityRoutes extends Routes
 {
@@ -21,6 +20,12 @@ class BaseEntityRoutes extends Routes
     protected $baseEntityRoutes;
 
     /**
+     * Does this entity inherit the base CRUD Entity routes
+     * @var boolean
+     */
+    protected $inheritsEntityRoutes = true;
+
+    /**
      * Constructor. Will merge the routes, methods, middlewares, names and controllers
      * from the base entity routes which can be overriden by extended classes
      * 
@@ -29,37 +34,25 @@ class BaseEntityRoutes extends Routes
     public function __construct(Entity $entity)
     {
         $this->entity = $entity;
-        $this->baseEntityRoutes = \Routes::get(Entity::class);
-        $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
-        $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
-        $this->middlewares = $this->mergeMiddlewares($this->getBaseEntityMiddlewares());
-        $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
-        $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
+        if ($this->inheritsEntityRoutes) {
+            $this->baseEntityRoutes = \Routes::get(Entity::class);
+            $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
+            $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
+            $this->middlewares = $this->replaceMiddlewareSlugs(array_merge($this->getBaseEntityMiddlewares(), $this->middlewares()));
+            $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
+            $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
+        } else {
+            $this->middlewares = $this->replaceMiddlewareSlugs($this->middlewares());
+            $this->routes = $this->routes();
+            $this->methods = $this->methods();
+            $this->names = $this->names();
+            $this->controllers = $this->controllers();
+        }
     }
 
     protected function getBaseEntityMiddlewares()
     {
         return $this->baseEntityRoutes->getMiddlewares();
-    }
-
-    /**
-     * Merge this class definition middlewares with the base entity middlewares
-     * 
-     * @param array $baseMiddlewares
-     * 
-     * @return array
-     */
-    protected function mergeMiddlewares(array $baseMiddlewares): array
-    {
-        $middlewares = [];
-        foreach ($baseMiddlewares as $index => $baseMiddleware) {
-            $middlewares[$index] = $this->replaceMiddlewareSlugs($baseMiddleware);
-        }
-        $thisMiddlewares = [];
-        foreach ($this->middlewares() as $index => $thisMiddleware) {
-            $thisMiddlewares[$index] = $this->replaceMiddlewareSlugs($thisMiddleware);
-        }
-        return array_merge($middlewares, $thisMiddlewares);
     }
 
     /**
@@ -133,7 +126,6 @@ class BaseEntityRoutes extends Routes
         }
 
         $defaultController = $this->defaultController($routeIndex);
-
         foreach ($routes as $name) {
             $path = $routeIndex.'.'.$name;
             $method = $this->getMethods($name);
@@ -149,7 +141,7 @@ class BaseEntityRoutes extends Routes
 
             $route = \Route::$method($uri, $action);
 
-            if ($routeName = $this->getNames($path)) {
+            if (!$routeName = $this->getNames($path)) {
                 $routeName = $this->entity::routeSlug().'.'.$routeIndex.'.'.$name; 
             }
             $route->name($routeName);

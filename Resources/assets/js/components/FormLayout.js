@@ -2,13 +2,13 @@ const FormLayout = (() => {
 
     function viewOptionsUri(field)
     {
-        let uri = '/'+Config.get('entity.uris.viewFormLayoutOptions');
+        let uri = '/'+Config.get('entity.uris.viewFieldLayoutOptions');
         return Helpers.replaceUriSlugs(uri, [field]);
     }
 
     function editOptionsUri(field)
     {
-        let uri = '/'+Config.get('entity.uris.editFormLayoutOptions');
+        let uri = '/'+Config.get('entity.uris.editFieldLayoutOptions');
         return Helpers.replaceUriSlugs(uri, [field]);
     }
 

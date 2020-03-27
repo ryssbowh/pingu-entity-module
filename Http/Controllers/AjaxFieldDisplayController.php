@@ -5,14 +5,15 @@ namespace Pingu\Entity\Http\Controllers;
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Traits\Controllers\Display\EditsDisplayOptions;
-use Pingu\Entity\Traits\Controllers\Display\PatchesDisplay;
+use Pingu\Entity\Traits\Controllers\Display\EditsFieldDisplayOptions;
+use Pingu\Entity\Traits\Controllers\Display\PatchesFieldDisplay;
+use Pingu\Field\Support\FieldDisplayer;
 use Pingu\Forms\Support\Form;
 
-class AjaxDisplayController extends BaseController
+class AjaxFieldDisplayController extends BaseController
 {
-    use PatchesDisplay,
-        EditsDisplayOptions;
+    use PatchesFieldDisplay,
+        EditsFieldDisplayOptions;
 
         /**
          * View request
@@ -21,10 +22,8 @@ class AjaxDisplayController extends BaseController
          * 
          * @return array
          */
-    public function view(string $displayer)
+    public function view(FieldDisplayer $displayer)
     {
-        $displayer = \FieldDisplay::getRegisteredDisplayer($displayer);
-        $displayer = new $displayer;
         return $displayer;
     }
 
@@ -36,10 +35,8 @@ class AjaxDisplayController extends BaseController
      * 
      * @return array
      */
-    public function validateOptions(Request $request, string $displayer)
+    public function validateOptions(Request $request, FieldDisplayer $displayer)
     {
-        $displayer = \FieldDisplay::getRegisteredDisplayer($displayer);
-        $displayer = new $displayer;
         $displayer->options()->validate($request);
         return $displayer;
     }
@@ -61,9 +58,9 @@ class AjaxDisplayController extends BaseController
      */
     public function onFormLayoutOptionsSuccess(Form $form)
     {
-        $form->addViewSuggestion('forms.modal')
-            ->isAjax()
-            ->option('title', 'Edit Options');
+        $form->isAjax()
+            ->option('title', 'Edit Options')
+            ->attribute('autocomplete', 'off');
         return ['html' => $form->__toString()];
     }
 }

@@ -17,7 +17,7 @@ class S2020_03_23_193836872820_EntityAddViewModes extends MigratableSeeder
      */
     public function run(): void
     {
-        $viewMode = ViewMode::create(['name' => 'Default']);
+        $viewMode = ViewMode::create(['name' => 'Default', 'machineName' => 'default']);
         foreach (DisplayField::all() as $display) {
             $display->viewMode()->associate($viewMode);
             $display->save();

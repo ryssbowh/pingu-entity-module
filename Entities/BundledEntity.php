@@ -2,12 +2,13 @@
 
 namespace Pingu\Entity\Entities;
 
+use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Support\BaseBundledEntityRoutes;
 use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
-use Pingu\Field\Support\FieldLayout;
+use Pingu\Entity\Support\FieldLayout\FieldLayout;
+use Pingu\Entity\Support\Routes\BundledEntityRoutes;
 use Pingu\Field\Traits\HasBundleFields;
 use Pingu\Forms\Contracts\FormRepositoryContract;
 
@@ -64,9 +65,9 @@ abstract class BundledEntity extends Entity
         return new BundledEntityUris($this);
     }
 
-    protected function defaultRouteInstance()
+    protected function defaultRouteInstance(): Routes
     {
-        return new BaseBundledEntityRoutes($this);
+        return new BundledEntityRoutes($this);
     }
 
     /**

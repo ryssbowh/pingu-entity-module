@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
+use Pingu\Entity\Support\FieldLayout\FieldLayout;
 use Pingu\Field\Contracts\DefinesFields;
-use Pingu\Field\Support\FieldLayout;
 
 interface BundleContract extends 
     DefinesFields,

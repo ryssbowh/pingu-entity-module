@@ -2,13 +2,13 @@ const FieldDisplay = (() => {
 
     function viewOptionsUri(field)
     {
-        let uri = '/'+Config.get('entity.uris.viewDisplayOptions');
+        let uri = '/'+Config.get('entity.uris.viewFieldDisplayOptions');
         return Helpers.replaceUriSlugs(uri, [field]);
     }
 
     function editOptionsUri(field)
     {
-        let uri = '/'+Config.get('entity.uris.editDisplayOptions');
+        let uri = '/'+Config.get('entity.uris.editFieldDisplayOptions');
         return Helpers.replaceUriSlugs(uri, [field]);
     }
 

@@ -11,19 +11,16 @@ use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Facades\Bundle as BundleFacade;
 use Pingu\Entity\Support\BaseBundleActions;
-use Pingu\Entity\Support\BaseBundleRoutes;
 use Pingu\Entity\Support\BaseBundleUris;
+use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
+use Pingu\Entity\Support\FieldDisplay\FieldDisplayBundle;
+use Pingu\Entity\Support\FieldLayout\FieldLayout;
+use Pingu\Entity\Support\FieldLayout\FieldLayoutBundle;
 use Pingu\Entity\Traits\HasActions;
 use Pingu\Field\Contracts\FieldContract;
 use Pingu\Field\Contracts\FieldRepository;
 use Pingu\Field\Contracts\FieldsValidator;
-use Pingu\Field\Entities\FormLayout;
-use Pingu\Field\Support\FieldDisplay\FieldDisplay;
-use Pingu\Field\Support\FieldDisplay\FieldDisplayBundle;
-use Pingu\Field\Support\FieldLayout;
-use Pingu\Field\Support\FieldLayoutBundle;
 use Pingu\Field\Support\FieldRepository\BundleFieldsRepository;
-use Pingu\Field\Support\FieldValidator\BundleFieldsValidator;
 use Pingu\Forms\Support\Field;
 
 abstract class Bundle implements BundleContract
@@ -72,7 +69,7 @@ abstract class Bundle implements BundleContract
      */
     public function formLayout(): FieldLayout
     {
-        return \Field::getBundleFormLayout($this)->load();
+        return \FieldLayout::getBundleFormLayout($this)->load();
     }
 
     /**
@@ -124,8 +121,8 @@ abstract class Bundle implements BundleContract
     {
         BundleFacade::registerBundle($this);
         \Actions::register(get_class($this), $this->getActionsInstance());
-        \Field::registerFormLayout($this->bundleName(), new FieldLayoutBundle($this));
-        \FieldDisplay::registerDisplay($this->bundleName(), new FieldDisplayBundle($this));
+        \FieldLayout::register($this->bundleName(), new FieldLayoutBundle($this));
+        \FieldDisplay::register($this->bundleName(), new FieldDisplayBundle($this));
         \Policies::register($this, $this->getPolicy());
     }
 }

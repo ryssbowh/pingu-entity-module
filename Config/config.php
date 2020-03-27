@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Entity'
+    'name' => 'Entity',
+    'useCache' => true
 ];

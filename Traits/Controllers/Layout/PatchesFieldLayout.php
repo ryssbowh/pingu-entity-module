@@ -4,12 +4,10 @@ namespace Pingu\Entity\Traits\Controllers\Layout;
 
 use Illuminate\Http\Request;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Field\Entities\BundleField;
-use Pingu\Field\Entities\FormLayout;
-use Pingu\Field\Entities\FormLayoutGroup;
-use Pingu\Forms\Support\Form;
+use Pingu\Entity\Entities\FormLayout;
+use Pingu\Entity\Entities\FormLayoutGroup;
 
-trait PatchesFormLayout
+trait PatchesFieldLayout
 {
     protected function findOrCreateGroup(array $data)
     {

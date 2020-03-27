@@ -7,10 +7,7 @@ use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRouteSlugContract;
 use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Support\Accessor;
-use Pingu\Core\Support\Actions;
-use Pingu\Core\Support\Routes;
-use Pingu\Core\Support\Uris;
+use Pingu\Core\Support\{Actions, Routes, Uris};
 use Pingu\Core\Traits\HasActionsThroughFacade;
 use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Core\Traits\HasUrisThroughFacade;
@@ -18,12 +15,9 @@ use Pingu\Core\Traits\Models\HasRouteSlug;
 use Pingu\Entity\Events\RegisteredEntity;
 use Pingu\Entity\Events\RegisteringEntity;
 use Pingu\Entity\Facades\Entity as EntityFacade;
-use Pingu\Entity\Support\BaseEntityActions;
-use Pingu\Entity\Support\BaseEntityForms;
-use Pingu\Entity\Support\BaseEntityRoutes;
-use Pingu\Entity\Support\BaseEntityUris;
-use Pingu\Field\Support\FieldLayout;
-use Pingu\Field\Traits\HasFormLayout;
+use Pingu\Entity\Support\Routes\BaseEntityRoutes;
+use Pingu\Entity\Support\{BaseEntityActions, BaseEntityForms, BaseEntityUris};
+use Pingu\Entity\Traits\HasFieldLayout;
 use Pingu\Forms\Contracts\FormRepositoryContract;
 use Pingu\Forms\Traits\Models\HasForms;
 
@@ -36,7 +30,7 @@ abstract class Entity extends BaseModel implements
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
         HasActionsThroughFacade,
-        HasFormLayout,
+        HasFieldLayout,
         HasForms,
         HasRouteSlug;
 
@@ -107,7 +101,12 @@ abstract class Entity extends BaseModel implements
         return new BaseEntityUris($this);
     }
 
-    protected function defaultRouteInstance()
+    /**
+     * Default instance for routes
+     * 
+     * @return Routes
+     */
+    protected function defaultRouteInstance(): Routes
     {
         return new BaseEntityRoutes($this);
     }

@@ -5,14 +5,14 @@ namespace Pingu\Entity\Http\Controllers;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
 
-class AdminDisplayController extends BaseController
+class AdminFieldLayoutController extends BaseController
 {
     public function index(BundleContract $bundle)
     {
         \ContextualLinks::addFromObject($bundle);
         return view()->first($this->getViewNames($bundle), [
             'fields' => $bundle->fields()->getAll(),
-            'display' => \FieldDisplay::getBundleDisplay($bundle),
+            'layout' => \FieldLayout::getBundleFormLayout($bundle),
             'bundle' => $bundle,
             'canCreateGroups' => \Gate::check('createGroups', $bundle)
         ]);
@@ -27,6 +27,6 @@ class AdminDisplayController extends BaseController
      */
     protected function getViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.display.index', 'pages.bundles.display.index'];
+        return ['pages.bundles.'.$bundle->bundleName().'.formLayout.index', 'pages.bundles.formLayout.index'];
     }
 }

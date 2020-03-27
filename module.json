@@ -13,7 +13,10 @@
     ],
     "aliases": {
         "Entity": "Pingu\\Entity\\Facades\\Entity",
-        "Bundle": "Pingu\\Entity\\Facades\\Bundle"
+        "Bundle": "Pingu\\Entity\\Facades\\Bundle",
+        "FieldLayout": "Pingu\\Entity\\Facades\\FieldLayout",
+        "FieldDisplay": "Pingu\\Entity\\Facades\\FieldDisplay",
+        "ViewMode": "Pingu\\Entity\\Facades\\ViewMode"
     },
     "files": [
         "functions.php"

@@ -22,8 +22,7 @@ trait EditsAjaxEntity
      */
     protected function afterEditFormCreated(Form $form, Entity $model)
     {
-        $form->addViewSuggestion('forms.modal')
-            ->isAjax()
+        $form->isAjax()
             ->option('title', 'Edit a '.$model::friendlyName());
     }
 

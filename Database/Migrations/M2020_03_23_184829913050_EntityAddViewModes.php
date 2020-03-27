@@ -17,6 +17,7 @@ class M2020_03_23_184829913050_EntityAddViewModes extends Migration
             'view_modes', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
+                $table->string('machineName');
             }
         );
         Schema::create(

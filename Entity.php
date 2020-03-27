@@ -33,7 +33,7 @@ class Entity
             throw EntityException::registered($entity);
         }
         if ($entity instanceof RenderableContract) {
-            $this->renderableEntities[] = get_class($entity);
+            $this->renderableEntities[$entity->entityType()] = get_class($entity);
         }
         $this->entities[$entity->entityType()] = get_class($entity);
         //Register entity route slug
@@ -88,6 +88,16 @@ class Entity
     public function getRegisteredEntities()
     {
         return $this->entities;
+    }
+
+    /**
+     * Get all registered renderable entities
+     * 
+     * @return array
+     */
+    public function getRenderableEntities()
+    {
+        return $this->renderableEntities;
     }
 
     /**

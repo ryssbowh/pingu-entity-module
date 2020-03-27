@@ -15,8 +15,7 @@ trait CreatesAjaxBundleFields
      */
     protected function onCreateFieldSuccess(Form $form, BundleContract $bundle, BundleFieldContract $field)
     {
-        $form->addViewSuggestion('forms.modal')
-            ->isAjax()
+        $form->isAjax()
             ->removeElement('weight')
             ->option('title', 'Add a '.$field::friendlyName(). ' field');
         return ['html' => $form->__toString()];

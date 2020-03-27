@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Field\Entities\BundleField;
 use Pingu\Field\Entities\FormLayout;
+use Pingu\Field\Support\FieldDisplayer;
 use Pingu\Forms\Support\Form;
 
-trait EditsDisplayOptions
+trait EditsFieldDisplayOptions
 {
-    public function edit(string $displayerName)
+    public function edit(FieldDisplayer $displayer)
     {
-        $displayer = \FieldDisplay::getRegisteredDisplayer($displayerName);
         $values = $this->requireParameter('values');
-        $displayer = new $displayer($values);
-        $action = ['url' => route('entity.ajax.validateDisplayOptions', $displayerName)];
+        $displayer->setOptions($values);
+        $action = ['url' => route('entity.ajax.validateFieldDisplayOptions', $displayer::machineName())];
         $form = $displayer->options()->getEditForm($action);
         return $this->onFormLayoutOptionsSuccess($form);
     }

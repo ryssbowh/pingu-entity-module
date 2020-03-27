@@ -1,13 +1,12 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Routes;
 
 use Pingu\Core\Support\Routes;
-use Pingu\Entity\Http\Controllers\AdminBundleController;
-use Pingu\Entity\Http\Controllers\AdminDisplayController;
-use Pingu\Entity\Http\Controllers\AdminFormLayoutController;
-use Pingu\Entity\Http\Controllers\AjaxDisplayController;
-use Pingu\Entity\Http\Controllers\AjaxFormLayoutController;
+use Pingu\Entity\Http\Controllers\AdminFieldDisplayController;
+use Pingu\Entity\Http\Controllers\AdminFieldLayoutController;
+use Pingu\Entity\Http\Controllers\AjaxFieldDisplayController;
+use Pingu\Entity\Http\Controllers\AjaxFieldLayoutController;
 use Pingu\Entity\Support\Bundle;
 
 class BaseBundleRoutes extends Routes
@@ -66,10 +65,10 @@ class BaseBundleRoutes extends Routes
     protected function controllers(): array
     {
         return [
-            'admin.formLayout' => AdminFormLayoutController::class.'@index',
-            'admin.display' => AdminDisplayController::class.'@index',
-            'ajax.patchFormLayout' => AjaxFormLayoutController::class.'@patch',
-            'ajax.patchDisplay' => AjaxDisplayController::class.'@patch',
+            'admin.formLayout' => AdminFieldLayoutController::class.'@index',
+            'admin.display' => AdminFieldDisplayController::class.'@index',
+            'ajax.patchFormLayout' => AjaxFieldLayoutController::class.'@patch',
+            'ajax.patchDisplay' => AjaxFieldDisplayController::class.'@patch',
         ];
     }
 

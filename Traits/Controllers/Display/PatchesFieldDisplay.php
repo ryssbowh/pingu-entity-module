@@ -4,13 +4,9 @@ namespace Pingu\Entity\Traits\Controllers\Display;
 
 use Illuminate\Http\Request;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Field\Entities\BundleField;
-use Pingu\Field\Entities\DisplayField;
-use Pingu\Field\Entities\FormLayout;
-use Pingu\Field\Entities\FormLayoutGroup;
-use Pingu\Forms\Support\Form;
+use Pingu\Entity\Entities\DisplayField;
 
-trait PatchesDisplay
+trait PatchesFieldDisplay
 {
     /**
      * Pathes field displays

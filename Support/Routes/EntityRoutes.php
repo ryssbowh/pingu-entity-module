@@ -1,6 +1,6 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Routes;
 
 use Pingu\Core\Support\Routes;
 use Pingu\Entity\Traits\MapsEntityRoutes;

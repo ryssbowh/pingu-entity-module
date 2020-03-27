@@ -1,6 +1,6 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Routes;
 
 class BundledEntityRoutes extends BaseEntityRoutes
 {

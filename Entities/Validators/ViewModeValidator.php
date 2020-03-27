@@ -11,9 +11,13 @@ class ViewModeValidator extends BaseFieldsValidator
      */
     protected function rules(bool $updating): array
     {
-        return [
-            'name' => 'required,unique:view_modes,name'
+        $rules = [
+            'name' => 'required'
         ];
+        if (!$updating) {
+            $rules['machineName'] = 'required|unique:view_modes,machineName';
+        }
+        return $rules;
     }
 
     /**

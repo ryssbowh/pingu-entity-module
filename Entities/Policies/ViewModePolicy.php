@@ -11,16 +11,24 @@ class ViewModePolicy extends BaseEntityPolicy
 {
     public function index(?User $user)
     {
-        return $this->userOrGuest()->hasPermissionTo('manage display');
+        return $this->userOrGuest($user)->hasPermissionTo('manage display');
     }
 
     public function delete(?User $user, Entity $entity)
     {
-        return $this->userOrGuest()->hasPermissionTo('manage display');
+        if ($entity->machineName == 'default') {
+            return false;
+        }
+        return $this->userOrGuest($user)->hasPermissionTo('manage display');
+    }
+
+    public function edit(?User $user, Entity $entity)
+    {
+        return $this->userOrGuest($user)->hasPermissionTo('manage display');
     }
 
     public function create(?User $user, ?BundleContract $bundle = null)
     {
-        return $this->userOrGuest()->hasPermissionTo('manage display');
+        return $this->userOrGuest($user)->hasPermissionTo('manage display');
     }
 }

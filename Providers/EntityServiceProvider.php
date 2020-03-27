@@ -7,22 +7,28 @@ use Illuminate\Routing\Router;
 use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Entity\Bundle;
 use Pingu\Entity\Entities\Entity as EntityModel;
-use Pingu\Entity\Entities\ViewMode;
+use Pingu\Entity\Entities\ViewMode as ViewModeModel;
+use Pingu\Entity\Entities\ViewModesEntities;
 use Pingu\Entity\Entity;
+use Pingu\Entity\FieldDisplay;
+use Pingu\Entity\FieldLayout;
 use Pingu\Entity\Http\Middleware\HasRevisions;
+use Pingu\Entity\Observers\ViewModeEntitiesObserver;
+use Pingu\Entity\Observers\ViewModeObserver;
 use Pingu\Entity\Support\BaseBundleActions;
-use Pingu\Entity\Support\BaseBundleRoutes;
 use Pingu\Entity\Support\BaseBundleUris;
 use Pingu\Entity\Support\Bundle as BundleAbstract;
 use Pingu\Entity\Support\EntityActions;
-use Pingu\Entity\Support\EntityRoutes;
 use Pingu\Entity\Support\EntityUris;
+use Pingu\Entity\Support\Routes\BaseBundleRoutes;
+use Pingu\Entity\Support\Routes\EntityRoutes;
+use Pingu\Entity\ViewMode;
 use Pingu\Field\Entities\FormLayout;
 
 class EntityServiceProvider extends ModuleServiceProvider
 {
     protected $entities = [
-        ViewMode::class
+        ViewModeModel::class
     ];
 
     /**
@@ -34,11 +40,11 @@ class EntityServiceProvider extends ModuleServiceProvider
     {
         $router->aliasMiddleware('hasRevisions', HasRevisions::class);
         $this->registerConfig();
-        $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'entity');
-
-        // \Asset::container('modules')->add('entity-js', 'module-assets/Entity.js');
-
         $this->registerJsConfig();
+        $this->registerEntities($this->entities);
+
+        ViewModeModel::observe(ViewModeObserver::class);
+        ViewModesEntities::observe(ViewModeEntitiesObserver::class);
     }
 
     /**
@@ -50,6 +56,9 @@ class EntityServiceProvider extends ModuleServiceProvider
     {
         $this->app->singleton('entity.entity', Entity::class);
         $this->app->singleton('entity.bundle', Bundle::class);
+        $this->app->singleton('entity.display', FieldDisplay::class);
+        $this->app->singleton('entity.layout', FieldLayout::class);
+        $this->app->singleton('entity.viewMode', ViewMode::class);
         //Registers base bundle uris
         \Uris::register(BundleAbstract::class, new BaseBundleUris);
         //Binds bundle slug in Route system
@@ -73,10 +82,10 @@ class EntityServiceProvider extends ModuleServiceProvider
         $this->app->booted(function () {
             \JsConfig::setMany(
                 [
-                'entity.uris.viewFormLayoutOptions' => route_by_name('entity.ajax.viewFormLayoutOptions')->uri(),
-                'entity.uris.editFormLayoutOptions' => route_by_name('entity.ajax.editFormLayoutOptions')->uri(),
-                'entity.uris.viewDisplayOptions' => route_by_name('entity.ajax.viewDisplayOptions')->uri(),
-                'entity.uris.editDisplayOptions' => route_by_name('entity.ajax.editDisplayOptions')->uri(),
+                'entity.uris.viewFieldLayoutOptions' => route_by_name('entity.ajax.viewFieldLayoutOptions')->uri(),
+                'entity.uris.editFieldLayoutOptions' => route_by_name('entity.ajax.editFieldLayoutOptions')->uri(),
+                'entity.uris.viewFieldDisplayOptions' => route_by_name('entity.ajax.viewFieldDisplayOptions')->uri(),
+                'entity.uris.editFieldDisplayOptions' => route_by_name('entity.ajax.editFieldDisplayOptions')->uri(),
                 ]
             );
         });

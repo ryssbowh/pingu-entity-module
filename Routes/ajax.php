@@ -13,25 +13,25 @@
 /**
  * Form layout
  */
-Route::get('form-layout-options/{field}', ['uses' => 'AjaxFormLayoutController@view'])
-    ->name('entity.ajax.viewFormLayoutOptions')
-    ->middleware('permission:manage form layouts');
-Route::get('form-layout-options/{field}/edit', ['uses' => 'AjaxFormLayoutController@edit'])
-    ->name('entity.ajax.editFormLayoutOptions')
-    ->middleware('permission:manage form layouts');
-Route::post('form-layout-options/{field}', ['uses' => 'AjaxFormLayoutController@validateOptions'])
-    ->name('entity.ajax.validateFormLayoutOptions')
-    ->middleware('permission:manage form layouts');
+Route::get('field-layout-options/{field}', ['uses' => 'AjaxFieldLayoutController@view'])
+    ->name('entity.ajax.viewFieldLayoutOptions')
+    ->middleware('permission:manage layout');
+Route::get('field-layout-options/{field}/edit', ['uses' => 'AjaxFieldLayoutController@edit'])
+    ->name('entity.ajax.editFieldLayoutOptions')
+    ->middleware('permission:manage layout');
+Route::post('field-layout-options/{field}', ['uses' => 'AjaxFieldLayoutController@validateOptions'])
+    ->name('entity.ajax.validateFieldLayoutOptions')
+    ->middleware('permission:manage layout');
 
 /**
  * Field display
  */
-Route::get('entity-display-options/{displayer}', ['uses' => 'AjaxDisplayController@view'])
-    ->name('entity.ajax.viewDisplayOptions')
+Route::get('field-display-options/{field_displayer}', ['uses' => 'AjaxFieldDisplayController@view'])
+    ->name('entity.ajax.viewFieldDisplayOptions')
     ->middleware('permission:manage display');
-Route::get('entity-display-options/{displayer}/edit', ['uses' => 'AjaxDisplayController@edit'])
-    ->name('entity.ajax.editDisplayOptions')
+Route::get('field-display-options/{field_displayer}/edit', ['uses' => 'AjaxFieldDisplayController@edit'])
+    ->name('entity.ajax.editFieldDisplayOptions')
     ->middleware('permission:manage display');
-Route::post('entity-display-options/{displayer}', ['uses' => 'AjaxDisplayController@validateOptions'])
-    ->name('entity.ajax.validateDisplayOptions')
+Route::post('field-display-options/{field_displayer}', ['uses' => 'AjaxFieldDisplayController@validateOptions'])
+    ->name('entity.ajax.validateFieldDisplayOptions')
     ->middleware('permission:manage display');

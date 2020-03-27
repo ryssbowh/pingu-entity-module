@@ -5,7 +5,7 @@ namespace Pingu\Entity\Entities\Fields;
 use Pingu\Field\BaseFields\Text;
 use Pingu\Field\Support\FieldRepository\BaseFieldRepository;
 
-class TaxonomyFields extends BaseFieldRepository
+class ViewModeFields extends BaseFieldRepository
 {
     /**
      * @inheritDoc
@@ -15,6 +15,12 @@ class TaxonomyFields extends BaseFieldRepository
         return [
             new Text(
                 'name',
+                [
+                    'required' => true
+                ]
+            ),
+            new Text(
+                'machineName',
                 [
                     'required' => true
                 ]

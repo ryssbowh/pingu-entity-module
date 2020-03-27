@@ -12,8 +12,6 @@ class ViewModesEntities extends BaseModel
 
     public $fillable = ['entity'];
 
-    public $with = ['view_mode'];
-
     /**
      * View mode relationship
      * 

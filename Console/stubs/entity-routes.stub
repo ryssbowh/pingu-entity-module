@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Pingu\Entity\Support\BaseEntityRoutes;
+use Pingu\Entity\Support\Routes\BaseEntityRoutes;
 
 class $CLASS$ extends BaseEntityRoutes
 {

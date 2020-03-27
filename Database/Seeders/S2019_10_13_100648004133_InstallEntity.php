@@ -15,16 +15,11 @@ class S2019_10_13_100648004133_InstallEntity extends MigratableSeeder
      */
     public function run(): void
     {
-        
         $perm = Permission::findOrCreate(['name' => 'manage bundles', 'section' => 'Core']);
+        Permission::findOrCreate(['name' => 'manage fields', 'section' => 'Core']);
+        Permission::findOrCreate(['name' => 'manage layout', 'section' => 'Core']);
+        Permission::findOrCreate(['name' => 'manage display', 'section' => 'Core']);
 
-        $admin = Role::find(4);
-        $admin->givePermissionTo(
-            $perm,
-            Permission::findOrCreate(['name' => 'manage fields', 'section' => 'Core']),
-            Permission::findOrCreate(['name' => 'manage layout', 'section' => 'Core']),
-            Permission::findOrCreate(['name' => 'manage display', 'section' => 'Core'])
-        );
         $admin = Menu::findByMachineName('admin-menu');
         $structure = MenuItem::findByMachineName('admin-menu.structure');
 
