@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Collection;
 use Pingu\Entity\Entities\ViewMode as ViewModeModel;
 
 class ViewMode
-{
+{   
+    /**
+     * View mode cache
+     * @var Collection
+     */
+    protected $viewModes;
+
+    /**
+     * View mode - entity mapping cache
+     * @var array
+     */
+    protected $mapping = [];
+
     /**
      * Get one or all view modes
      * 
@@ -17,7 +29,7 @@ class ViewMode
     public function get($viewMode = null)
     {
         if (is_null($viewMode)) {
-            return $this->resolveCache();
+            return $this->all();
         }
         if (is_int($viewMode)) {
             return $this->getById($viewMode);
@@ -25,6 +37,16 @@ class ViewMode
             return $this->getByName($viewMode);
         }
         return $viewMode;
+    }
+
+    /**
+     * Get all view modes
+     * 
+     * @return Collection
+     */
+    public function all(): Collection
+    {
+        return $this->getViewModes();
     }
 
     /**
@@ -36,19 +58,19 @@ class ViewMode
      */
     public function getById(int $id): ?ViewMode
     {
-        return $this->resolveCache()->where('id', $id)->first();
+        return $this->getViewModes()->where('id', $id)->first();
     }
 
     /**
-     * Get a view mode by its name
+     * Get a view mode by its machineName
      * 
-     * @param string $name
+     * @param string $machineName
      * 
      * @return ?ViewMode
      */
-    public function getByName(string $name): ?ViewMode
+    public function getByName(string $machineName): ?ViewMode
     {
-        return $this->resolveCache()->where('name', $name)->first();
+        return $this->getViewModes()->where('machineName', $machineName)->first();
     }
 
     /**
@@ -66,11 +88,25 @@ class ViewMode
     }
 
     /**
+     * Get all view modes for an entity
+     * 
+     * @return array
+     */
+    public function forEntity($entity): array
+    {
+        if (!$entity instanceof Entity) {
+            $entity = new $entity;
+        }
+
+    }
+
+    /**
      * Forget the entity-view mode mapping cache
      */
     public function forgetMappingCache()
     {
         \Cache::forget('entity.viewModesMapping');
+        $this->mapping = null;
     }
 
     /**
@@ -79,6 +115,33 @@ class ViewMode
     public function forgetCache()
     {
         \Cache::forget('entity.viewModes');
+        $this->viewModes = null;
+    }
+
+    /**
+     * View modes getter
+     * 
+     * @return Collection
+     */
+    public function getViewModes(): Collection
+    {
+        if (is_null($this->viewModes)) {
+            $this->viewModes = $this->resolveCache();
+        }
+        return $this->viewModes;
+    }
+
+    /**
+     * Mapping getter
+     * 
+     * @return array
+     */
+    public function getMapping(): array
+    {
+        if (is_null($this->mapping)) {
+            $this->mapping = $this->resolveMappingCache();
+        }
+        return $this->mapping;
     }
 
     /**
@@ -124,16 +187,17 @@ class ViewMode
     }
 
     /**
-     * Loads the view mode - entity mapping
+     * Loads the view mode - object mapping
+     * 
      * @return array
      */
     protected function loadViewModesMapping(): array
     {
         $out = [];
         foreach (ViewModeModel::all() as $viewMode) {
-            $entities = $viewMode->entities->pluck('entity')->all();
-            foreach ($entities as $type) {
-                $out[$type][] = $viewMode->machineName;
+            $objects = $viewMode->mapping->pluck('object')->all();
+            foreach ($objects as $object) { 
+                $out[$object][] = $viewMode->machineName;
             }
         }
         return $out;

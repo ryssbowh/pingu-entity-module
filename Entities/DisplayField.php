@@ -22,7 +22,7 @@ class DisplayField extends BaseModel implements HasRouteSlugContract
         'options' => 'array'
     ];
 
-    public $with = ['view_mode'];
+    protected $with = ['view_mode'];
 
     /**
      * Options instance

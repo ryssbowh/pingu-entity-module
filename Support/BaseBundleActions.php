@@ -24,22 +24,22 @@ class BaseBundleActions extends Actions
                     return \Gate::check('indexFields', $bundle);
                 }
             ],
-            'formLayout' => [
+            'fieldLayout' => [
                 'label' => 'Form layout',
                 'url' => function ($bundle) {
-                    return $bundle::uris()->make('formLayout', $bundle, adminPrefix());
+                    return $bundle::uris()->make('fieldLayout', $bundle, adminPrefix());
                 },
                 'access' => function ($bundle) {
-                    return \Gate::check('formLayout', $bundle);
+                    return \Gate::check('fieldLayout', $bundle);
                 }
             ],
-            'display' => [
+            'fieldDisplay' => [
                 'label' => 'Display',
                 'url' => function ($bundle) {
-                    return $bundle::uris()->make('display', $bundle, adminPrefix());
+                    return $bundle::uris()->make('fieldDisplay', [$bundle, 'default'], adminPrefix());
                 },
                 'access' => function ($bundle) {
-                    return \Gate::check('display', $bundle);
+                    return \Gate::check('fieldDisplay', $bundle);
                 }
             ]
         ];

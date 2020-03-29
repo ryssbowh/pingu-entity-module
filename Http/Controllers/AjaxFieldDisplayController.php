@@ -44,7 +44,7 @@ class AjaxFieldDisplayController extends BaseController
     /**
      * @inheritDoc
      */
-    public function onPatchFormLayoutSuccess(BundleContract $bundle)
+    public function onPatchFieldLayoutSuccess(BundleContract $bundle)
     {
         return ['message' => 'Display has been saved'];
     }
@@ -56,9 +56,10 @@ class AjaxFieldDisplayController extends BaseController
      * 
      * @return array 
      */
-    public function onFormLayoutOptionsSuccess(Form $form)
+    public function onFieldLayoutOptionsSuccess(Form $form)
     {
         $form->isAjax()
+            ->addViewSuggestion('forms.modal')
             ->option('title', 'Edit Options')
             ->attribute('autocomplete', 'off');
         return ['html' => $form->__toString()];

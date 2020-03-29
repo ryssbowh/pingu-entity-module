@@ -67,17 +67,17 @@ abstract class Bundle implements BundleContract
     /**
      * @inheritDoc
      */
-    public function formLayout(): FieldLayout
+    public function fieldLayout(): FieldLayout
     {
-        return \FieldLayout::getBundleFormLayout($this)->load();
+        return \FieldLayout::getFieldLayout($this->bundleName())->load();
     }
 
     /**
      * @inheritDoc
      */
-    public function display(): FieldDisplay
+    public function fieldDisplay(): FieldDisplay
     {
-        return \FieldDisplay::getBundleDisplay($this)->load();
+        return \FieldDisplay::getFieldDisplay($this->bundleName())->load();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Pingu\Entity\Http\Controllers;
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Entities\Entity;
-use Pingu\Entity\Entities\ViewModesEntities;
+use Pingu\Entity\Entities\ViewModesMapping;
 use Pingu\Entity\Http\Controllers\AjaxEntityController;
 use Pingu\Forms\Support\Form;
 
@@ -23,7 +23,7 @@ class ViewModeAjaxController extends AjaxEntityController
             });
             if (isset($models[$viewMode->id])) {
                 foreach ($models[$viewMode->id] as $entity) {
-                    $map = new ViewModesEntities;
+                    $map = new ViewModesMapping;
                     $map->fill([
                         'entity' => $entity
                     ])->view_mode()->associate($viewMode)->save();

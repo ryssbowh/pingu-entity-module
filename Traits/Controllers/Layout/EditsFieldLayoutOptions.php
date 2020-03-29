@@ -17,6 +17,6 @@ trait EditsFieldLayoutOptions
         $options = new $class($values);
         $action = ['url' => route('entity.ajax.validateFieldLayoutOptions', $field)];
         $form = $options->getEditForm($action);
-        return $this->onFormLayoutOptionsSuccess($form);
+        return $this->onFieldLayoutOptionsSuccess($form);
     }
 }

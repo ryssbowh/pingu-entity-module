@@ -21,10 +21,10 @@ class BaseBundleUris extends Uris
             'updateField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}',
             'confirmDeleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
             'deleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
-            'formLayout' => 'bundle/{bundle}/form-layout',
-            'display' => 'bundle/{bundle}/display',
-            'patchFormLayout' => 'bundle/{bundle}/form-layout',
-            'patchDisplay' => 'bundle/{bundle}/display',
+            'fieldLayout' => 'bundle/{bundle}/layout',
+            'fieldDisplay' => 'bundle/{bundle}/display/{view_mode}',
+            'patchFieldLayout' => 'bundle/{bundle}/layout',
+            'patchFieldDisplay' => 'bundle/{bundle}/display/{view_mode}',
         ];
     }
 }

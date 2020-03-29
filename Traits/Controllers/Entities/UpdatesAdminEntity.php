@@ -31,9 +31,9 @@ trait UpdatesAdminEntity
     /**
      * @inheritDoc
      */
-    protected function afterUnchangedUpdate(Entity $entity)
+    protected function afterUnsavedUpdate(Entity $entity)
     {
-        \Notify::info('No changes made to '.$entity::friendlyName());
+        \Notify::warning($entity::friendlyName()." has not been saved");
     }
 
     /**
@@ -41,7 +41,11 @@ trait UpdatesAdminEntity
      */
     protected function afterSuccessfullUpdate(Entity $entity)
     {
-        \Notify::success($entity::friendlyName().' has been saved');
+        if (!$entity->wasChanged()) {
+            \Notify::info('No changes made to '.$entity::friendlyName());
+        } else {
+            \Notify::success($entity::friendlyName().' has been saved');
+        }
     }
 
 }

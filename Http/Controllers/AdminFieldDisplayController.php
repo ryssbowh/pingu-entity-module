@@ -4,22 +4,32 @@ namespace Pingu\Entity\Http\Controllers;
 
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Entities\ViewMode;
 
 class AdminFieldDisplayController extends BaseController
 {
-    public function index(BundleContract $bundle)
+    /**
+     * Index action
+     * 
+     * @param BundleContract $bundle
+     * @param ViewMode       $display
+     * 
+     * @return View
+     */
+    public function index(BundleContract $bundle, ViewMode $viewMode)
     {
         \ContextualLinks::addFromObject($bundle);
         return view()->first($this->getViewNames($bundle), [
             'fields' => $bundle->fields()->getAll(),
-            'display' => \FieldDisplay::getBundleDisplay($bundle),
+            'display' => $bundle->fieldDisplay(),
             'bundle' => $bundle,
-            'canCreateGroups' => \Gate::check('createGroups', $bundle)
+            'canCreateGroups' => \Gate::check('createGroups', $bundle),
+            'viewMode' => $viewMode
         ]);
     }
 
     /**
-     * get index layout view names
+     * Get index layout view names
      * 
      * @param BundleContract $bundle
      * 
@@ -27,6 +37,6 @@ class AdminFieldDisplayController extends BaseController
      */
     protected function getViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.display.index', 'pages.bundles.display.index'];
+        return ['pages.bundles.'.$bundle->bundleName().'.fieldDisplay.index', 'pages.bundles.fieldDisplay.index'];
     }
 }

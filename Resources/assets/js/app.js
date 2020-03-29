@@ -1,2 +1,2 @@
-import FormLayout from './components/FormLayout';
+import FieldLayout from './components/FieldLayout';
 import FieldDisplay from './components/FieldDisplay';

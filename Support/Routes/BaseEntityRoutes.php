@@ -34,20 +34,16 @@ class BaseEntityRoutes extends Routes
     public function __construct(Entity $entity)
     {
         $this->entity = $entity;
+        $this->baseEntityRoutes = \Routes::get(Entity::class);
         if ($this->inheritsEntityRoutes) {
-            $this->baseEntityRoutes = \Routes::get(Entity::class);
             $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
-            $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
-            $this->middlewares = $this->replaceMiddlewareSlugs(array_merge($this->getBaseEntityMiddlewares(), $this->middlewares()));
-            $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
-            $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
         } else {
-            $this->middlewares = $this->replaceMiddlewareSlugs($this->middlewares());
             $this->routes = $this->routes();
-            $this->methods = $this->methods();
-            $this->names = $this->names();
-            $this->controllers = $this->controllers();
         }
+        $this->middlewares = $this->replaceMiddlewareSlugs(array_merge($this->getBaseEntityMiddlewares(), $this->middlewares()));
+        $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
+        $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
+        $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
     }
 
     protected function getBaseEntityMiddlewares()

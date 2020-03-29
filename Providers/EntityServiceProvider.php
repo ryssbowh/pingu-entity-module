@@ -8,7 +8,7 @@ use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Entity\Bundle;
 use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Entities\ViewMode as ViewModeModel;
-use Pingu\Entity\Entities\ViewModesEntities;
+use Pingu\Entity\Entities\ViewModesMapping;
 use Pingu\Entity\Entity;
 use Pingu\Entity\FieldDisplay;
 use Pingu\Entity\FieldLayout;
@@ -23,7 +23,6 @@ use Pingu\Entity\Support\EntityUris;
 use Pingu\Entity\Support\Routes\BaseBundleRoutes;
 use Pingu\Entity\Support\Routes\EntityRoutes;
 use Pingu\Entity\ViewMode;
-use Pingu\Field\Entities\FormLayout;
 
 class EntityServiceProvider extends ModuleServiceProvider
 {
@@ -44,7 +43,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         $this->registerEntities($this->entities);
 
         ViewModeModel::observe(ViewModeObserver::class);
-        ViewModesEntities::observe(ViewModeEntitiesObserver::class);
+        ViewModesMapping::observe(ViewModeEntitiesObserver::class);
     }
 
     /**
@@ -62,6 +61,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         //Registers base bundle uris
         \Uris::register(BundleAbstract::class, new BaseBundleUris);
         //Binds bundle slug in Route system
+        \ModelRoutes::registerSlug('bundle', BundleAbstract::class);
         \Route::bind(
             'bundle', function ($value, $route) {
                 return \Bundle::get($value);

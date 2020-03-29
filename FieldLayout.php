@@ -9,70 +9,56 @@ use Pingu\Entity\Support\FieldLayout\FieldLayout as FieldLayoutHandler;
 class FieldLayout
 {
      /**
-     * List of registered form layouts
+     * List of registered field layouts
      * @var array
      */
-    protected $formLayouts = [];
+    protected $fieldLayouts = [];
     
     /**
      * Registers a form layout for a class
      * 
-     * @param string      $slug   class name
+     * @param string      $identifier
      * @param FieldLayoutHandler $layout
      */
-    public function register(string $slug, FieldLayoutHandler $layout)
+    public function register(string $identifier, FieldLayoutHandler $layout)
     {
-        $this->formLayouts[$slug] = $layout;
+        $this->fieldLayouts[$identifier] = $layout;
     }
 
     /**
-     * Get a FormLayout class for an Entity
+     * Get a FormLayout class for an object
      * 
-     * @param Entity $entity
+     * @param string $identifier
      * 
      * @return FieldLayoutHandler
      */
-    public function getEntityFormLayout(Entity $entity): FieldLayoutHandler
+    public function getFieldLayout(string $identifier): FieldLayoutHandler
     {
-        $object = get_class($entity);
-        return isset($this->formLayouts[$object]) ? $this->formLayouts[$object]->load() : null;
+        return isset($this->fieldLayouts[$identifier]) ? $this->fieldLayouts[$identifier]->load() : null;
     }
 
     /**
-     * Get a FormLayout class for a Bundle
+     * Get field layout cache for an object
      * 
-     * @param BundleContract $bundle
-     * 
-     * @return FieldLayoutHandler
-     */
-    public function getBundleFormLayout(BundleContract $bundle): FieldLayoutHandler
-    {
-        $object = $bundle->bundleName();
-        return isset($this->formLayouts[$object]) ? $this->formLayouts[$object]->load() : null;
-    }
-
-    /**
-     * Load or save an object form layout
-     * 
-     * @param string   $object
+     * @param string   $identifier
      * @param callable $callback
      */
-    public function getCache(string $object, $callback)
+    public function getCache(string $identifier, $callback)
     {
         if (config('entity.useCache', false)) {
-            $key = 'entity.layout.'.$object;
+            $key = 'entity.layout.'.$identifier;
             return \ArrayCache::rememberForever($key, $callback);
         }
         return $callback();
     }
 
     /**
-     * Forget the form layout cache for an object
+     * Forget the field layout cache for an object
      * 
-     * @param string $object
+     * @param string $identifier
      */
-    public function forgetCache(string $object)
+    public function forgetCache(string $identifier)
     {
-        \ArrayCache::forget('entity.layout.'.$object);
+        \ArrayCache::forget('entity.layout.'.$identifier);
     }
 }

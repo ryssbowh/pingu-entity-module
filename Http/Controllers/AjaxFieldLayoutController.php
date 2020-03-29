@@ -29,14 +29,15 @@ class AjaxFieldLayoutController extends BaseController
         return $options;
     }
 
-    public function onPatchFormLayoutSuccess(BundleContract $bundle)
+    public function onPatchFieldLayoutSuccess(BundleContract $bundle)
     {
         return ['message' => 'Layout has been saved'];
     }
 
-    public function onFormLayoutOptionsSuccess(Form $form)
+    public function onFieldLayoutOptionsSuccess(Form $form)
     {
         $form->isAjax()
+            ->addViewSuggestion('forms.modal')
             ->option('title', 'Edit Options')
             ->attribute('autocomplete', 'off');
         return ['html' => $form->__toString()];

@@ -10,7 +10,7 @@ trait HasFieldLayout
     {
         static::registered(
             function ($entity) {
-                $entity->registerFormLayout();
+                $entity->registerFieldLayout();
             }
         );
     }
@@ -18,16 +18,16 @@ trait HasFieldLayout
     /**
      * Register form layout instance in Field facade
      */
-    public function registerFormLayout()
+    public function registerFieldLayout()
     {
-        \FieldLayout::register(get_class($this), new FieldLayout($this));
+        \FieldLayout::register($this->entityType(), new FieldLayout($this));
     }
 
     /**
      * Get form layout instance from Field facade
      */
-    public function formLayout(): FieldLayout
+    public function fieldLayout(): FieldLayout
     {
-        return \FieldLayout::getEntityFormLayout($this)->load();
+        return \FieldLayout::getFieldLayout($this->entityType())->load();
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Entity\Entities\ViewMode;
 
-class ViewModesEntities extends BaseModel
+class ViewModesMapping extends BaseModel
 {
     public $timestamps = false;
 

@@ -27,6 +27,6 @@ trait PatchesFieldDisplay
             $model->options = json_decode($data['options'], true);
             $model->save();
         }
-        return $this->onPatchFormLayoutSuccess($bundle);
+        return $this->onPatchFieldLayoutSuccess($bundle);
     }
 }

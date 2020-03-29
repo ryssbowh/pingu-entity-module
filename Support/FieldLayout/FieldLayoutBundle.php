@@ -10,7 +10,7 @@ class FieldLayoutBundle extends FieldLayout
     /**
      * Constructor
      * 
-     * @param HasFields $object
+     * @param HasFieldsContract $object
      */
     public function __construct(BundleContract $object)
     {

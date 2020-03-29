@@ -48,6 +48,6 @@ trait PatchesFieldLayout
         foreach ($toDelete as $group) {
             $group->delete();
         }
-        return $this->onPatchFormLayoutSuccess($bundle);
+        return $this->onPatchFieldLayoutSuccess($bundle);
     }
 }

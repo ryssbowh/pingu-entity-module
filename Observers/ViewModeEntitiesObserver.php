@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Observers;
 
-use Pingu\Entity\Entities\ViewModesEntities;
+use Pingu\Entity\Entities\ViewModesMapping;
 
 class ViewModeEntitiesObserver
 {
@@ -11,7 +11,7 @@ class ViewModeEntitiesObserver
      * 
      * @param ViewMode $mapping
      */
-    public function saved(ViewModesEntities $mapping)
+    public function saved(ViewModesMapping $mapping)
     {
         \ViewMode::forgetMappingCache();
     }
@@ -19,9 +19,9 @@ class ViewModeEntitiesObserver
     /**
      * Empties cache
      * 
-     * @param ViewModesEntities $mapping
+     * @param ViewModesMapping $mapping
      */
-    public function deleted(ViewModesEntities $mapping)
+    public function deleted(ViewModesMapping $mapping)
     {
         \ViewMode::forgetMappingCache();
     }

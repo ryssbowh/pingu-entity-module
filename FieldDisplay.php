@@ -16,51 +16,50 @@ class FieldDisplay
     protected $fieldDisplays = [];
 
     /**
-     * Load or save an object form layout
+     * Get an object field display cache
      * 
-     * @param string   $object
+     * @param string   $identifier
      * @param callable $callback
      */
-    public function getCache(string $object, $callback)
+    public function getCache(string $identifier, $callback)
     {
         if (config('entity.useCache', false)) {
-            $key = 'entity.display.'.$object;
+            $key = 'entity.display.'.$identifier;
             return \ArrayCache::rememberForever($key, $callback);
         }
         return $callback();
     }
 
     /**
-     * Registers a form layout for a class
+     * Registers a field display for a class
      * 
-     * @param string      $slug   class name
+     * @param string      $identifier
      * @param FieldLayout $layout
      */
-    public function register(string $slug, FieldDisplayHandler $display)
+    public function register(string $identifier, FieldDisplayHandler $display)
     {
-        $this->fieldDisplays[$slug] = $display;
+        $this->fieldDisplays[$identifier] = $display;
     }
 
     /**
-     * Get a FormLayout class for a Bundle
+     * Get a FieldLayout class for a Bundle
      * 
      * @param BundleContract $bundle
      * 
      * @return FieldDisplay
      */
-    public function getBundleDisplay(BundleContract $bundle): FieldDisplayHandler
+    public function getFieldDisplay(string $identifier): FieldDisplayHandler
     {
-        $object = $bundle->bundleName();
-        return isset($this->fieldDisplays[$object]) ? $this->fieldDisplays[$object]->load() : null;
+        return isset($this->fieldDisplays[$identifier]) ? $this->fieldDisplays[$identifier]->load() : null;
     }
 
     /**
-     * Forget the form layout cache for an object
+     * Forget the field display cache for an object
      * 
-     * @param string $object
+     * @param string $identifier
      */
-    public function forgetCache(string $object)
+    public function forgetCache(string $identifier)
     {
-        \ArrayCache::forget('entity.display.'.$object);
+        \ArrayCache::forget('entity.display.'.$identifier);
     }
 }

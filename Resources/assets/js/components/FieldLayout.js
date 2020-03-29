@@ -1,4 +1,4 @@
-const FormLayout = (() => {
+const FieldLayout = (() => {
 
     function viewOptionsUri(field)
     {
@@ -19,4 +19,4 @@ const FormLayout = (() => {
 
 })();
 
-export default FormLayout;
+export default FieldLayout;

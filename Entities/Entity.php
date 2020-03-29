@@ -5,6 +5,7 @@ namespace Pingu\Entity\Entities;
 use Illuminate\Support\Str;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRouteSlugContract;
+use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Support\{Actions, Routes, Uris};
@@ -24,14 +25,14 @@ use Pingu\Forms\Traits\Models\HasForms;
 abstract class Entity extends BaseModel implements
     HasUrisContract,
     HasActionsContract,
-    HasRouteSlugContract
+    HasRouteSlugContract,
+    HasRoutesContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
         HasActionsThroughFacade,
         HasFieldLayout,
-        HasForms,
         HasRouteSlug;
 
     public $adminListFields = [];

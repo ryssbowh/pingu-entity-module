@@ -22,8 +22,8 @@ class BaseBundleRoutes extends Routes
     protected function routes(): array
     {
         return [
-            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'formLayout', 'display'],
-            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFormLayout', 'patchDisplay']
+            'admin' => ['indexFields', 'editField', 'storeField', 'createField', 'updateField', 'deleteField', 'confirmDeleteField', 'fieldLayout', 'fieldDisplay'],
+            'ajax' => ['editField', 'storeField', 'createField', 'updateField', 'deleteField', 'patchFieldLayout', 'patchFieldDisplay']
         ];
     }
 
@@ -40,8 +40,8 @@ class BaseBundleRoutes extends Routes
             'updateField' => 'can:editFields,@slug',
             'deleteField' => 'can:editFields,@slug',
             'confirmDeleteField' => 'can:deleteFields,@slug',
-            'formLayout' => 'can:formLayout,@slug',
-            'display' => 'can:display,@slug'
+            'fieldLayout' => 'can:fieldLayout,@slug',
+            'fieldDisplay' => 'can:fieldDisplay,@slug'
         ];
     }
 
@@ -54,8 +54,8 @@ class BaseBundleRoutes extends Routes
             'storeField' => 'post',
             'updateField' => 'put',
             'deleteField' => 'delete',
-            'patchFormLayout' => 'patch',
-            'patchDisplay' => 'patch',
+            'patchFieldLayout' => 'patch',
+            'patchFieldDisplay' => 'patch',
         ];
     }
 
@@ -65,10 +65,10 @@ class BaseBundleRoutes extends Routes
     protected function controllers(): array
     {
         return [
-            'admin.formLayout' => AdminFieldLayoutController::class.'@index',
-            'admin.display' => AdminFieldDisplayController::class.'@index',
-            'ajax.patchFormLayout' => AjaxFieldLayoutController::class.'@patch',
-            'ajax.patchDisplay' => AjaxFieldDisplayController::class.'@patch',
+            'admin.fieldLayout' => AdminFieldLayoutController::class.'@index',
+            'admin.fieldDisplay' => AdminFieldDisplayController::class.'@index',
+            'ajax.patchFieldLayout' => AjaxFieldLayoutController::class.'@patch',
+            'ajax.patchFieldDisplay' => AjaxFieldDisplayController::class.'@patch',
         ];
     }
 

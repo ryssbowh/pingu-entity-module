@@ -21,7 +21,7 @@ class BaseEntityEditRevisionForm extends BaseModelEditForm
     public function __construct(array $url, Entity $entity, FieldRevision $revision)
     {
         $this->revision = $revision;
-        $this->formLayout = $entity->formLayout();
+        $this->fieldLayout = $entity->fieldLayout();
         parent::__construct($entity, $url);
     }
 
@@ -79,6 +79,6 @@ class BaseEntityEditRevisionForm extends BaseModelEditForm
      */
     public function groups(): array
     {
-        return $this->formLayout->toFormGroups();
+        return $this->fieldLayout->toFormGroups();
     }
 }

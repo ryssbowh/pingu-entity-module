@@ -11,6 +11,6 @@ class BundledEntityCreateForm extends BaseModelCreateForm
      */
     public function groups(): array
     {
-        return $this->model->formLayout()->toFormGroups();
+        return $this->model->fieldLayout()->toFormGroups();
     }
 }

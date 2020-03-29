@@ -21,7 +21,7 @@ class M2020_03_23_184829913050_EntityAddViewModes extends Migration
             }
         );
         Schema::create(
-            'view_modes_entities', function (Blueprint $table) {
+            'view_modes_mappings', function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('view_mode_id');
                 $table->foreign('view_mode_id')->references('id')->on('view_modes')->onDelete('cascade');

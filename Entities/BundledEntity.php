@@ -7,6 +7,7 @@ use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Support\BundledEntityForms;
 use Pingu\Entity\Support\BundledEntityUris;
+use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
 use Pingu\Entity\Support\Routes\BundledEntityRoutes;
 use Pingu\Field\Traits\HasBundleFields;
@@ -32,7 +33,6 @@ abstract class BundledEntity extends Entity
     {
         $this->bundle = $bundle;
         $this->fillable($this->getFillable());
-        // $this->registerFormLayout();
     }
     
     /**
@@ -78,11 +78,19 @@ abstract class BundledEntity extends Entity
         return new BundledEntityForms($this);
     }
 
-        /**
-     * Get form layout instance from Field facade
-     */
-    public function formLayout(): FieldLayout
+    /**
+     * Get field layout instance from Field facade
+    */
+    public function fieldLayout(): FieldLayout
     {
-        return $this->bundle()->formLayout();
+        return $this->bundle()->fieldLayout();
+    }
+
+    /**
+     * Get field display instance from Field facade
+    */
+    public function fieldDisplay(): FieldDisplay
+    {
+        return $this->bundle()->fieldDisplay();
     }
 }

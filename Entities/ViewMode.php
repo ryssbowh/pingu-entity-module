@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Pingu\Core\Traits\Models\HasMachineName;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Entity\Entities\Policies\ViewModePolicy;
-use Pingu\Entity\Entities\ViewModesEntities;
+use Pingu\Entity\Entities\ViewModesMapping;
 
 class ViewMode extends Entity
 {
@@ -16,7 +16,13 @@ class ViewMode extends Entity
 
     public $fillable = ['name', 'machineName'];
 
-    public $with = ['entities'];
+    /**
+     * @inheritDoc
+     */
+    public function getRouteKeyName()
+    {
+        return 'machineName';
+    }
 
     /**
      * @inheritDoc
@@ -31,8 +37,8 @@ class ViewMode extends Entity
      * 
      * @return HasMany
      */
-    public function entities(): HasMany
+    public function mapping(): HasMany
     {
-        return $this->hasMany(ViewModesEntities::class, 'view_mode_id');
+        return $this->hasMany(ViewModesMapping::class, 'view_mode_id');
     }
 }

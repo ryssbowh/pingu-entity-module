@@ -36,13 +36,13 @@ class BaseBundlePolicy
         return $user->hasPermissionTo('manage fields');
     }
 
-    public function formLayout(?User $user, BundleContract $bundle)
+    public function fieldLayout(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('manage layout');
     }
 
-    public function display(?User $user, BundleContract $bundle)
+    public function fieldDisplay(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('manage display');

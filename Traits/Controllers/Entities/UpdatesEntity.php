@@ -19,11 +19,11 @@ trait UpdatesEntity
         try{
             $this->beforeUpdate($entity);
             $validated = $this->validateUpdateRequest($entity);
-            $changes = $this->performUpdate($entity, $validated);
-            if ($changes) {
+            $success = $this->performUpdate($entity, $validated);
+            if ($success) {
                 $this->afterSuccessfullUpdate($entity); 
             } else {
-                $this->afterUnchangedUpdate($entity);
+                $this->afterUnsavedUpdate($entity);
             }
         }
         catch(\Exception $e){
@@ -54,7 +54,7 @@ trait UpdatesEntity
     }
 
     /**
-     * Response when entity can't be saved
+     * Response when an error has been met during saving
      * 
      * @param Entity     $entity
      * @param \Exception $exception 
@@ -73,11 +73,11 @@ trait UpdatesEntity
     }
 
     /**
-     * do things after a successfull update that didn't change the entity's attributes
+     * do things after an update that has not been saved
      * 
      * @param Entity $entity
      */
-    protected function afterUnchangedUpdate(Entity $entity)
+    protected function afterUnsavedUpdate(Entity $entity)
     {
     }
 

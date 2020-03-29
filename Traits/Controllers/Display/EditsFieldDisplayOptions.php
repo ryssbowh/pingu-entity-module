@@ -17,6 +17,6 @@ trait EditsFieldDisplayOptions
         $displayer->setOptions($values);
         $action = ['url' => route('entity.ajax.validateFieldDisplayOptions', $displayer::machineName())];
         $form = $displayer->options()->getEditForm($action);
-        return $this->onFormLayoutOptionsSuccess($form);
+        return $this->onFieldLayoutOptionsSuccess($form);
     }
 }

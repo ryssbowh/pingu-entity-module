@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
+use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
-use Pingu\Field\Contracts\DefinesFields;
+use Pingu\Field\Contracts\HasFieldsContract;
 
 interface BundleContract extends 
-    DefinesFields,
+    HasFieldsContract,
     HasActionsContract,
     HasUrisContract,
     HasRoutesContract
@@ -53,7 +54,14 @@ interface BundleContract extends
     /**
      * Get the layout class for this bundle
      * 
-     * @return FormLayout
+     * @return FieldLayout
      */
-    public function formLayout(): FieldLayout;
+    public function fieldLayout(): FieldLayout;
+
+    /**
+     * Get the field display class for this bundle
+     * 
+     * @return FieldDisplay
+     */
+    public function fieldDisplay(): FieldDisplay;
 }

@@ -17,6 +17,7 @@ trait EditsAjaxBundleFields
     {
         $form->isAjax()
             ->removeElement('weight')
+            ->addViewSuggestion('forms.modal')
             ->option('title', 'Edit field '.$field->name);
         return ['html' => $form->__toString()];
     }

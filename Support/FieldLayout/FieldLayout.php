@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Support\FieldLayout;
 
 use Illuminate\Support\Collection;
-use Pingu\Field\Contracts\DefinesFields;
+use Pingu\Field\Contracts\HasFieldsContract;
 use Pingu\Field\Contracts\FieldContract;
 use Pingu\Entity\Entities\FormLayout;
 use Pingu\Entity\Entities\FormLayoutGroup;
@@ -35,9 +35,9 @@ class FieldLayout
     /**
      * Constructor
      * 
-     * @param HasFields $object
+     * @param HasFieldsContract $object
      */
-    public function __construct(DefinesFields $object)
+    public function __construct(HasFieldsContract $object)
     {
         $this->object = $object;
     }

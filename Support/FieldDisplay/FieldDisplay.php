@@ -4,7 +4,7 @@ namespace Pingu\Entity\Support\FieldDisplay;
 
 use Illuminate\Support\Collection;
 use Pingu\Entity\Entities\DisplayField;
-use Pingu\Field\Contracts\DefinesFields;
+use Pingu\Field\Contracts\HasFieldsContract;
 use Pingu\Field\Contracts\FieldContract;
 
 class FieldDisplay
@@ -27,9 +27,9 @@ class FieldDisplay
     /**
      * Constructor
      * 
-     * @param HasFields $object
+     * @param HasFieldsContract $object
      */
-    public function __construct(DefinesFields $object)
+    public function __construct(HasFieldsContract $object)
     {
         $this->object = $object;
     }

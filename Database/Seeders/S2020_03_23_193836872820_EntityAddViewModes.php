@@ -4,7 +4,7 @@ use Pingu\Content\Entities\Content;
 use Pingu\Core\Seeding\DisableForeignKeysTrait;
 use Pingu\Core\Seeding\MigratableSeeder;
 use Pingu\Entity\Entities\ViewMode;
-use Pingu\Entity\Entities\ViewModesEntities;
+use Pingu\Entity\Entities\ViewModesMapping;
 use Pingu\Field\Entities\DisplayField;
 use Pingu\User\Entities\User;
 
@@ -23,7 +23,7 @@ class S2020_03_23_193836872820_EntityAddViewModes extends MigratableSeeder
             $display->save();
         }
         foreach ([User::class, Content::class] as $class) {
-            $a =new ViewModesEntities;
+            $a =new ViewModesMapping;
             $a->entity = (new $class)->entityType();
             $a->view_mode()->associate($viewMode)->save();
         }
