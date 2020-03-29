@@ -32,4 +32,9 @@ abstract class ModelBundle implements BundleContract
     {
         return $this->entity;
     }
+
+    public function register()
+    {
+        \Bundle::registerBundle($this);
+    }
 }
