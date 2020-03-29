@@ -4,7 +4,7 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Form;
 
 trait IndexesAdminEntity
@@ -62,7 +62,7 @@ trait IndexesAdminEntity
      */
     protected function getIndexViewNames(Entity $entity)
     {
-        return ['pages.entities.'.$entity->entityType().'.index', 'pages.entities.index'];
+        return ['pages.entities.'.class_machine_name($entity).'.index', 'pages.entities.index'];
     }
 
     /**

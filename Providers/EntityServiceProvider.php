@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Routing\Router;
 use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Entity\Bundle;
-use Pingu\Entity\Entities\Entity as EntityModel;
 use Pingu\Entity\Entities\ViewMode as ViewModeModel;
 use Pingu\Entity\Entities\ViewModesMapping;
 use Pingu\Entity\Entity;
@@ -15,13 +14,14 @@ use Pingu\Entity\FieldLayout;
 use Pingu\Entity\Http\Middleware\HasRevisions;
 use Pingu\Entity\Observers\ViewModeEntitiesObserver;
 use Pingu\Entity\Observers\ViewModeObserver;
-use Pingu\Entity\Support\BaseBundleActions;
-use Pingu\Entity\Support\BaseBundleUris;
-use Pingu\Entity\Support\Bundle as BundleAbstract;
-use Pingu\Entity\Support\EntityActions;
-use Pingu\Entity\Support\EntityUris;
+use Pingu\Entity\Support\Actions\BaseBundleActions;
+use Pingu\Entity\Support\Actions\EntityActions;
+use Pingu\Entity\Support\Entity as EntityModel;
+use Pingu\Entity\Support\Policies\BaseBundlePolicy;
 use Pingu\Entity\Support\Routes\BaseBundleRoutes;
 use Pingu\Entity\Support\Routes\EntityRoutes;
+use Pingu\Entity\Support\Uris\BaseBundleUris;
+use Pingu\Entity\Support\Uris\EntityUris;
 use Pingu\Entity\ViewMode;
 
 class EntityServiceProvider extends ModuleServiceProvider
@@ -59,16 +59,20 @@ class EntityServiceProvider extends ModuleServiceProvider
         $this->app->singleton('entity.layout', FieldLayout::class);
         $this->app->singleton('entity.viewMode', ViewMode::class);
         //Registers base bundle uris
-        \Uris::register(BundleAbstract::class, new BaseBundleUris);
-        //Binds bundle slug in Route system
-        \ModelRoutes::registerSlug('bundle', BundleAbstract::class);
+        \Uris::register('bundle', new BaseBundleUris);
+        //Registers base bundle routes
+        \Routes::register('bundle', new BaseBundleRoutes);
+        //Registers base bundle actions
+        \Actions::register('bundle', new BaseBundleActions);
+        //Registers base bundle policy
+        \Policies::register('bundle', BaseBundlePolicy::class);
+        //register bundle slug in laravel route
+        \ModelRoutes::registerSlug('bundle', 'bundle');
         \Route::bind(
             'bundle', function ($value, $route) {
                 return \Bundle::get($value);
             }
         );
-        //Registers base bundle routes
-        \Routes::register(BundleAbstract::class, new BaseBundleRoutes);
         //Register base entity routes
         \Routes::register(EntityModel::class, new EntityRoutes);
         //Register base entity uris

@@ -64,14 +64,14 @@ class FieldLayout
     protected function resolveCache()
     {
         $_this = $this;
-        return \FieldLayout::getCache($this->getObjectAttribute(), function () use ($_this) {
+        return \FieldLayout::getCache($this->object, function () use ($_this) {
             return $_this->loadGroups();
         });
     }
 
     protected function loadGroups()
     {
-        return FormLayoutGroup::where('object', $this->getObjectAttribute())
+        return FormLayoutGroup::where('object', $this->object->identifier())
             ->orderBy('weight')
             ->get();
     }
@@ -113,7 +113,7 @@ class FieldLayout
     {
         $group = FormLayoutGroup::create([
             'name' => $name,
-            'object' => $this->getObjectAttribute()
+            'object' => $this->object->identifier()
         ]);
         $this->layout->put($name, $group);
         return $group;
@@ -206,7 +206,7 @@ class FieldLayout
         $widget = \FormField::defaultWidget(get_class($field));
         $layout->fill([
             'field' => $field->machineName(),
-            'object' => $this->getObjectAttribute(),
+            'object' => $this->object->identifier(),
             'widget' => $widget,
             'options' => \FormField::getRegisteredField($widget)::defaultOptions()
         ]);
@@ -276,15 +276,5 @@ class FieldLayout
         } else {
             return $this->getGroup($this->defaultGroup);
         }
-    }
-
-    /**
-     * Which string is to be saved in the 'object' field of FormLayoutGroup and FormLayout
-     * 
-     * @return string
-     */
-    protected function getObjectAttribute()
-    {
-        return get_class($this->object);
     }
 }

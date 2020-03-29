@@ -3,8 +3,8 @@
 namespace $NAMESPACE$;
 
 use $ENTITY_CLASS$;
-use Pingu\Entity\Entities\Entity;
-use Pingu\Entity\Support\BaseEntityPolicy;
+use Pingu\Entity\Support\Entity;
+use Pingu\Entity\Support\Policies\BaseEntityPolicy;
 use Pingu\User\Entities\User;
 
 class $CLASS$ extends BaseEntityPolicy

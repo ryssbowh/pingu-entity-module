@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Form;
 
 trait CreatesAjaxEntity

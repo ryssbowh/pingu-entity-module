@@ -1,9 +1,9 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Uris;
 
 use Pingu\Core\Support\Uris;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 class BaseEntityUris extends Uris
 {

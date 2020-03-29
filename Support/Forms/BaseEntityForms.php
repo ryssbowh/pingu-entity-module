@@ -1,6 +1,6 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Forms;
 
 use Pingu\Entity\Contracts\EntityFormRepositoryContract;
 use Pingu\Entity\Forms\BaseEntityEditRevisionForm;

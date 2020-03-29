@@ -16,18 +16,18 @@ trait HasFieldLayout
     }
 
     /**
-     * Register form layout instance in Field facade
+     * Register form layout instance in FieldLayout facade
      */
     public function registerFieldLayout()
     {
-        \FieldLayout::register($this->entityType(), new FieldLayout($this));
+        \FieldLayout::register($this, new FieldLayout($this));
     }
 
     /**
-     * Get form layout instance from Field facade
+     * Get form layout instance from FieldLayout facade
      */
     public function fieldLayout(): FieldLayout
     {
-        return \FieldLayout::getFieldLayout($this->entityType())->load();
+        return \FieldLayout::getFieldLayout($this)->load();
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace Pingu\Entity\Entities;
+namespace Pingu\Entity\Support;
 
 use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Support\BundledEntityForms;
-use Pingu\Entity\Support\BundledEntityUris;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
+use Pingu\Entity\Support\Forms\BundledEntityForms;
 use Pingu\Entity\Support\Routes\BundledEntityRoutes;
+use Pingu\Entity\Support\Uris\BundledEntityUris;
 use Pingu\Field\Traits\HasBundleFields;
 use Pingu\Forms\Contracts\FormRepositoryContract;
 

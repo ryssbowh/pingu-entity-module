@@ -37,7 +37,7 @@ trait DeletesAdminBundleFields
      */
     protected function getDeleteFieldViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.deleteField', 'pages.bundles.deleteField'];
+        return ['pages.bundles.'.$bundle->name().'.deleteField', 'pages.bundles.deleteField'];
     }
 
     /**

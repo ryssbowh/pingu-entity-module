@@ -54,9 +54,9 @@ class ViewMode
      * 
      * @param int $id
      * 
-     * @return ?ViewMode
+     * @return ?ViewModeModel
      */
-    public function getById(int $id): ?ViewMode
+    public function getById(int $id): ?ViewModeModel
     {
         return $this->getViewModes()->where('id', $id)->first();
     }
@@ -66,9 +66,9 @@ class ViewMode
      * 
      * @param string $machineName
      * 
-     * @return ?ViewMode
+     * @return ?ViewModeModel
      */
-    public function getByName(string $machineName): ?ViewMode
+    public function getByName(string $machineName): ?ViewModeModel
     {
         return $this->getViewModes()->where('machineName', $machineName)->first();
     }
@@ -77,7 +77,7 @@ class ViewMode
      * Checks if an entity has a view mode
      * 
      * @param string              $entityType
-     * @param ViewMode|int|string $viewMode
+     * @param ViewModeModel|int|string $viewMode
      * 
      * @return bool
      */

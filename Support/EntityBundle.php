@@ -1,90 +1,90 @@
-<?php
+<?php 
 
 namespace Pingu\Entity\Support;
 
-use Pingu\Core\Support\Actions;
-use Pingu\Core\Support\Uris;
-use Pingu\Entity\Entities\Entity;
+use Illuminate\Database\Eloquent\Collection;
+use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Exceptions\EntityBundleException;
+use Pingu\Entity\Support\Bundle\ModelBundle;
 
-/**
- * This class defines an bundle that is attached to an entity.
- * Example : Each content type (article, blog) is an entity, but also a bundle.
- * Having this class allows us to have the entity class separated from the bundle class.
- */
-abstract class EntityBundle extends Bundle
+abstract class EntityBundle extends Entity
 {
-    protected $entity;
+    /**
+     * @var ModelBundle
+     */
+    protected $bundleInstance;
 
-    public function __construct(Entity $entity)
+    /**
+     * Boot entity.
+     * Registers bundle, create display and layout when an instance of this entity is cerated
+     * Deletes layout and display when an instance of this entity is deleted
+     * Registers all bundles when this entity is registered
+     */
+    public static function boot()
     {
-        $this->entity = $entity;
+        parent::boot();
+
+        static::created(
+            function ($entity) {
+                $entity->toBundle()->register();
+            }
+        );
+
+        static::deleting(
+            function ($entity) {
+                $entity->toBundle()->fields()->deleteAll();
+            }
+        );
+
+        static::registered(
+            function ($entity) {
+                $entity->registerAllBundles();
+            }
+        );
     }
 
     /**
-     * What entity is this bundle attached to
-     *
+     * Bundle class associated to this entity
+     * 
      * @return string
      */
-    abstract public static function entityClass(): string;
+    abstract function bundleClass(): string;
 
     /**
-     * Get the entity attached to this bundle
+     * Get all the entities that should be registred as bundle
      * 
-     * @return Entity
+     * @return Collection
      */
-    public function getEntity()
+    protected function getEntitiesToRegisterAsBundles(): Collection
     {
-        return $this->entity;
+        return $this::all();
     }
 
     /**
-     * Actions instance for this bundle, will return the entity Actions instance
+     * Bundle associated to this entity
      * 
-     * @return Actions
+     * @return ModelBundle
      */
-    public static function actions(): Actions
+    public function toBundle(): ModelBundle
     {
-        return \Actions::get(static::entityClass());
+        if (!$this->exists) {
+            throw EntityBundleException::fromEntity($this);
+        }
+        if (!$this->bundleInstance) {
+            $class = $this->bundleClass();
+            $this->bundleInstance = new $class($this);
+        }
+        return $this->bundleInstance;
     }
 
     /**
-     * Uris instance for this bundle, will return the entity Uris instance
-     * 
-     * @return Actions
+     * Register all bundles
      */
-    public static function uris(): Uris
+    public function registerAllBundles()
     {
-        return \Uris::get(static::entityClass());
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function bundleName(): string
-    {
-        return $this->entity->bundleName();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRouteKey(): string
-    {
-        return $this->entity->bundleName();
-    }
-
-    /**
-     * Registers one bundle for each of the existing entities
-     */
-    public static function registerAll()
-    {
-        $class = static::entityClass();
-        $entity = new $class;
-
-        if (\Schema::hasTable($entity->getTable())) {
-            foreach ($entity::all() as $entity) {
-                $bundle = new static($entity);
-                $bundle->register();
+        if (\Schema::hasTable($this->getTable())) {
+            foreach ($this->getEntitiesToRegisterAsBundles() as $entity) {
+                \Bundle::registerBundle($entity->toBundle());
             }
         }
     }

@@ -1,17 +1,13 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Policies;
 
+use Pingu\Core\Support\Policy;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\User\Entities\User;
 
-class BaseBundlePolicy
+class BaseBundlePolicy extends Policy
 {
-    protected function userOrGuest(?User $user)
-    {
-        return $user ? $user : \Permissions::guestRole();
-    }
-
     public function indexFields(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
@@ -31,6 +27,12 @@ class BaseBundlePolicy
     }
 
     public function createFields(?User $user, BundleContract $bundle)
+    {
+        $user = $this->userOrGuest($user);
+        return $user->hasPermissionTo('manage fields');
+    }
+
+    public function createGroups(?User $user, BundleContract $bundle)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('manage fields');

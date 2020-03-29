@@ -4,7 +4,7 @@ namespace Pingu\Entity\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Entity\Entities\ViewModesMapping;
 use Pingu\Entity\Http\Controllers\AjaxEntityController;
 use Pingu\Forms\Support\Form;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Actions;
 
 use Pingu\Core\Support\Actions;
 
@@ -25,7 +25,7 @@ class BaseBundleActions extends Actions
                 }
             ],
             'fieldLayout' => [
-                'label' => 'Form layout',
+                'label' => 'Layout',
                 'url' => function ($bundle) {
                     return $bundle::uris()->make('fieldLayout', $bundle, adminPrefix());
                 },

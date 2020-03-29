@@ -1,9 +1,9 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Actions;
 
 use Pingu\Core\Support\Actions;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 class BaseEntityActions extends Actions
 {

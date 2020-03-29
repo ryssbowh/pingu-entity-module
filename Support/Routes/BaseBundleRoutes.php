@@ -3,19 +3,14 @@
 namespace Pingu\Entity\Support\Routes;
 
 use Pingu\Core\Support\Routes;
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Http\Controllers\AdminFieldDisplayController;
 use Pingu\Entity\Http\Controllers\AdminFieldLayoutController;
 use Pingu\Entity\Http\Controllers\AjaxFieldDisplayController;
 use Pingu\Entity\Http\Controllers\AjaxFieldLayoutController;
-use Pingu\Entity\Support\Bundle;
 
 class BaseBundleRoutes extends Routes
 {
-    public function __construct()
-    {
-        $this->routes = $this->routes();
-    }
-
     /**
      * @inheritDoc
      */
@@ -77,16 +72,16 @@ class BaseBundleRoutes extends Routes
      * 
      * @param string $routeIndex
      */
-    protected function mapEntityRoutes(string $routeIndex)
+    protected function mapRoutes(string $routeIndex)
     {
-        if (!isset($this->routes[$routeIndex])) {
+        if (!isset($this->routes()[$routeIndex])) {
             return;
         }
 
-        $uris = \Uris::get(Bundle::class);
+        $uris = \Uris::get('bundle');
         $defaultController = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
 
-        foreach ($this->routes[$routeIndex] as $name) {
+        foreach ($this->routes()[$routeIndex] as $name) {
             $path = $routeIndex.'.'.$name;
 
             $method = $this->routeMethods()[$name] ?? 'get';
@@ -110,14 +105,14 @@ class BaseBundleRoutes extends Routes
             ->prefix(adminPrefix())
             ->group(
                 function () use ($routes) {
-                    $routes->mapEntityRoutes('admin');
+                    $routes->mapRoutes('admin');
                 }
             );
         \Route::middleware(['ajax', 'permission:manage bundles'])
             ->prefix(ajaxPrefix())
             ->group(
                 function () use ($routes) {
-                    $routes->mapEntityRoutes('ajax');
+                    $routes->mapRoutes('ajax');
                 }
             );
     }

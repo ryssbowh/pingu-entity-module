@@ -61,7 +61,7 @@ class FieldDisplay
     protected function resolveCache()
     {
         $_this = $this;
-        return \FieldDisplay::getCache($this->getObjectAttribute(), function () use ($_this) {
+        return \FieldDisplay::getCache($this->object, function () use ($_this) {
             return $_this->loadDisplay();
         });
     }
@@ -73,7 +73,7 @@ class FieldDisplay
      */
     protected function loadDisplay()
     {
-        return DisplayField::where('object', $this->getObjectAttribute())
+        return DisplayField::where('object', $this->object->identifier())
             ->orderBy('weight')
             ->get()
             ->keyBy(function ($item) {
@@ -140,7 +140,7 @@ class FieldDisplay
         $displayer = $field::defaultDisplayer(true);
         $display->fill([
             'field' => $field->machineName(),
-            'object' => $this->getObjectAttribute(),
+            'object' => $this->object->identifier(),
             'displayer' => $displayer::machineName(),
             'options' => $displayer::hasOptions() ? $displayer->options()->values() : [],
             'label' => 1
@@ -191,15 +191,5 @@ class FieldDisplay
     protected function getFields(): Collection
     {
         return $this->object->fields()->get();
-    }
-
-    /**
-     * Which string is to be saved in the 'object' field of DisplayField
-     * 
-     * @return string
-     */
-    protected function getObjectAttribute()
-    {
-        return get_class($this->object);
     }
 }

@@ -37,6 +37,6 @@ class AdminFieldDisplayController extends BaseController
      */
     protected function getViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.fieldDisplay.index', 'pages.bundles.fieldDisplay.index'];
+        return ['pages.bundles.'.$bundle->name().'.fieldDisplay.index', 'pages.bundles.fieldDisplay.index'];
     }
 }

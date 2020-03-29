@@ -12,7 +12,7 @@ class AdminFieldLayoutController extends BaseController
         \ContextualLinks::addFromObject($bundle);
         return view()->first($this->getViewNames($bundle), [
             'fields' => $bundle->fields()->getAll(),
-            'layout' => \FieldLayout::getFieldLayout($bundle->bundleName()),
+            'layout' => \FieldLayout::getFieldLayout($bundle),
             'bundle' => $bundle,
             'canCreateGroups' => \Gate::check('createGroups', $bundle)
         ]);
@@ -27,6 +27,6 @@ class AdminFieldLayoutController extends BaseController
      */
     protected function getViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.fieldLayout.index', 'pages.bundles.fieldLayout.index'];
+        return ['pages.bundles.'.$bundle->name().'.fieldLayout.index', 'pages.bundles.fieldLayout.index'];
     }
 }

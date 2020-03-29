@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Form;
 
 trait CreatesAdminEntity
@@ -44,7 +44,7 @@ trait CreatesAdminEntity
      */
     protected function getCreateViewNames(Entity $entity)
     {
-        return ['pages.entities.'.$entity->entityType().'.create', 'pages.entities.create'];
+        return ['pages.entities.'.class_machine_name($entity).'.create', 'pages.entities.create'];
     }
 
     /**

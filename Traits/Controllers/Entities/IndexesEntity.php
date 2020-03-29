@@ -5,7 +5,7 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 trait IndexesEntity
 {

@@ -14,15 +14,7 @@ class FieldDisplayBundle extends FieldDisplay
     {
         parent::__construct($object);
     }
-
-    /**
-     * @ingeritDoc
-     */
-    protected function getObjectAttribute()
-    {
-        return $this->object->bundleName();
-    }
-
+    
     /**
      * @ingeritDoc
      */

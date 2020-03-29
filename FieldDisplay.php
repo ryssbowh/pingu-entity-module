@@ -3,9 +3,10 @@
 namespace Pingu\Entity;
 
 use Illuminate\Support\Arr;
+use Pingu\Core\Contracts\HasIdentifierContract;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Field\Exceptions\DisplayerException;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay as FieldDisplayHandler;
+use Pingu\Field\Exceptions\DisplayerException;
 
 class FieldDisplay
 {
@@ -18,48 +19,53 @@ class FieldDisplay
     /**
      * Get an object field display cache
      * 
-     * @param string   $identifier
+     * @param HasIdentifierContract $object
      * @param callable $callback
      */
-    public function getCache(string $identifier, $callback)
+    public function getCache(HasIdentifierContract $object, $callback)
     {
         if (config('entity.useCache', false)) {
-            $key = 'entity.display.'.$identifier;
+            $key = 'entity.display.'.$object->identifier();
             return \ArrayCache::rememberForever($key, $callback);
         }
         return $callback();
     }
 
     /**
-     * Registers a field display for a class
+     * Registers a field display for an object
      * 
-     * @param string      $identifier
+     * @param HasIdentifierContract $object
      * @param FieldLayout $layout
      */
-    public function register(string $identifier, FieldDisplayHandler $display)
+    public function register(HasIdentifierContract $object, FieldDisplayHandler $display)
     {
-        $this->fieldDisplays[$identifier] = $display;
+        $this->fieldDisplays[$object->identifier()] = $display;
     }
 
     /**
      * Get a FieldLayout class for a Bundle
      * 
-     * @param BundleContract $bundle
+     * @param HasIdentifierContract $object
      * 
      * @return FieldDisplay
      */
-    public function getFieldDisplay(string $identifier): FieldDisplayHandler
+    public function getFieldDisplay(HasIdentifierContract $object): FieldDisplayHandler
     {
-        return isset($this->fieldDisplays[$identifier]) ? $this->fieldDisplays[$identifier]->load() : null;
+        return isset($this->fieldDisplays[$object->identifier()]) ? 
+            $this->fieldDisplays[$object->identifier()]->load() : 
+            null;
     }
 
     /**
      * Forget the field display cache for an object
      * 
-     * @param string $identifier
+     * @param string|HasIdentifierContract $identifier
      */
-    public function forgetCache(string $identifier)
+    public function forgetCache($identifier)
     {
+        if ($identifier instanceof HasIdentifierContract) {
+            $identifier = $identifier->identifier();
+        }
         \ArrayCache::forget('entity.display.'.$identifier);
     }
 }

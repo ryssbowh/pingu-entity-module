@@ -1,7 +1,7 @@
 <?php
 namespace Pingu\Entity\Forms;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Fields\Link;
 use Pingu\Forms\Support\Fields\Submit;
 use Pingu\Forms\Support\Form;
@@ -78,7 +78,7 @@ class BaseEntityFilterForm extends Form
      */
     public function name(): string
     {
-        return 'filter-entity-'.$this->entity->entityType();
+        return 'filter-'.$this->entity->identifier();
     }
 
     /**

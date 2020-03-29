@@ -1,6 +1,6 @@
 <?php
 
-namespace Pingu\Entity\Support;
+namespace Pingu\Entity\Support\Forms;
 
 use Pingu\Entity\Forms\BundledEntityCreateForm;
 use Pingu\Entity\Forms\BundledEntityEditForm;

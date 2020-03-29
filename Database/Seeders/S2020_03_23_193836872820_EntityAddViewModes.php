@@ -24,7 +24,7 @@ class S2020_03_23_193836872820_EntityAddViewModes extends MigratableSeeder
         }
         foreach ([User::class, Content::class] as $class) {
             $a =new ViewModesMapping;
-            $a->entity = (new $class)->entityType();
+            $a->entity = (new $class)->identifier();
             $a->view_mode()->associate($viewMode)->save();
         }
 

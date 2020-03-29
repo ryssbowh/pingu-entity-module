@@ -4,7 +4,7 @@ namespace Pingu\Entity\Entities;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Pingu\Core\Traits\Models\HasMachineName;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Entity\Entities\Policies\ViewModePolicy;
 use Pingu\Entity\Entities\ViewModesMapping;
 
@@ -40,5 +40,13 @@ class ViewMode extends Entity
     public function mapping(): HasMany
     {
         return $this->hasMany(ViewModesMapping::class, 'view_mode_id');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function resolveRouteBinding($value)
+    {
+        return \ViewMode::getByName($value);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Pingu\Entity\Forms;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Field\Support\BaseField;
 use Pingu\Field\Support\FieldRevision;
 use Pingu\Forms\Forms\BaseModelEditForm;

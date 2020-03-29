@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Form;
 
 trait EditsAdminRevision
@@ -44,7 +44,7 @@ trait EditsAdminRevision
      */
     protected function getEditRevisionViewNames(Entity $entity)
     {
-        return ['pages.revisions.'.$entity->entityType().'.edit', 'pages.revisions.edit'];
+        return ['pages.revisions.'.class_machine_name($entity).'.edit', 'pages.revisions.edit'];
     }
 
     /**

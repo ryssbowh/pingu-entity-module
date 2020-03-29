@@ -28,7 +28,7 @@ trait PatchesFieldLayout
         $groups = $request->post('groups', []);
         $groupIds = [];
         foreach ($groups as $id => $data) {
-            $data['object'] = $bundle->bundleName();
+            $data['object'] = $bundle->identifier();
             $group = $this->findOrCreateGroup($data);
             $groupIds[] = $group->id;
             foreach ($data['models'] ?? [] as $data) {
@@ -44,7 +44,7 @@ trait PatchesFieldLayout
             }
             
         }
-        $toDelete = FormLayoutGroup::where('object', $bundle->bundleName())->whereNotIn('id', $groupIds)->get();
+        $toDelete = FormLayoutGroup::where('object', $bundle->identifier())->whereNotIn('id', $groupIds)->get();
         foreach ($toDelete as $group) {
             $group->delete();
         }

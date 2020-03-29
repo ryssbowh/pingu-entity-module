@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Support\Arr;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Field\Support\FieldRevision;
 use Pingu\Forms\Support\Form;
 use Pingu\Forms\Support\ModelForm;

@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Pingu\Core\Forms\ConfirmDeletion;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 trait DeletesAdminEntity
 {
@@ -30,7 +30,7 @@ trait DeletesAdminEntity
 
     protected function getDeleteViewNames(Entity $entity)
     {
-        return ['pages.entities.'.$entity->entityType().'.delete', 'pages.entities.delete'];
+        return ['pages.entities.'.class_machine_name($entity).'.delete', 'pages.entities.delete'];
     }
 
     protected function getDeleteUri(Entity $entity)

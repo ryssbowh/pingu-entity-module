@@ -5,7 +5,7 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 trait StoresEntity
 {

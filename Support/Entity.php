@@ -1,9 +1,11 @@
 <?php
 
-namespace Pingu\Entity\Entities;
+namespace Pingu\Entity\Support;
 
 use Illuminate\Support\Str;
 use Pingu\Core\Contracts\HasActionsContract;
+use Pingu\Core\Contracts\HasIdentifierContract;
+use Pingu\Core\Contracts\HasPolicyContract;
 use Pingu\Core\Contracts\HasRouteSlugContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
@@ -16,23 +18,24 @@ use Pingu\Core\Traits\Models\HasRouteSlug;
 use Pingu\Entity\Events\RegisteredEntity;
 use Pingu\Entity\Events\RegisteringEntity;
 use Pingu\Entity\Facades\Entity as EntityFacade;
+use Pingu\Entity\Support\Actions\BaseEntityActions;
+use Pingu\Entity\Support\Forms\BaseEntityForms;
 use Pingu\Entity\Support\Routes\BaseEntityRoutes;
-use Pingu\Entity\Support\{BaseEntityActions, BaseEntityForms, BaseEntityUris};
-use Pingu\Entity\Traits\HasFieldLayout;
+use Pingu\Entity\Support\Uris\BaseEntityUris;
 use Pingu\Forms\Contracts\FormRepositoryContract;
 use Pingu\Forms\Traits\Models\HasForms;
 
 abstract class Entity extends BaseModel implements
-    HasUrisContract,
     HasActionsContract,
-    HasRouteSlugContract,
-    HasRoutesContract
+    HasRoutesContract,
+    HasPolicyContract,
+    HasUrisContract,
+    HasRouteSlugContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
         HasActionsThroughFacade,
-        HasFieldLayout,
         HasRouteSlug;
 
     public $adminListFields = [];
@@ -62,13 +65,6 @@ abstract class Entity extends BaseModel implements
     }
 
     /**
-     * Policy class for this entity
-     * 
-     * @return string
-     */
-    abstract public function getPolicy(): string;
-
-    /**
      * Forms class for this entity
      * 
      * @return EntityFormRepositoryContract
@@ -79,27 +75,13 @@ abstract class Entity extends BaseModel implements
     }
 
     /**
-     * Entity machine name
+     * Identifier for this entity, for internal use
      * 
      * @return string
      */
-    public function entityType(): string
+    public function identifier(): string
     {
-        return class_machine_name($this);
-    }
-
-    /**
-     * Uris instance for this entity
-     * 
-     * @return Uris
-     */
-    protected function getUrisInstance(): Uris
-    {
-        $class = base_namespace($this) . '\\Uris\\' . class_basename($this).'Uris';
-        if (class_exists($class)) {
-            return new $class($this);
-        }
-        return new BaseEntityUris($this);
+        return 'entity-'.class_machine_name($this);
     }
 
     /**
@@ -110,6 +92,26 @@ abstract class Entity extends BaseModel implements
     protected function defaultRouteInstance(): Routes
     {
         return new BaseEntityRoutes($this);
+    }
+
+    /**
+     * Default instance for routes
+     * 
+     * @return Routes
+     */
+    protected function defaultActionsInstance(): Actions
+    {
+        return new BaseEntityActions($this);
+    }
+
+    /**
+     * Default instance for routes
+     * 
+     * @return Routes
+     */
+    protected function defaultUrisInstance(): Uris
+    {
+        return new BaseEntityUris($this);
     }
 
     /**
@@ -137,7 +139,21 @@ abstract class Entity extends BaseModel implements
         if (class_exists($class)) {
             return new $class($this);
         }
-        return new BaseEntityActions($this);
+        return $this->defaultActionsInstance();
+    }
+
+    /**
+     * Uris instance for this entity
+     * 
+     * @return Uris
+     */
+    protected function getUrisInstance(): Uris
+    {
+        $class = base_namespace($this) . '\\Uris\\' . class_basename($this).'Uris';
+        if (class_exists($class)) {
+            return new $class($this);
+        }
+        return $this->defaultUrisInstance();
     }
 
     /**

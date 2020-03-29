@@ -4,7 +4,6 @@ namespace Pingu\Entity\Traits\Controllers\Bundles;
 
 use Illuminate\Support\Collection;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Support\Bundle;
 use Pingu\Field\Forms\BundleFieldsForm;
 
 trait IndexesAdminBundleFields
@@ -29,7 +28,7 @@ trait IndexesAdminBundleFields
      */
     protected function getIndexFieldsView(BundleContract $bundle, Collection $fields)
     {
-        $url = ['url' => Bundle::uris()->make('createField', $bundle, adminPrefix())];
+        $url = ['url' => \Uris::get('bundle')->make('createField', $bundle, adminPrefix())];
         $form = new BundleFieldsForm($url);
 
         $canCreate = \Gate::check('createFields', $bundle);
@@ -43,7 +42,7 @@ trait IndexesAdminBundleFields
             'canEdit' => $canEdit,
         ];
         $this->addVariablesToIndexFieldsView($with, $bundle, $fields);
-        
+
         return view()->first($this->getIndexFieldViewName($bundle), $with);
     }
 
@@ -54,7 +53,7 @@ trait IndexesAdminBundleFields
      */
     protected function getIndexFieldViewName(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.indexFields', 'pages.bundles.indexFields'];
+        return ['pages.bundles.'.$bundle->name().'.indexFields', 'pages.bundles.indexFields'];
     }
 
     /**

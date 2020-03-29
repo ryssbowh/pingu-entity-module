@@ -47,7 +47,7 @@ trait CreatesAdminBundleFields
      */
     protected function getCreateFieldViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.createField', 'pages.bundles.createField'];
+        return ['pages.bundles.'.$bundle->name().'.createField', 'pages.bundles.createField'];
     }
 
     /**

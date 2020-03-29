@@ -2,14 +2,14 @@
 
 namespace Pingu\Entity\Exceptions;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 class EntityException extends \Exception
 {
 
     public static function registered(Entity $entity)
     {
-        return new static("Can't register entity '{$entity->entityType()}': name already registered");
+        return new static("Can't register entity '{get_class($identifier)}': name ({$entity->indentifier()}) already registered");
     }
 
     public static function notRegistered(string $name)

@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 class ActionsRetrieved
 {

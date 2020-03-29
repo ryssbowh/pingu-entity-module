@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Illuminate\Support\Collection;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Field\Contracts\HasRevisionsContract;
 
 trait IndexesAdminRevisions

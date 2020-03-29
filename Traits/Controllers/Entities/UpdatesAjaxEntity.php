@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers\Entities;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait UpdatesAjaxEntity

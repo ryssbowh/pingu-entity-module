@@ -4,7 +4,7 @@ namespace Pingu\Entity\Support\Routes;
 
 use Illuminate\Support\Arr;
 use Pingu\Core\Support\Routes;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 
 class BaseEntityRoutes extends Routes
 {

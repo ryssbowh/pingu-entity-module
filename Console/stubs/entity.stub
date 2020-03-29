@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use $POLICY_NAMESPACE$;
 
 class $CLASS$ extends Entity

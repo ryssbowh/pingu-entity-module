@@ -4,6 +4,8 @@ namespace Pingu\Entity;
 
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Exceptions\EntityBundleException;
+use Pingu\Entity\Support\FieldDisplay\FieldDisplayBundle;
+use Pingu\Entity\Support\FieldLayout\FieldLayoutBundle;
 
 class Bundle
 {
@@ -19,22 +21,28 @@ class Bundle
      */
     public function registerBundle(BundleContract $bundle)
     {
-        if ($this->isRegistered($bundle->bundleName())) {
+        if ($this->isRegistered($bundle->name())) {
             throw EntityBundleException::registered($bundle);
         }
-        $this->bundles[$bundle->bundleName()] = $bundle;
+        $this->bundles[$bundle->name()] = $bundle;
+        \Policies::register($bundle, $bundle->getPolicy());
+        \FieldLayout::register($bundle, new FieldLayoutBundle($bundle));
+        \FieldDisplay::register($bundle, new FieldDisplayBundle($bundle));
     }
 
     /**
      * Checks if a bundle is registered
      *
-     * @param string $name
+     * @param string|BundleContract $name
      * 
      * @return boolean
      */
-    public function isRegistered(string $name): bool
+    public function isRegistered($bundle): bool
     {
-        return isset($this->bundles[$name]);
+        if ($bundle instanceof BundleContract) {
+            $bundle = $bundle->name();
+        }
+        return isset($this->bundles[$bundle]);
     }
 
     /**

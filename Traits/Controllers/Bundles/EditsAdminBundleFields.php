@@ -46,7 +46,7 @@ trait EditsAdminBundleFields
      */
     protected function getEditFieldViewNames(BundleContract $bundle)
     {
-        return ['pages.bundles.'.$bundle->bundleName().'.editField', 'pages.bundles.editField'];
+        return ['pages.bundles.'.$bundle->name().'.editField', 'pages.bundles.editField'];
     }
 
     /**

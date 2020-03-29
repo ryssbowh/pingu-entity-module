@@ -18,16 +18,6 @@ class FieldLayoutBundle extends FieldLayout
     }
 
     /**
-     * Which string is to be saved in the 'object' field of FormLayoutGroup and FormLayout
-     * 
-     * @return string
-     */
-    protected function getObjectAttribute()
-    {
-        return $this->object->bundleName();
-    }
-
-    /**
      * @return Collection
      */
     protected function getFields(): Collection
