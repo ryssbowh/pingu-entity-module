@@ -15,11 +15,8 @@ trait CreatesAjaxBundleFields
      */
     protected function onCreateFieldSuccess(Form $form, BundleContract $bundle, BundleFieldContract $field)
     {
-        $form->isAjax()
-            ->removeElement('weight')
-            ->addViewSuggestion('forms.modal')
-            ->option('title', 'Add a '.$field::friendlyName(). ' field');
-        return ['html' => $form->__toString()];
+        $form->option('title', 'Add a '.$field::friendlyName(). ' field');
+        return ['html' => $form->render()];
     }
 
     /**

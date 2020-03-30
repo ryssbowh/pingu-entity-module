@@ -14,7 +14,7 @@ trait EditsAjaxEntity
      */
     protected function onEditFormCreated(Form $form, Entity $model)
     {   
-        return ['html' => $form->__toString()];
+        return ['html' => $form->render()];
     }
 
     /**
@@ -22,9 +22,7 @@ trait EditsAjaxEntity
      */
     protected function afterEditFormCreated(Form $form, Entity $model)
     {
-        $form->isAjax()
-            ->addViewSuggestion('forms.modal')
-            ->option('title', 'Edit a '.$model::friendlyName());
+        $form->option('title', 'Edit a '.$model::friendlyName());
     }
 
     /**

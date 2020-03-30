@@ -2,7 +2,6 @@
 
 namespace Pingu\Entity;
 
-use Pingu\Entity\Contracts\RenderableContract;
 use Pingu\Entity\Support\Entity as EntityModel;
 use Pingu\Entity\Exceptions\EntityException;
 
@@ -31,9 +30,6 @@ class Entity
     {
         if ($this->isEntityRegistered($entity->identifier())) {
             throw EntityException::registered($entity);
-        }
-        if ($entity instanceof RenderableContract) {
-            $this->renderableEntities[$entity->identifier()] = get_class($entity);
         }
         $this->entities[$entity->identifier()] = get_class($entity);
         //Register entity route slug

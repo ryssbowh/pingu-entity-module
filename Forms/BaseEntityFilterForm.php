@@ -86,6 +86,6 @@ class BaseEntityFilterForm extends Form
      */
     protected function afterBuilt()
     {
-        $this->classes->add(['form-filter', 'form-filter-entity', 'form-filter'.$this->name()]);
+        $this->classes->add(['form-filter', 'form-filter-entity', 'form-'.$this->name()]);
     }
 }

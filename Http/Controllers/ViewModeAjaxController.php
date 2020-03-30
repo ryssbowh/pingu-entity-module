@@ -39,7 +39,6 @@ class ViewModeAjaxController extends AjaxEntityController
      */
     protected function afterEditFormCreated(Form $form, Entity $entity)
     {
-        $form->isAjax();
         $form->getElement('machineName')->option('disabled', true);
     }
 
@@ -48,7 +47,6 @@ class ViewModeAjaxController extends AjaxEntityController
      */
     protected function afterCreateFormCreated(Form $form, Entity $entity)
     {
-        $form->isAjax();
         $field = $form->getElement('machineName');
         $field->classes->add('js-dashify');
         $field->attribute('data-dashifyfrom', 'name');

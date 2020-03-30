@@ -58,10 +58,8 @@ class AjaxFieldDisplayController extends BaseController
      */
     public function onFieldLayoutOptionsSuccess(Form $form)
     {
-        $form->isAjax()
-            ->addViewSuggestion('forms.modal')
-            ->option('title', 'Edit Options')
+        $form->option('title', 'Edit Options')
             ->attribute('autocomplete', 'off');
-        return ['html' => $form->__toString()];
+        return ['html' => $form->render()];
     }
 }

@@ -20,13 +20,31 @@ trait CreatesBundleFields
         $url = $this->getStoreFieldUri($bundle);
         $field = \Field::getRegisteredBundleField($type);
         $field = new $field;
+
         $form = $field->forms()->create([$url]);
+        $this->afterCreateFieldFormCreated($form, $bundle, $field);
 
         return $this->onCreateFieldSuccess($form, $bundle, $field);
     }
 
     /**
      * Actions when create form is created
+     * 
+     * @param Form                $form
+     * @param BundleContract      $bundle
+     * @param BundleFieldContract $field
+     * 
+     * @return mixed                            
+     */
+    protected function afterCreateFieldFormCreated(Form $form, BundleContract $bundle, BundleFieldContract $field)
+    {
+        $field = $form->getElement('machineName');
+        $field->classes->add('js-dashify');
+        $field->attribute('data-dashifyfrom', 'name');
+    }
+
+    /**
+     * Response to request
      * 
      * @param Form                $form
      * @param BundleContract      $bundle

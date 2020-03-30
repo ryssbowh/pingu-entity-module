@@ -14,7 +14,7 @@ trait CreatesAjaxEntity
      */
     protected function onCreateFormCreated(Form $form, Entity $entity)
     {   
-        return ['html' => $form->__toString()];
+        return ['html' => $form->render()];
     }
 
     /**
@@ -22,9 +22,7 @@ trait CreatesAjaxEntity
      */
     protected function afterCreateFormCreated(Form $form, Entity $entity)
     {
-        $form->isAjax()
-            ->addViewSuggestion('forms.modal')
-            ->option('title', 'Add a '.$entity::friendlyName());
+        $form->option('title', 'Add a '.$entity::friendlyName());
     }
 
     /**
