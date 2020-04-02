@@ -25,7 +25,7 @@ trait DeletesAdminEntity
             'entity' => $entity
         ];
         $this->addVariablesToDeleteView($with);
-        return view()->first($this->getDeleteViewNames($entity), $with);
+        return $this->renderEntityView($this->getDeleteViewNames($entity), $entity, 'delete', $with);
     }
 
     protected function getDeleteViewNames(Entity $entity)

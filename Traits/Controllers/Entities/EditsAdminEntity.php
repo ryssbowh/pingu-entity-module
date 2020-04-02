@@ -22,9 +22,10 @@ trait EditsAdminEntity
         $with = [
             'form' => $form,
             'entity' => $entity,
+            'indexUrl' => $entity::uris()->make('index', $entity, adminPrefix())
         ];
         $this->addVariablesToEditView($with, $entity);
-        return view()->first($this->getEditViewNames($entity), $with);
+        return $this->renderEntityView($this->getEditViewNames($entity), $entity, 'edit', $with);
     }
 
     /**

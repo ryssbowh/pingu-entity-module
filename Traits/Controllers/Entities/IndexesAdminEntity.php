@@ -37,7 +37,7 @@ trait IndexesAdminEntity
             'filterForm' => $this->getIndexFilterForm($entity)
         ];
         $this->addVariablesToIndexView($with);
-        return view()->first($this->getIndexViewNames($entity), $with);
+        return $this->renderEntityView($this->getIndexViewNames($entity), $entity, 'index', $with);
     }
 
     /**

@@ -12,6 +12,7 @@ use Pingu\Entity\Traits\Controllers\Entities\IndexesAdminRevisions;
 use Pingu\Entity\Traits\Controllers\Entities\PatchesAdminEntity;
 use Pingu\Entity\Traits\Controllers\Entities\StoresAdminEntity;
 use Pingu\Entity\Traits\Controllers\Entities\UpdatesAdminEntity;
+use Pingu\Entity\Traits\Controllers\RendersEntityViews;
 
 class AdminEntityController extends BaseController
 {
@@ -24,7 +25,8 @@ class AdminEntityController extends BaseController
         PatchesAdminEntity, 
         IndexesAdminEntity,
         IndexesAdminRevisions,
-        EditsAdminRevision;
+        EditsAdminRevision,
+        RendersEntityViews;
 }
 
 ?>

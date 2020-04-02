@@ -25,6 +25,6 @@ trait UpdatesAjaxEntity
      */
     protected function onUpdateSuccess(Entity $entity)
     {
-        return ['entity' => $entity, 'message' => $entity::friendlyname().' has been updated'];
+        return ['entity' => $entity, 'message' => $entity::friendlyName().' has been updated'];
     }
 }

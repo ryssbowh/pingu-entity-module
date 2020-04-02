@@ -30,9 +30,10 @@ trait CreatesAdminEntity
         $with = [
             'form' => $form,
             'entity' => $entity,
+            'indexUrl' => $entity::uris()->make('index', $entity, adminPrefix())
         ];
         $this->addVariablesToCreateView($with, $entity);
-        return view()->first($this->getCreateViewNames($entity), $with);
+        return $this->renderEntityView($this->getCreateViewNames($entity), $entity, 'create', $with);
     }
 
     /**
