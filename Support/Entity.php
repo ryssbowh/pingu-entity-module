@@ -9,12 +9,14 @@ use Pingu\Core\Contracts\HasPolicyContract;
 use Pingu\Core\Contracts\HasRouteSlugContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
+use Pingu\Core\Contracts\RenderableContract;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Support\{Actions, Routes, Uris};
 use Pingu\Core\Traits\HasActionsThroughFacade;
 use Pingu\Core\Traits\HasRoutesThroughFacade;
 use Pingu\Core\Traits\HasUrisThroughFacade;
 use Pingu\Core\Traits\Models\HasRouteSlug;
+use Pingu\Core\Traits\RendersWithRenderer;
 use Pingu\Entity\Events\RegisteredEntity;
 use Pingu\Entity\Events\RegisteringEntity;
 use Pingu\Entity\Facades\Entity as EntityFacade;
@@ -22,6 +24,7 @@ use Pingu\Entity\Support\Actions\BaseEntityActions;
 use Pingu\Entity\Support\Forms\BaseEntityForms;
 use Pingu\Entity\Support\Routes\BaseEntityRoutes;
 use Pingu\Entity\Support\Uris\BaseEntityUris;
+use Pingu\Entity\Traits\RendersEntity;
 use Pingu\Forms\Contracts\FormRepositoryContract;
 use Pingu\Forms\Traits\Models\HasForms;
 
@@ -30,13 +33,15 @@ abstract class Entity extends BaseModel implements
     HasRoutesContract,
     HasPolicyContract,
     HasUrisContract,
-    HasRouteSlugContract
+    HasRouteSlugContract,
+    RenderableContract
 {
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
         HasActionsThroughFacade,
-        HasRouteSlug;
+        HasRouteSlug,
+        RendersEntity;
 
     public $adminListFields = [];
 
@@ -82,6 +87,22 @@ abstract class Entity extends BaseModel implements
     public function identifier(): string
     {
         return 'entity-'.class_machine_name($this);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function viewIdentifier(): string
+    {
+        return \Str::kebab($this->identifier());
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getViewKey(): string
+    {
+        return $this->getKey();
     }
 
     /**

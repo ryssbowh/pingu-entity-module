@@ -14,24 +14,26 @@ class ViewModeAjaxController extends AjaxEntityController
     /**
      * @inheritDoc
      */
-    protected function performPatch(Entity $entity, array $models)
+    public function patch()
     {
         $out = [];
-        foreach (\ViewMode::get() as $viewMode) {
-            $viewMode->entities->each(function ($entity) {
-                $entity->delete();
-            });
-            if (isset($models[$viewMode->id])) {
-                foreach ($models[$viewMode->id] as $entity) {
-                    $map = new ViewModesMapping;
-                    $map->fill([
-                        'entity' => $entity
-                    ])->view_mode()->associate($viewMode)->save();
-                    $out[] = $map;
-                }
+        $models = $this->request->post()['models'] ?? [];
+        $mapping = \ViewMode::getMapping();
+        foreach ($mapping as $viewMode => $entities) {
+            $viewModeModel = \ViewMode::get($viewMode);
+            $toDelete = array_diff($entities, $models[$viewMode] ?? []);
+            $toAdd = array_diff($models[$viewMode] ?? [], $entities);
+            foreach ($toDelete as $entity) {
+                ViewModesMapping::where('view_mode_id', $viewModeModel->id)->where('object', $entity)->delete();
+            }
+            foreach ($toAdd as $entity) {
+                $map = new ViewModesMapping;
+                $map->fill([
+                    'object' => $entity
+                ])->view_mode()->associate($viewModeModel)->save();
             }
         }
-        return collect($out);
+        return ['message' => 'View modes have been saved'];
     }
 
     /**
@@ -40,15 +42,5 @@ class ViewModeAjaxController extends AjaxEntityController
     protected function afterEditFormCreated(Form $form, Entity $entity)
     {
         $form->getElement('machineName')->option('disabled', true);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function afterCreateFormCreated(Form $form, Entity $entity)
-    {
-        $field = $form->getElement('machineName');
-        $field->classes->add('js-dashify');
-        $field->attribute('data-dashifyfrom', 'name');
     }
 }

@@ -58,10 +58,13 @@ class FieldLayout
     /**
      * Forget the field layout cache for an object
      * 
-     * @param string $identifier
+     * @param string|HasIdentifierContract $identifier
      */
-    public function forgetCache(string $identifier)
+    public function forgetCache($identifier)
     {
+        if ($identifier instanceof HasIdentifierContract) {
+            $identifier = $identifier->identifier();
+        }
         \ArrayCache::forget('entity.layout.'.$identifier);
     }
 }

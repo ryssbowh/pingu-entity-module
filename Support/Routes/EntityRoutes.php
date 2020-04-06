@@ -27,7 +27,7 @@ class EntityRoutes extends Routes
                 'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete'
             ],
             'web' => [
-                'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete'
+                'view'
             ],
         ];
     }

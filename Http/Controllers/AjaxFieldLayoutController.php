@@ -14,6 +14,9 @@ class AjaxFieldLayoutController extends BaseController
     use PatchesFieldLayout,
         EditsFieldLayoutOptions;
 
+    /**
+     * @inheritDoc
+     */
     public function view(string $field)
     {
         $class = \FormField::getRegisteredOptions($field);
@@ -21,6 +24,9 @@ class AjaxFieldLayoutController extends BaseController
         return $options;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validateOptions(Request $request, string $field)
     {
         $class = \FormField::getRegisteredOptions($field);
@@ -29,15 +35,20 @@ class AjaxFieldLayoutController extends BaseController
         return $options;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function onPatchFieldLayoutSuccess(BundleContract $bundle)
     {
         return ['message' => 'Layout has been saved'];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function onFieldLayoutOptionsSuccess(Form $form)
     {
-        $form->option('title', 'Edit Options')
-            ->attribute('autocomplete', 'off');
+        $form->option('title', 'Edit Options');
         return ['html' => $form->render()];
     }
 }

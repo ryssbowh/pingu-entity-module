@@ -40,7 +40,7 @@ class M2019_12_07_103101322608_EntityInstall extends Migration
                 $table->increments('id');
                 $table->string('object');
                 $table->string('field');
-                $table->unsignedInteger('label');
+                $table->boolean('label');
                 $table->boolean('hidden')->default(0);
                 $table->string('displayer');
                 $table->json('options');

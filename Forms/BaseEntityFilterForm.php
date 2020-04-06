@@ -1,7 +1,9 @@
 <?php
 namespace Pingu\Entity\Forms;
 
+use Pingu\Core\Contracts\RendererContract;
 use Pingu\Entity\Support\Entity;
+use Pingu\Forms\Renderers\FilterFormRenderer;
 use Pingu\Forms\Support\Fields\Link;
 use Pingu\Forms\Support\Fields\Submit;
 use Pingu\Forms\Support\Form;
@@ -84,8 +86,8 @@ class BaseEntityFilterForm extends Form
     /**
      * @inheritDoc
      */
-    protected function afterBuilt()
+    public function getRenderer(): RendererContract
     {
-        $this->classes->add(['form-filter', 'form-filter-entity', 'form-'.$this->name()]);
+        return new FilterFormRenderer($this);
     }
 }

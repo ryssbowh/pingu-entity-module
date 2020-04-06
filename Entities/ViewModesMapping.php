@@ -10,7 +10,7 @@ class ViewModesMapping extends BaseModel
 {
     public $timestamps = false;
 
-    public $fillable = ['entity'];
+    public $fillable = ['object'];
 
     /**
      * View mode relationship

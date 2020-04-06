@@ -5,6 +5,7 @@ namespace Pingu\Entity\Http\Controllers;
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Entities\DisplayField;
 use Pingu\Entity\Traits\Controllers\Display\EditsFieldDisplayOptions;
 use Pingu\Entity\Traits\Controllers\Display\PatchesFieldDisplay;
 use Pingu\Field\Support\FieldDisplayer;
@@ -35,8 +36,11 @@ class AjaxFieldDisplayController extends BaseController
      * 
      * @return array
      */
-    public function validateOptions(Request $request, FieldDisplayer $displayer)
+    public function validateOptions(Request $request, $displayer)
     {
+        $fieldDisplay = DisplayField::findOrfail($this->requireParameter('_display'));
+        $displayerClass = \FieldDisplayer::getDisplayer($displayer);
+        $displayer = new $displayerClass($fieldDisplay);
         $displayer->options()->validate($request);
         return $displayer;
     }
@@ -58,8 +62,7 @@ class AjaxFieldDisplayController extends BaseController
      */
     public function onFieldLayoutOptionsSuccess(Form $form)
     {
-        $form->option('title', 'Edit Options')
-            ->attribute('autocomplete', 'off');
+        $form->option('title', 'Edit Options');
         return ['html' => $form->render()];
     }
 }

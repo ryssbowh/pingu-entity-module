@@ -12,7 +12,7 @@ use Pingu\Entity\Entity;
 use Pingu\Entity\FieldDisplay;
 use Pingu\Entity\FieldLayout;
 use Pingu\Entity\Http\Middleware\HasRevisions;
-use Pingu\Entity\Observers\ViewModeEntitiesObserver;
+use Pingu\Entity\Observers\ViewModeMappingObserver;
 use Pingu\Entity\Observers\ViewModeObserver;
 use Pingu\Entity\Support\Actions\BaseBundleActions;
 use Pingu\Entity\Support\Actions\EntityActions;
@@ -37,13 +37,15 @@ class EntityServiceProvider extends ModuleServiceProvider
      */
     public function boot(Router $router)
     {
+        $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'entity');
+
         $router->aliasMiddleware('hasRevisions', HasRevisions::class);
         $this->registerConfig();
         $this->registerJsConfig();
         $this->registerEntities($this->entities);
 
         ViewModeModel::observe(ViewModeObserver::class);
-        ViewModesMapping::observe(ViewModeEntitiesObserver::class);
+        ViewModesMapping::observe(ViewModeMappingObserver::class);
     }
 
     /**

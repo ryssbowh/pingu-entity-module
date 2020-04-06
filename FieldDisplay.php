@@ -45,14 +45,17 @@ class FieldDisplay
     /**
      * Get a FieldLayout class for a Bundle
      * 
-     * @param HasIdentifierContract $object
+     * @param HasIdentifierContract|string $object
      * 
      * @return FieldDisplay
      */
-    public function getFieldDisplay(HasIdentifierContract $object): FieldDisplayHandler
+    public function getFieldDisplay($object): FieldDisplayHandler
     {
-        return isset($this->fieldDisplays[$object->identifier()]) ? 
-            $this->fieldDisplays[$object->identifier()]->load() : 
+        if ($object instanceof HasIdentifierContract) {
+            $object = $object->identifier();
+        }
+        return isset($this->fieldDisplays[$object]) ? 
+            $this->fieldDisplays[$object]->load() : 
             null;
     }
 

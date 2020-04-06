@@ -2,12 +2,14 @@
 
 namespace Pingu\Entity\Support;
 
+use Pingu\Core\Contracts\RendererContract;
 use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
 use Pingu\Entity\Support\Forms\BundledEntityForms;
+use Pingu\Entity\Support\Renderers\BundledEntityRenderer;
 use Pingu\Entity\Support\Routes\BundledEntityRoutes;
 use Pingu\Entity\Support\Uris\BundledEntityUris;
 use Pingu\Field\Traits\HasBundleFields;
@@ -33,6 +35,11 @@ abstract class BundledEntity extends Entity
     {
         $this->bundle = $bundle;
         $this->fillable($this->getFillable());
+    }
+
+    public function viewIdentifier(): string
+    {
+        return \Str::kebab($this->bundle()->name());
     }
     
     /**

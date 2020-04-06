@@ -22,7 +22,8 @@ class ViewModeFields extends BaseFieldRepository
             new Text(
                 'machineName',
                 [
-                    'required' => true
+                    'required' => true,
+                    'dashifyFrom' => 'name'
                 ]
             )
         ];

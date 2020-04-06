@@ -3,6 +3,7 @@
 namespace Pingu\Entity;
 
 use Illuminate\Database\Eloquent\Collection;
+use Pingu\Entity\Contracts\HasViewModesContract;
 use Pingu\Entity\Entities\ViewMode as ViewModeModel;
 
 class ViewMode
@@ -17,19 +18,41 @@ class ViewMode
      * View mode - entity mapping cache
      * @var array
      */
-    protected $mapping = [];
+    protected $mapping;
 
     /**
-     * Get one or all view modes
+     * Entities which have view modes
+     * @var array
+     */
+    protected $entities = [];
+
+    public function registerEntity(HasViewModesContract $entity)
+    {
+        $this->entities[$entity->identifier()] = get_class($entity);
+    }
+
+    public function allEntities()
+    {
+        return $this->entities;
+    }
+
+    /**
+     * Get one or some view modes
      * 
-     * @param null|int|string $viewMode
+     * @param null|int|string|array $viewMode
      * 
-     * @return ?ViewMode|Collection
+     * @return ?ViewMode|array|Collection
      */
     public function get($viewMode = null)
     {
         if (is_null($viewMode)) {
             return $this->all();
+        }
+        if (is_array($viewMode)) {
+            $_this = $this;
+            return array_map(function ($viewMode) use ($_this) {
+                return $_this->get($viewMode);
+            }, $viewMode);
         }
         if (is_int($viewMode)) {
             return $this->getById($viewMode);
@@ -97,7 +120,7 @@ class ViewMode
         if (!$entity instanceof Entity) {
             $entity = new $entity;
         }
-
+        return $this->get($this->mapping[$entity->identifier] ?? ['default']);
     }
 
     /**
@@ -142,6 +165,11 @@ class ViewMode
             $this->mapping = $this->resolveMappingCache();
         }
         return $this->mapping;
+    }
+
+    public function getDefault()
+    {
+        return $this->get('default');
     }
 
     /**
@@ -194,11 +222,8 @@ class ViewMode
     protected function loadViewModesMapping(): array
     {
         $out = [];
-        foreach (ViewModeModel::all() as $viewMode) {
-            $objects = $viewMode->mapping->pluck('object')->all();
-            foreach ($objects as $object) { 
-                $out[$object][] = $viewMode->machineName;
-            }
+        foreach ($this->getViewModes() as $viewMode) {
+            $out[$viewMode->machineName] = $viewMode->mapping->pluck('object')->all();
         }
         return $out;
     }

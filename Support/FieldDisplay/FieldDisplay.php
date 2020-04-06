@@ -3,9 +3,11 @@
 namespace Pingu\Entity\Support\FieldDisplay;
 
 use Illuminate\Support\Collection;
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\DisplayField;
-use Pingu\Field\Contracts\HasFieldsContract;
+use Pingu\Entity\Entities\ViewMode;
 use Pingu\Field\Contracts\FieldContract;
+use Pingu\Field\Contracts\HasFieldsContract;
 
 class FieldDisplay
 {
@@ -82,7 +84,7 @@ class FieldDisplay
     }
 
     /**
-     * Get actual display
+     * Get display items
      * 
      * @return Collection
      */
@@ -92,14 +94,27 @@ class FieldDisplay
     }
 
     /**
-     * Get a field by its name
+     * Get the visible display items for a view mode
+     *
+     * @param ViewMode $viewMode
      * 
-     * @param  string $name
-     * @return ?FormLayout
+     * @return Collection
      */
-    public function getField(string $name): ?FormLayout
+    public function forViewMode(ViewMode $viewMode): Collection
     {
-        return $this->display->get($name, null);
+        return $this->display->where('hidden', false)->where('view_mode_id', $viewMode->id);
+    }
+
+    /**
+     * Get a field for a view mode and a name
+     *
+     * @param string $name
+     * 
+     * @return FieldContract
+     */
+    public function getField(string $name): FieldContract
+    {
+        return $this->getFields()->get($name);
     }
 
     /**
@@ -117,10 +132,11 @@ class FieldDisplay
     /**
      * Creates field displays in database, will not recreate existing displays
      */
-    public function create()
+    public function create($viewMode = 'default')
     {
+        $viewMode = \ViewMode::get($viewMode);
         foreach ($this->getFields() as $field) {
-            $this->createForField($field);
+            $this->createForField($field, $viewMode);
         }
     }
 
@@ -131,20 +147,20 @@ class FieldDisplay
      * 
      * @return bool
      */
-    public function createForField(FieldContract $field): bool
+    public function createForField(FieldContract $field, ViewMode $viewMode, $label = true): bool
     {
         if ($this->hasField($field->machineName())) {
             return false;
         }
         $display = new DisplayField;
-        $displayer = $field::defaultDisplayer(true);
+        $displayer = $field::defaultDisplayer();
         $display->fill([
             'field' => $field->machineName(),
             'object' => $this->object->identifier(),
             'displayer' => $displayer::machineName(),
-            'options' => $displayer::hasOptions() ? $displayer->options()->values() : [],
-            'label' => 1
-        ]);
+            'options' => $displayer::hasOptions() ? (new $displayer($field))->options()->values() : [],
+            'label' => $label
+        ])->view_mode()->associate($viewMode);
         $display->save();
         $this->display->put($field->machineName(), $display);
         return true;
@@ -181,6 +197,16 @@ class FieldDisplay
     public function isEmpty()
     {
         return $this->display->isEmpty();
+    }
+
+    /**
+     * Object getter
+     * 
+     * @return HasFieldsContract
+     */
+    public function getObject(): HasFieldsContract
+    {
+        return $this->object;
     }
 
     /**

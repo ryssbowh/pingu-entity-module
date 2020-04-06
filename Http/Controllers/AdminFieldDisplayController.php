@@ -20,7 +20,6 @@ class AdminFieldDisplayController extends BaseController
     {
         \ContextualLinks::addFromObject($bundle);
         return view()->first($this->getViewNames($bundle), [
-            'fields' => $bundle->fields()->getAll(),
             'display' => $bundle->fieldDisplay(),
             'bundle' => $bundle,
             'canCreateGroups' => \Gate::check('createGroups', $bundle),

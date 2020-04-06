@@ -14,12 +14,6 @@ class Entity
     protected $entities = [];
 
     /**
-     * List of renderable entities
-     * @var array
-     */
-    protected $renderableEntities = [];
-
-    /**
      * Registers an entity
      *
      * @throws EntityException
@@ -49,19 +43,6 @@ class Entity
     }
 
     /**
-     * Checks if an entity is registered
-     * 
-     * @param string|object $entity
-     * 
-     * @return boolean
-     */
-    public function isEntityRenderable($entity): bool
-    {
-        $entity = object_to_class($entity);
-        return in_array($entity, $this->renderableEntities);
-    }
-
-    /**
      * Gets a registered entity
      * 
      * @param string $name
@@ -84,16 +65,6 @@ class Entity
     public function getRegisteredEntities()
     {
         return $this->entities;
-    }
-
-    /**
-     * Get all registered renderable entities
-     * 
-     * @return array
-     */
-    public function getRenderableEntities()
-    {
-        return $this->renderableEntities;
     }
 
     /**

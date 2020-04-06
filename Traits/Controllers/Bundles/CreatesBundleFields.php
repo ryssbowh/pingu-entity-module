@@ -5,7 +5,7 @@ namespace Pingu\Entity\Traits\Controllers\Bundles;
 use Pingu\Core\Exceptions\ParameterMissing;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Field\Contracts\BundleFieldContract;
-use Pingu\Field\Forms\CreateBundleFieldForm;
+use Pingu\Forms\Support\Form;
 
 trait CreatesBundleFields
 {
@@ -38,9 +38,6 @@ trait CreatesBundleFields
      */
     protected function afterCreateFieldFormCreated(Form $form, BundleContract $bundle, BundleFieldContract $field)
     {
-        $field = $form->getElement('machineName');
-        $field->classes->add('js-dashify');
-        $field->attribute('data-dashifyfrom', 'name');
     }
 
     /**

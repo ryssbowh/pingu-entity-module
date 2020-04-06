@@ -4,7 +4,7 @@ namespace Pingu\Entity\Observers;
 
 use Pingu\Entity\Entities\ViewModesMapping;
 
-class ViewModeEntitiesObserver
+class ViewModeMappingObserver
 {
     /**
      * Empties cache

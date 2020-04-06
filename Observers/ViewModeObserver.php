@@ -14,6 +14,7 @@ class ViewModeObserver
     public function saved(ViewMode $viewMode)
     {
         \ViewMode::forgetCache();
+        \ViewMode::forgetMappingCache();
     }
 
     /**
@@ -24,6 +25,7 @@ class ViewModeObserver
     public function deleted(ViewMode $viewMode)
     {
         \ViewMode::forgetCache();
+        \ViewMode::forgetMappingCache();
     }
 
     /**
@@ -33,7 +35,7 @@ class ViewModeObserver
      */
     public function deleting(ViewMode $viewMode)
     {
-        $viewMode->entities->each(
+        $viewMode->mapping->each(
             function ($mapping) {
                 $mapping->delete();
             }

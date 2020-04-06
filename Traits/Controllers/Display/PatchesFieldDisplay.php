@@ -24,6 +24,7 @@ trait PatchesFieldDisplay
             $model->displayer = $data['displayer'];
             $model->weight = $data['weight'];
             $model->hidden = $data['hidden'];
+            $model->label = $data['label'];
             $model->options = json_decode($data['options'], true);
             $model->save();
         }
