@@ -31,12 +31,18 @@ abstract class BundledEntity extends Entity
      */
     abstract public function bundleName(): ?string;
 
+    /**
+     * @inheritDoc
+     */
     public function setBundle(BundleContract $bundle)
     {
         $this->bundle = $bundle;
         $this->fillable($this->getFillable());
     }
 
+    /**
+     * @inheritDoc
+     */
     public function viewIdentifier(): string
     {
         return \Str::kebab($this->bundle()->name());

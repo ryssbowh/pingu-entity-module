@@ -4,7 +4,6 @@ namespace Pingu\Entity\Traits\Controllers\Entities;
 
 use Pingu\Entity\Support\Entity;
 use Pingu\Forms\Support\Form;
-use Pingu\Forms\Support\ModelForm;
 
 trait EditsEntity
 {

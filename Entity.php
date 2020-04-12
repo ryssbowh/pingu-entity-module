@@ -26,8 +26,6 @@ class Entity
             throw EntityException::registered($entity);
         }
         $this->entities[$entity->identifier()] = get_class($entity);
-        //Register entity route slug
-        \ModelRoutes::registerSlugFromObject($entity);
     }
 
     /**

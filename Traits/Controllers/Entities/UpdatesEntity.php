@@ -101,30 +101,6 @@ trait UpdatesEntity
      */
     protected function validateUpdateRequest(Entity $entity)
     {
-        $validator = $this->getUpdateValidator($entity);
-        $this->modifyUpdateValidator($validator);
-        $validator->validate();
-        $validated = $validator->validated();
-        $validated = $entity->validator()->uploadMedias($validated);
-        return $entity->validator()->castValues($validated);
-    }
-
-    /**
-     * creates the validator for a store request
-     * 
-     * @return Validator
-     */
-    protected function getUpdateValidator(Entity $entity)
-    {
-        return $entity->validator()->makeValidator($this->request->except(['_method', '_token']), true);
-    }
-
-    /**
-     * Modify the store request validator
-     * 
-     * @param Validator $validator
-     */
-    protected function modifyUpdateValidator(Validator $validator)
-    {
+        return $entity->validator()->validateUpdateRequest($this->request);
     }
 }

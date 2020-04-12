@@ -158,7 +158,7 @@ class FieldDisplay
             'field' => $field->machineName(),
             'object' => $this->object->identifier(),
             'displayer' => $displayer::machineName(),
-            'options' => $displayer::hasOptions() ? (new $displayer($field))->options()->values() : [],
+            'options' => $displayer::hasOptions() ? (new $displayer($display))->options()->values() : [],
             'label' => $label
         ])->view_mode()->associate($viewMode);
         $display->save();

@@ -39,7 +39,6 @@ abstract class Entity extends BaseModel implements
     use HasActionsThroughFacade, 
         HasUrisThroughFacade, 
         HasRoutesThroughFacade,
-        HasActionsThroughFacade,
         HasRouteSlug,
         RendersEntity;
 
@@ -184,6 +183,7 @@ abstract class Entity extends BaseModel implements
     {
         $this->fireModelEvent('registering');
         EntityFacade::registerEntity($this);
+        \ModelRoutes::registerSlugFromObject($this);
         \Uris::register(get_class($this), $this->getUrisInstance());
         \Routes::register(get_class($this), $this->getRoutesInstance());
         \Actions::register(get_class($this), $this->getActionsInstance());
