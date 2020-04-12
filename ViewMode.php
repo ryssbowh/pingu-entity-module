@@ -128,7 +128,7 @@ class ViewMode
      */
     public function forgetMappingCache()
     {
-        \Cache::forget('entity.viewModesMapping');
+        \Cache::forget(config('entity.cache-keys.view-mode-mapping'));
         $this->mapping = null;
     }
 
@@ -137,7 +137,7 @@ class ViewMode
      */
     public function forgetCache()
     {
-        \Cache::forget('entity.viewModes');
+        \Cache::forget(config('entity.cache-keys.view-mode'));
         $this->viewModes = null;
     }
 
@@ -181,7 +181,7 @@ class ViewMode
     {
         if (config('entity.useCache', true)) {
             $_this = $this;
-            return \Cache::rememberForever('entity.viewModesMapping', function ()  use ($_this) {
+            return \Cache::rememberForever(config('entity.cache-keys.view-mode-mapping'), function ()  use ($_this) {
                 return $_this->loadViewModesMapping();
             });
         }
@@ -197,7 +197,7 @@ class ViewMode
     {
         if (config('entity.useCache', true)) {
             $_this = $this;
-            return \Cache::rememberForever('entity.viewModes', function () use ($_this) {
+            return \Cache::rememberForever(config('entity.cache-keys.view-mode'), function () use ($_this) {
                 return $_this->loadViewModes();
             });
         }

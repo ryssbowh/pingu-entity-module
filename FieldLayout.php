@@ -49,7 +49,7 @@ class FieldLayout
     public function getCache(HasIdentifierContract $object, $callback)
     {
         if (config('entity.useCache', false)) {
-            $key = 'entity.layout.'.$object->identifier();
+            $key = config('entity.cache-keys.layout').'.'.$object->identifier();
             return \ArrayCache::rememberForever($key, $callback);
         }
         return $callback();
@@ -65,6 +65,6 @@ class FieldLayout
         if ($identifier instanceof HasIdentifierContract) {
             $identifier = $identifier->identifier();
         }
-        \ArrayCache::forget('entity.layout.'.$identifier);
+        \ArrayCache::forget(config('entity.cache-keys.layout').'.'.$identifier);
     }
 }

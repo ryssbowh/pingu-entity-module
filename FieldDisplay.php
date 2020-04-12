@@ -25,7 +25,7 @@ class FieldDisplay
     public function getCache(HasIdentifierContract $object, $callback)
     {
         if (config('entity.useCache', false)) {
-            $key = 'entity.display.'.$object->identifier();
+            $key = config('entity.cache-keys.display').'.'.$object->identifier();
             return \ArrayCache::rememberForever($key, $callback);
         }
         return $callback();
@@ -69,6 +69,6 @@ class FieldDisplay
         if ($identifier instanceof HasIdentifierContract) {
             $identifier = $identifier->identifier();
         }
-        \ArrayCache::forget('entity.display.'.$identifier);
+        \ArrayCache::forget(config('entity.cache-keys.display').'.'.$identifier);
     }
 }

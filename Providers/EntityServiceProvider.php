@@ -43,7 +43,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         $this->registerConfig();
         $this->registerJsConfig();
         $this->registerEntities($this->entities);
-
+        \PinguCaches::register('entity', 'Entity', config('entity.cache-keys'));
         ViewModeModel::observe(ViewModeObserver::class);
         ViewModesMapping::observe(ViewModeMappingObserver::class);
     }
