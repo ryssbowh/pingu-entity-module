@@ -72,7 +72,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         \ModelRoutes::registerSlug('bundle', 'bundle');
         \Route::bind(
             'bundle', function ($value, $route) {
-                return \Bundle::get($value);
+                return \Bundle::getByName($value);
             }
         );
         //Register base entity routes

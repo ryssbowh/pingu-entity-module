@@ -2,12 +2,16 @@
 
 namespace Pingu\Entity\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\RendersAdminViews;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\ViewMode;
 
 class AdminFieldDisplayController extends BaseController
 {
+    use RendersAdminViews;
+    
     /**
      * Index action
      * 
@@ -16,15 +20,21 @@ class AdminFieldDisplayController extends BaseController
      * 
      * @return View
      */
-    public function index(BundleContract $bundle, ViewMode $viewMode)
+    public function index(Request $request, BundleContract $bundle)
     {
+        $viewMode = \ViewMode::getByName($request->input('viewMode', 'default'));
         \ContextualLinks::addFromObject($bundle);
-        return view()->first($this->getViewNames($bundle), [
-            'display' => $bundle->fieldDisplay(),
+        $with = [
+            'display' => $bundle->fieldDisplay()->forViewMode($viewMode),
             'bundle' => $bundle,
-            'canCreateGroups' => \Gate::check('createGroups', $bundle),
-            'viewMode' => $viewMode
-        ]);
+            'currentViewMode' => $viewMode,
+            'viewModes' => \ViewMode::forObject($bundle)
+        ];
+        return $this->renderAdminView(
+            $this->getViewNames($bundle),
+            'entity-display',
+            $with
+        );
     }
 
     /**

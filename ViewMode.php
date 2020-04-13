@@ -3,7 +3,7 @@
 namespace Pingu\Entity;
 
 use Illuminate\Database\Eloquent\Collection;
-use Pingu\Entity\Contracts\HasViewModesContract;
+use Pingu\Core\Contracts\HasIdentifierContract;
 use Pingu\Entity\Entities\ViewMode as ViewModeModel;
 
 class ViewMode
@@ -24,16 +24,16 @@ class ViewMode
      * Entities which have view modes
      * @var array
      */
-    protected $entities = [];
+    protected $objects = [];
 
-    public function registerEntity(HasViewModesContract $entity)
+    public function registerObject(HasIdentifierContract $object)
     {
-        $this->entities[$entity->identifier()] = get_class($entity);
+        $this->objects[$object->identifier()] = $object;
     }
 
-    public function allEntities()
+    public function allObjects()
     {
-        return $this->entities;
+        return $this->objects;
     }
 
     /**
@@ -54,7 +54,7 @@ class ViewMode
                 return $_this->get($viewMode);
             }, $viewMode);
         }
-        if (is_int($viewMode)) {
+        if (is_numeric($viewMode)) {
             return $this->getById($viewMode);
         } elseif (is_string($viewMode)) {
             return $this->getByName($viewMode);
@@ -70,6 +70,16 @@ class ViewMode
     public function all(): Collection
     {
         return $this->getViewModes();
+    }
+
+    /**
+     * Get all non default view modes
+     * 
+     * @return Collection
+     */
+    public function allNonDefault(): Collection
+    {
+        return $this->getViewModes()->where('machineName', '!=', 'default');
     }
 
     /**
@@ -97,30 +107,20 @@ class ViewMode
     }
 
     /**
-     * Checks if an entity has a view mode
-     * 
-     * @param string              $entityType
-     * @param ViewModeModel|int|string $viewMode
-     * 
-     * @return bool
-     */
-    public function entityHas(string $entityType, $viewMode): bool
-    {
-        $viewMode = $this->get($viewMode);
-        return in_array($viewMode->machineName, ($this->resolveMappingCache()[$entityType]) ?? []);
-    }
-
-    /**
      * Get all view modes for an entity
      * 
      * @return array
      */
-    public function forEntity($entity): array
+    public function forObject(HasIdentifierContract $object): array
     {
-        if (!$entity instanceof Entity) {
-            $entity = new $entity;
+        $viewModes = [];
+        foreach ($this->getMapping() as $name => $objects) {
+            if (in_array($object->identifier(), $objects)) {
+                $viewModes[] = $name;
+            }
         }
-        return $this->get($this->mapping[$entity->identifier] ?? ['default']);
+        array_unshift($viewModes, 'default');
+        return $this->get($viewModes);
     }
 
     /**
@@ -167,7 +167,12 @@ class ViewMode
         return $this->mapping;
     }
 
-    public function getDefault()
+    /**
+     * Get default view mode
+     * 
+     * @return ViewMode
+     */
+    public function getDefault(): ViewMode
     {
         return $this->get('default');
     }
@@ -195,7 +200,7 @@ class ViewMode
      */
     protected function resolveCache(): Collection
     {
-        if (config('entity.useCache', true)) {
+        if (config('entity.useCache', false)) {
             $_this = $this;
             return \Cache::rememberForever(config('entity.cache-keys.view-mode'), function () use ($_this) {
                 return $_this->loadViewModes();
@@ -222,7 +227,7 @@ class ViewMode
     protected function loadViewModesMapping(): array
     {
         $out = [];
-        foreach ($this->getViewModes() as $viewMode) {
+        foreach ($this->allNonDefault() as $viewMode) {
             $out[$viewMode->machineName] = $viewMode->mapping->pluck('object')->all();
         }
         return $out;

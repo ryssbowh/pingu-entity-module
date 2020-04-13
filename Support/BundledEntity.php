@@ -29,7 +29,14 @@ abstract class BundledEntity extends Entity
      * 
      * @return string
      */
-    abstract public function bundleName(): ?string;
+    abstract public function bundleClass(): ?string;
+
+    /**
+     * Bundle instance
+     * 
+     * @return ?BundleContract
+     */
+    abstract protected function bundleInstance(): ?BundleContract;
 
     /**
      * @inheritDoc
@@ -41,27 +48,24 @@ abstract class BundledEntity extends Entity
     }
 
     /**
-     * @inheritDoc
-     */
-    public function viewIdentifier(): string
-    {
-        return \Str::kebab($this->bundle()->name());
-    }
-    
-    /**
      * Bundle getter
      * 
      * @return ?BundleContract
      */
     public function bundle(): ?BundleContract
     {
-        if ($this->bundle) {
-            return $this->bundle;
+        if (!$this->bundle) {
+            $this->bundle = $this->bundleInstance();
         }
-        if ($name = $this->bundleName()) {
-            return \Bundle::get($name);
-        }
-        return null;
+        return $this->bundle;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function viewIdentifier(): string
+    {
+        return \Str::kebab($this->bundle()->name());
     }
 
     /**

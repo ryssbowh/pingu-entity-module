@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Support\Bundle;
 
+use Illuminate\Support\Collection;
 use Pingu\Core\Support\Actions;
 use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
@@ -24,6 +25,13 @@ abstract class ModelBundle implements BundleContract
     }
 
     /**
+     * Entity that defines the bundle
+     * 
+     * @return string
+     */
+    public abstract static function entityClass(): string;
+
+    /**
      * Get the entity attached to this bundle
      * 
      * @return Entity
@@ -33,8 +41,21 @@ abstract class ModelBundle implements BundleContract
         return $this->entity;
     }
 
+    /**
+     * Registers this bundle
+     */
     public function register()
     {
         \Bundle::registerBundle($this);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function allBundles(): Collection
+    {
+        return static::entityClass()::all()->map(function ($entity) {
+            return new static($entity);
+        });
     }
 }

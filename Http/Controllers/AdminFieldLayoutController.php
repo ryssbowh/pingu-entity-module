@@ -3,19 +3,27 @@
 namespace Pingu\Entity\Http\Controllers;
 
 use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\RendersAdminViews;
 use Pingu\Entity\Contracts\BundleContract;
 
 class AdminFieldLayoutController extends BaseController
 {
+    use RendersAdminViews;
+
     public function index(BundleContract $bundle)
     {
         \ContextualLinks::addFromObject($bundle);
-        return view()->first($this->getViewNames($bundle), [
+        $with = [
             'fields' => $bundle->fields()->getAll(),
             'layout' => \FieldLayout::getFieldLayout($bundle),
             'bundle' => $bundle,
             'canCreateGroups' => \Gate::check('createGroups', $bundle)
-        ]);
+        ];
+        return $this->renderAdminView(
+            $this->getViewNames($bundle),
+            'entity-layout',
+            $with
+        );
     }
 
     /**

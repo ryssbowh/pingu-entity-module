@@ -9,20 +9,22 @@ class ViewModeMappingObserver
     /**
      * Empties cache
      * 
-     * @param ViewMode $mapping
-     */
-    public function saved(ViewModesMapping $mapping)
-    {
-        \ViewMode::forgetMappingCache();
-    }
-
-    /**
-     * Empties cache
-     * 
      * @param ViewModesMapping $mapping
      */
     public function deleted(ViewModesMapping $mapping)
     {
         \ViewMode::forgetMappingCache();
+        $mapping->getObject()->fieldDisplay()->deleteForViewMode($mapping->view_mode);
+    }
+
+    /**
+     * Create display for all fields
+     * 
+     * @param  ViewModesMapping $mapping
+     */
+    public function created(ViewModesMapping $mapping)
+    {
+        \ViewMode::forgetMappingCache();
+        $mapping->getObject()->fieldDisplay()->createForViewMode($mapping->view_mode);
     }
 }

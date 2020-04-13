@@ -20,7 +20,7 @@ class BaseEntityRenderer extends ViewModeRenderer
 
     public function __construct(Entity $entity, ViewMode $viewMode)
     {
-        $this->fields = $this->buildFields($entity, $viewMode);
+        $this->fields = $entity->fieldDisplay()->buildForRendering($viewMode, $entity);
         parent::__construct($entity, $viewMode);
     }
 
@@ -58,23 +58,9 @@ class BaseEntityRenderer extends ViewModeRenderer
         return collect([
             'entity' => $this->object,
             'classes' => new ClassBag(['entity', $this->viewIdentifier()]),
-            'fields' => $this->getFields(),
+            'fields' => $this->fields,
             'viewMode' => $this->getViewMode()
         ]);
-    }
-
-    /**
-     * Builds a collection of field renderers
-     * 
-     * @return Collection
-     */
-    protected function buildFields(Entity $object, ViewMode $viewMode): Collection
-    {
-        $fields = [];
-        foreach ($object->fieldDisplay()->forViewMode($viewMode) as $display) {
-            $fields[] = $display->getRenderer($object, $viewMode);
-        }
-        return collect($fields);
     }
 
     /**

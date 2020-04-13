@@ -21,4 +21,18 @@ class ViewModesMapping extends BaseModel
     {
         return $this->belongsTo(ViewMode::class);
     }
+
+    /**
+     * Resolve the associated object
+     * 
+     * @return Entity|BundleContract
+     */
+    public function getObject()
+    {
+        try {
+            return \Bundle::get($this->object);
+        } catch(EntityBundleException $e) {
+            return \Entity::get($this->object);
+        }
+    }
 }

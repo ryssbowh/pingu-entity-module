@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Traits;
 
+use Illuminate\Support\Collection;
 use Pingu\Core\Support\Actions;
 use Pingu\Core\Support\Routes;
 use Pingu\Core\Support\Uris;
@@ -109,5 +110,13 @@ trait Bundle
     public static function actions(): Actions
     {
         return \Actions::get('bundle');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function entities(): Collection
+    {
+        return $this->entityFor()::get();
     }
 }

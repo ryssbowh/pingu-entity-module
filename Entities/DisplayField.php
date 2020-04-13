@@ -46,7 +46,7 @@ class DisplayField extends BaseModel implements HasRouteSlugContract
         static::saving(
             function ($display) {
                 if (is_null($display->weight)) {
-                    $display->weight = $display->getNextWeight(['object' => $display->object]);
+                    $display->weight = $display->getNextWeight(['object' => $display->object, 'view_mode_id' => $display->view_mode_id]);
                 }
             }
         );
@@ -105,8 +105,8 @@ class DisplayField extends BaseModel implements HasRouteSlugContract
         return $this->belongsTo(ViewMode::class);
     }
 
-    public function getRenderer(Entity $entity, ViewMode $viewMode)
+    public function getRenderer(Entity $entity)
     {
-        return new EntityFieldRenderer($entity, $viewMode, $this);
+        return new EntityFieldRenderer($entity, $this->view_mode, $this);
     }
 }

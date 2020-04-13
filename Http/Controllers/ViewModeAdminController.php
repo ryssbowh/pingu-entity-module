@@ -17,9 +17,9 @@ class ViewModeAdminController extends AdminEntityController
 
         $createUrl = $entity::uris()->make('create', [], adminPrefix());
         $with = [
-            'entities' => \ViewMode::allEntities(),
+            'entities' => \ViewMode::allObjects(),
             'entity' => $entity,
-            'viewModes' => \ViewMode::all(),
+            'viewModes' => \ViewMode::allNonDefault(),
             'createUrl' => $createUrl,
             'mapping' => \ViewMode::getMapping()
         ];

@@ -2,6 +2,7 @@
 
 namespace Pingu\Entity\Support\Bundle;
 
+use Illuminate\Support\Collection;
 use Pingu\Core\Support\Actions;
 use Pingu\Core\Support\Uris;
 use Pingu\Core\Traits\HasActionsThroughFacade;
@@ -22,5 +23,13 @@ abstract class ClassBundle implements BundleContract
     public static function register()
     {
         \Bundle::registerBundle(new static);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function allBundles(): Collection
+    {
+        return collect([new static]);
     }
 }

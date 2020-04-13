@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasPolicyContract;
 use Pingu\Core\Contracts\HasRoutesContract;
@@ -18,6 +18,13 @@ interface BundleContract extends
     HasRoutesContract,
     HasUrisContract
 {
+    /**
+     * Get all bundles defined by this model bundle
+     * 
+     * @return Collection
+     */
+    public static function allBundles(): Collection;
+
     /**
      * Machine name
      * 
@@ -66,4 +73,11 @@ interface BundleContract extends
      * @return FieldDisplay
      */
     public function fieldDisplay(): FieldDisplay;
+
+    /**
+     * Application wide identifier
+     * 
+     * @return string
+     */
+    public function identifier(): string;
 }

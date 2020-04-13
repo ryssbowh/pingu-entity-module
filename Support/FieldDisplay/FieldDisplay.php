@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\DisplayField;
 use Pingu\Entity\Entities\ViewMode;
+use Pingu\Entity\Support\Entity;
 use Pingu\Field\Contracts\FieldContract;
 use Pingu\Field\Contracts\HasFieldsContract;
 
@@ -56,34 +57,6 @@ class FieldDisplay
     }
 
     /**
-     * Resolve display cache
-     * 
-     * @return Collection
-     */
-    protected function resolveCache()
-    {
-        $_this = $this;
-        return \FieldDisplay::getCache($this->object, function () use ($_this) {
-            return $_this->loadDisplay();
-        });
-    }
-
-    /**
-     * Get displays from db
-     * 
-     * @return Collection
-     */
-    protected function loadDisplay()
-    {
-        return DisplayField::where('object', $this->object->identifier())
-            ->orderBy('weight')
-            ->get()
-            ->keyBy(function ($item) {
-                return $item->field;
-            });
-    }
-
-    /**
      * Get display items
      * 
      * @return Collection
@@ -100,9 +73,13 @@ class FieldDisplay
      * 
      * @return Collection
      */
-    public function forViewMode(ViewMode $viewMode): Collection
+    public function forViewMode(ViewMode $viewMode, $noHidden = false): Collection
     {
-        return $this->display->where('hidden', false)->where('view_mode_id', $viewMode->id);
+        $collection = $this->display->where('view_mode_id', $viewMode->id);
+        if ($noHidden) {
+            $collection = $collection->where('hidden', false);
+        }
+        return $collection;
     }
 
     /**
@@ -118,25 +95,38 @@ class FieldDisplay
     }
 
     /**
+     * Get a display for a field and a view mode
+     * 
+     * @param string   $name
+     * @param ViewMode $viewMode
+     * 
+     * @return Collection
+     */
+    public function forFieldAndViewMode(string $name, ViewMode $viewMode): Collection
+    {
+        return $this->display->where('view_mode_id', $viewMode->id)
+            ->where('field', $name);
+    }
+
+    /**
      * Does a field exists
      * 
      * @param string $name
      * 
      * @return boolean
      */
-    public function hasField(string $name): bool
+    public function hasField(string $name, ViewMode $viewMode): bool
     {
-        return $this->display->has($name);
+        return !$this->forFieldAndViewMode($name, $viewMode)->isEmpty();
     }
 
     /**
      * Creates field displays in database, will not recreate existing displays
      */
-    public function create($viewMode = 'default')
+    public function create()
     {
-        $viewMode = \ViewMode::get($viewMode);
         foreach ($this->getFields() as $field) {
-            $this->createForField($field, $viewMode);
+            $this->createForField($field);
         }
     }
 
@@ -144,26 +134,15 @@ class FieldDisplay
      * Create a DisplayField model for a field
      * 
      * @param FieldContract   $field
-     * 
-     * @return bool
      */
-    public function createForField(FieldContract $field, ViewMode $viewMode, $label = true): bool
+    public function createForField(FieldContract $field, $label = true)
     {
-        if ($this->hasField($field->machineName())) {
-            return false;
+        foreach (\ViewMode::forObject($this->object) as $viewMode) {
+            if ($this->hasField($field->machineName(), $viewMode)) {
+                continue;
+            }
+            $this->createFieldDisplay($field, $viewMode, $label);
         }
-        $display = new DisplayField;
-        $displayer = $field::defaultDisplayer();
-        $display->fill([
-            'field' => $field->machineName(),
-            'object' => $this->object->identifier(),
-            'displayer' => $displayer::machineName(),
-            'options' => $displayer::hasOptions() ? (new $displayer($display))->options()->values() : [],
-            'label' => $label
-        ])->view_mode()->associate($viewMode);
-        $display->save();
-        $this->display->put($field->machineName(), $display);
-        return true;
     }
 
     /**
@@ -173,9 +152,34 @@ class FieldDisplay
      */
     public function deleteForField(FieldContract $field)
     {
-        if ($this->hasField($field->machineName())) {
-            $this->display[$field->machineName()]->delete();
-            $this->display->forget($field->machineName());
+        foreach (\ViewMode::forObject($this->object) as $viewMode) {
+            if ($display = $this->forFieldAndViewMode($field->machineName(), $viewMode)->first()) {
+                $display->delete();
+            }
+        }
+    }
+
+    /**
+     * Deletes all displays for a view mode
+     * 
+     * @param ViewMode $viewMode
+     */
+    public function deleteForViewMode(ViewMode $viewMode)
+    {
+        foreach ($this->forViewMode($viewMode) as $display) {
+            $display->delete();
+        }
+    }
+
+    /**
+     * Creates all displays for a view mode
+     * 
+     * @param ViewMode $viewMode
+     */
+    public function createForViewMode(ViewMode $viewMode)
+    {
+        foreach ($this->getFields() as $field) {
+            $this->createFieldDisplay($field, $viewMode);
         }
     }
 
@@ -210,6 +214,23 @@ class FieldDisplay
     }
 
     /**
+     * Builds the field display for rendering
+     * 
+     * @param ViewMode $viewMode
+     * @param Entity $entity
+     * 
+     * @return Collection
+     */
+    public function buildForRendering(ViewMode $viewMode, Entity $entity): Collection
+    {
+        return $this->forViewMode($viewMode, true)->map(
+            function ($display) use ($entity) {
+                return $display->getRenderer($entity);
+            }
+        );
+    }
+
+    /**
      * Get the fields defined by the associated object
      * 
      * @return Collection
@@ -217,5 +238,55 @@ class FieldDisplay
     protected function getFields(): Collection
     {
         return $this->object->fields()->get();
+    }
+
+    /**
+     * Creates a field display for a field and a view mode
+     * 
+     * @param FieldContract $field
+     * @param ViewMode      $viewMode
+     * @param boolean       $label
+     * 
+     * @return DisplayField
+     */
+    protected function createFieldDisplay(FieldContract $field, ViewMode $viewMode, $label = true): DisplayField
+    {
+        $display = new DisplayField;
+        $displayer = $field::defaultDisplayer();
+        $display->fill([
+            'field' => $field->machineName(),
+            'object' => $this->object->identifier(),
+            'displayer' => $displayer::machineName(),
+            'options' => $displayer::hasOptions() ? (new $displayer($display))->options()->values() : [],
+            'label' => $label
+        ])->view_mode()->associate($viewMode);
+        $display->save();
+        $this->display->push($display);
+        return $display;
+    }
+
+    /**
+     * Resolve display cache
+     * 
+     * @return Collection
+     */
+    protected function resolveCache()
+    {
+        $_this = $this;
+        return \FieldDisplay::getCache($this->object, function () use ($_this) {
+            return $_this->loadDisplay();
+        });
+    }
+
+    /**
+     * Get displays from db
+     * 
+     * @return Collection
+     */
+    protected function loadDisplay()
+    {
+        return DisplayField::where('object', $this->object->identifier())
+            ->orderBy('weight')
+            ->get();
     }
 }

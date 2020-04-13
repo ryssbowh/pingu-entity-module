@@ -22,7 +22,7 @@ class Entity
      */
     public function registerEntity(EntityModel $entity)
     {
-        if ($this->isEntityRegistered($entity->identifier())) {
+        if ($this->isRegistered($entity->identifier())) {
             throw EntityException::registered($entity);
         }
         $this->entities[$entity->identifier()] = get_class($entity);
@@ -35,7 +35,7 @@ class Entity
      * 
      * @return boolean
      */
-    public function isEntityRegistered(string $name): bool
+    public function isRegistered(string $name): bool
     {
         return isset($this->entities[$name]);
     }
@@ -47,9 +47,9 @@ class Entity
      * 
      * @return EntityModel
      */
-    public function getRegisteredEntity(string $name)
+    public function get(string $name)
     {
-        if (!$this->isEntityRegistered($name)) {
+        if (!$this->isRegistered($name)) {
             throw EntityException::notRegistered($name);
         }
         return $this->entities[$name];

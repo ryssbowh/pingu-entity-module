@@ -36,7 +36,7 @@ class BaseBundleActions extends Actions
             'fieldDisplay' => [
                 'label' => 'Display',
                 'url' => function ($bundle) {
-                    return $bundle::uris()->make('fieldDisplay', [$bundle, 'default'], adminPrefix());
+                    return $bundle::uris()->make('fieldDisplay', [$bundle], adminPrefix());
                 },
                 'access' => function ($bundle) {
                     return \Gate::check('fieldDisplay', $bundle);

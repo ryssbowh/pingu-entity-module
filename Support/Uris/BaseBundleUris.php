@@ -22,9 +22,9 @@ class BaseBundleUris extends Uris
             'confirmDeleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
             'deleteField' => 'bundle/{bundle}/fields/'.'{'.BundleField::routeSlug().'}/delete',
             'fieldLayout' => 'bundle/{bundle}/layout',
-            'fieldDisplay' => 'bundle/{bundle}/display/{view_mode}',
+            'fieldDisplay' => 'bundle/{bundle}/display',
             'patchFieldLayout' => 'bundle/{bundle}/layout',
-            'patchFieldDisplay' => 'bundle/{bundle}/display/{view_mode}',
+            'patchFieldDisplay' => 'bundle/{bundle}/display',
         ];
     }
 }

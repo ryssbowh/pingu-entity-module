@@ -2,16 +2,24 @@
 
 namespace Pingu\Entity\Traits;
 
+use Pingu\Entity\Support\BundledEntity;
+
 trait HasViewModes
 {
     /**
-     * Boots trait, register entity in ViewMdoe facade
+     * Boots trait, register entity in View Mode facade
      */
     public static function bootHasViewModes()
     {
         static::registered(
             function ($entity) {
-                \ViewMode::registerEntity($entity);
+                if ($entity instanceof BundledEntity) {
+                    foreach ($entity->bundleClass()::allBundles() as $bundle) {
+                        \ViewMode::registerObject($bundle);
+                    }
+                } else {
+                    \ViewMode::registerObject($entity);
+                }
             }
         );
     }

@@ -9,8 +9,17 @@ use Pingu\Entity\Support\FieldLayout\FieldLayoutBundle;
 
 class Bundle
 {
-   
+    /**
+     * Bundles by identifier
+     * @var array
+     */
     protected $bundles = [];
+
+    /**
+     * Bundles by name
+     * @var array
+     */
+    protected $bundlesByName = [];
 
     /**
      * Registers a bundle
@@ -21,10 +30,11 @@ class Bundle
      */
     public function registerBundle(BundleContract $bundle)
     {
-        if ($this->isRegistered($bundle->name())) {
+        if ($this->isRegistered($bundle->identifier())) {
             throw EntityBundleException::registered($bundle);
         }
-        $this->bundles[$bundle->name()] = $bundle;
+        $this->bundles[$bundle->identifier()] = $bundle;
+        $this->bundlesByName[$bundle->name()] = $bundle;
         \Policies::register($bundle, $bundle->getPolicy());
         \FieldLayout::register($bundle, new FieldLayoutBundle($bundle));
         \FieldDisplay::register($bundle, new FieldDisplayBundle($bundle));
@@ -40,25 +50,41 @@ class Bundle
     public function isRegistered($bundle): bool
     {
         if ($bundle instanceof BundleContract) {
-            $bundle = $bundle->name();
+            $bundle = $bundle->identifier();
         }
         return isset($this->bundles[$bundle]);
     }
 
     /**
-     * Gets a registered bundle
+     * Gets a registered bundle by identifer
+     * 
+     * @param string $identifier
+     *
+     * @throws EntityBundleException
+     * @return BundleContract
+     */
+    public function get(string $identifier): BundleContract
+    {
+        if (!$this->isRegistered($identifier)) {
+            throw EntityBundleException::notRegistered($identifier);
+        }
+        return $this->bundles[$identifier];
+    }
+
+    /**
+     * Gets a registered bundle by name
      * 
      * @param string $name
      *
      * @throws EntityBundleException
      * @return BundleContract
      */
-    public function get(string $name): BundleContract
+    public function getByName(string $name): BundleContract
     {
-        if (!$this->isRegistered($name)) {
+        if (!isset($this->bundlesByName[$name])) {
             throw EntityBundleException::notRegistered($name);
         }
-        return $this->bundles[$name];
+        return $this->bundlesByName[$name];
     }
 
     /**
