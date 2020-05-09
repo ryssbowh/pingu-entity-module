@@ -2,12 +2,13 @@
 
 namespace Pingu\Entity\Support\Actions;
 
-use Pingu\Core\Support\Actions;
+use Pingu\Core\Support\Actions\BaseAction;
+use Pingu\Core\Support\Actions\BaseActionRepository;
 
 /**
  * Defines actions for a bundle
  */
-class BaseBundleActions extends Actions
+class BaseBundleActions extends BaseActionRepository
 {
     /**
      * @inheritDoc
@@ -15,33 +16,36 @@ class BaseBundleActions extends Actions
     protected function actions(): array
     {
         return [
-            'indexFields' => [
-                'label' => 'Manage fields',
-                'url' => function ($bundle) {
+            'indexFields' => new BaseAction(
+                'Manage fields',
+                function ($bundle) {
                     return $bundle::uris()->make('indexFields', $bundle, adminPrefix());
                 },
-                'access' => function ($bundle) {
+                function ($bundle) {
                     return \Gate::check('indexFields', $bundle);
-                }
-            ],
-            'fieldLayout' => [
-                'label' => 'Layout',
-                'url' => function ($bundle) {
+                },
+                'admin'
+            ),
+            'fieldLayout' => new BaseAction(
+                'Layout',
+                function ($bundle) {
                     return $bundle::uris()->make('fieldLayout', $bundle, adminPrefix());
                 },
-                'access' => function ($bundle) {
+                function ($bundle) {
                     return \Gate::check('fieldLayout', $bundle);
-                }
-            ],
-            'fieldDisplay' => [
-                'label' => 'Display',
-                'url' => function ($bundle) {
+                },
+                'admin'
+            ),
+            'fieldDisplay' => new BaseAction(
+                'Display',
+                function ($bundle) {
                     return $bundle::uris()->make('fieldDisplay', [$bundle], adminPrefix());
                 },
-                'access' => function ($bundle) {
+                function ($bundle) {
                     return \Gate::check('fieldDisplay', $bundle);
-                }
-            ]
+                },
+                'admin'
+            )
         ];
     }
 }

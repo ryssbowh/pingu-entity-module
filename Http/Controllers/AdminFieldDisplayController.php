@@ -4,7 +4,7 @@ namespace Pingu\Entity\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\RendersAdminViews;
+use Pingu\Core\Traits\Controllers\RendersAdminViews;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\ViewMode;
 
@@ -23,7 +23,7 @@ class AdminFieldDisplayController extends BaseController
     public function index(Request $request, BundleContract $bundle)
     {
         $viewMode = \ViewMode::getByName($request->input('viewMode', 'default'));
-        \ContextualLinks::addFromObject($bundle);
+        \ContextualLinks::addObjectActions($bundle);
         $with = [
             'display' => $bundle->fieldDisplay()->forViewMode($viewMode),
             'bundle' => $bundle,

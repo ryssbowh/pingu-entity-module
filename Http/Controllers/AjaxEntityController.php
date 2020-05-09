@@ -3,6 +3,7 @@
 namespace Pingu\Entity\Http\Controllers;
 
 use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\Controllers\HasRouteContexts;
 use Pingu\Entity\Traits\Controllers\Entities\CreatesAjaxEntity;
 use Pingu\Entity\Traits\Controllers\Entities\DeletesAjaxEntity;
 use Pingu\Entity\Traits\Controllers\Entities\EditsAjaxEntity;
@@ -20,7 +21,8 @@ class AjaxEntityController extends BaseController
         UpdatesAjaxEntity, 
         DeletesAjaxEntity, 
         PatchesAjaxEntity, 
-        IndexesAjaxEntity;
+        IndexesAjaxEntity,
+        HasRouteContexts;
 }
 
 ?>

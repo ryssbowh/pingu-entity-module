@@ -237,7 +237,7 @@ class FieldDisplay
      */
     protected function getFields(): Collection
     {
-        return $this->object->fields()->get();
+        return $this->object->fieldRepository()->all();
     }
 
     /**

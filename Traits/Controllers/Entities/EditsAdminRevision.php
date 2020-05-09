@@ -18,7 +18,7 @@ trait EditsAdminRevision
      */
     protected function onEditRevisionFormCreated(Form $form, Entity $entity)
     {
-        \ContextualLinks::addFromObject($entity);
+        \ContextualLinks::addObjectActions($entity);
         \ContextualLinks::setActiveLink('revisions');
         $with = [
             'form' => $form,

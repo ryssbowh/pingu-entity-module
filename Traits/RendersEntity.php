@@ -26,6 +26,9 @@ trait RendersEntity
         return $this->getRenderer($viewMode)->render();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function systemView(): string
     {
         return 'entity@entity';

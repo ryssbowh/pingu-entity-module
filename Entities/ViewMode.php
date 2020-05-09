@@ -4,9 +4,12 @@ namespace Pingu\Entity\Entities;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Pingu\Core\Traits\Models\HasMachineName;
-use Pingu\Entity\Support\Entity;
-use Pingu\Entity\Entities\Policies\ViewModePolicy;
 use Pingu\Entity\Entities\ViewModesMapping;
+use Pingu\Entity\Http\Contexts\EditViewModeContext;
+use Pingu\Entity\Http\Contexts\IndexViewModeContext;
+use Pingu\Entity\Http\Contexts\PatchViewModeContext;
+use Pingu\Entity\Http\Contexts\UpdateViewModeContext;
+use Pingu\Entity\Support\Entity;
 
 class ViewMode extends Entity
 {
@@ -16,20 +19,19 @@ class ViewMode extends Entity
 
     public $fillable = ['name', 'machineName'];
 
+    public static $routeContexts = [
+        EditViewModeContext::class, 
+        UpdateViewModeContext::class,
+        IndexViewModeContext::class,
+        PatchViewModeContext::class
+    ];
+
     /**
      * @inheritDoc
      */
     public function getRouteKeyName()
     {
         return 'machineName';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPolicy(): string
-    {
-        return ViewModePolicy::class;
     }
 
     /**

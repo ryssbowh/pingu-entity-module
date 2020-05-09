@@ -3,69 +3,29 @@
 namespace Pingu\Entity\Support;
 
 use Illuminate\Support\Str;
-use Pingu\Core\Contracts\HasActionsContract;
-use Pingu\Core\Contracts\HasIdentifierContract;
-use Pingu\Core\Contracts\HasPolicyContract;
-use Pingu\Core\Contracts\HasRouteSlugContract;
-use Pingu\Core\Contracts\HasRoutesContract;
-use Pingu\Core\Contracts\HasUrisContract;
-use Pingu\Core\Contracts\RenderableContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Support\{Actions, Routes, Uris};
-use Pingu\Core\Traits\HasActionsThroughFacade;
-use Pingu\Core\Traits\HasRoutesThroughFacade;
-use Pingu\Core\Traits\HasUrisThroughFacade;
-use Pingu\Core\Traits\Models\HasRouteSlug;
-use Pingu\Core\Traits\RendersWithRenderer;
-use Pingu\Entity\Events\RegisteredEntity;
-use Pingu\Entity\Events\RegisteringEntity;
+use Pingu\Entity\Contracts\EntityContract;
 use Pingu\Entity\Facades\Entity as EntityFacade;
-use Pingu\Entity\Support\Actions\BaseEntityActions;
 use Pingu\Entity\Support\Forms\BaseEntityForms;
-use Pingu\Entity\Support\Routes\BaseEntityRoutes;
-use Pingu\Entity\Support\Uris\BaseEntityUris;
-use Pingu\Entity\Traits\RendersEntity;
+use Pingu\Entity\Traits\DefaultEntity;
 use Pingu\Forms\Contracts\FormRepositoryContract;
-use Pingu\Forms\Traits\Models\HasForms;
 
-abstract class Entity extends BaseModel implements
-    HasActionsContract,
-    HasRoutesContract,
-    HasPolicyContract,
-    HasUrisContract,
-    HasRouteSlugContract,
-    RenderableContract
+abstract class Entity extends BaseModel implements EntityContract
 {
-    use HasActionsThroughFacade, 
-        HasUrisThroughFacade, 
-        HasRoutesThroughFacade,
-        HasRouteSlug,
-        RendersEntity;
+    use DefaultEntity;
 
     public $adminListFields = [];
 
-    protected $observables = ['registering', 'registered'];
-
     /**
-     * Register a registering model event with the dispatcher.
-     *
-     * @param  \Closure|string  $callback
-     * @return void
+     * Boots entity
      */
-    public static function registering($callback)
+    public static function boot()
     {
-        static::registerModelEvent('registering', $callback);
-    }
+        parent::boot();
 
-    /**
-     * Register a registered model event with the dispatcher.
-     *
-     * @param  \Closure|string  $callback
-     * @return void
-     */
-    public static function registered($callback)
-    {
-        static::registerModelEvent('registered', $callback);
+        static::registered(function($entity) {
+            EntityFacade::registerEntity($entity);
+        });
     }
 
     /**
@@ -73,9 +33,9 @@ abstract class Entity extends BaseModel implements
      * 
      * @return EntityFormRepositoryContract
      */
-    public function forms(): FormRepositoryContract
+    public static function forms(): FormRepositoryContract
     {
-        return new BaseEntityForms($this);
+        return new BaseEntityForms;
     }
 
     /**
@@ -102,92 +62,5 @@ abstract class Entity extends BaseModel implements
     public function getViewKey(): string
     {
         return $this->getKey();
-    }
-
-    /**
-     * Default instance for routes
-     * 
-     * @return Routes
-     */
-    protected function defaultRouteInstance(): Routes
-    {
-        return new BaseEntityRoutes($this);
-    }
-
-    /**
-     * Default instance for routes
-     * 
-     * @return Routes
-     */
-    protected function defaultActionsInstance(): Actions
-    {
-        return new BaseEntityActions($this);
-    }
-
-    /**
-     * Default instance for routes
-     * 
-     * @return Routes
-     */
-    protected function defaultUrisInstance(): Uris
-    {
-        return new BaseEntityUris($this);
-    }
-
-    /**
-     * Routes instance for this entity
-     * 
-     * @return Routes
-     */
-    protected function getRoutesInstance(): Routes
-    {
-        $class = base_namespace($this) . '\\Routes\\' . class_basename($this).'Routes';
-        if (class_exists($class)) {
-            return new $class($this);
-        }
-        return $this->defaultRouteInstance();
-    }
-    
-    /**
-     * Actions instance for this entity
-     * 
-     * @return Actions
-     */
-    protected function getActionsInstance(): Actions
-    {
-        $class = base_namespace($this) . '\\Actions\\' . class_basename($this).'Actions';
-        if (class_exists($class)) {
-            return new $class($this);
-        }
-        return $this->defaultActionsInstance();
-    }
-
-    /**
-     * Uris instance for this entity
-     * 
-     * @return Uris
-     */
-    protected function getUrisInstance(): Uris
-    {
-        $class = base_namespace($this) . '\\Uris\\' . class_basename($this).'Uris';
-        if (class_exists($class)) {
-            return new $class($this);
-        }
-        return $this->defaultUrisInstance();
-    }
-
-    /**
-     * Registers this entity
-     */
-    public function register()
-    {
-        $this->fireModelEvent('registering');
-        EntityFacade::registerEntity($this);
-        \ModelRoutes::registerSlugFromObject($this);
-        \Uris::register(get_class($this), $this->getUrisInstance());
-        \Routes::register(get_class($this), $this->getRoutesInstance());
-        \Actions::register(get_class($this), $this->getActionsInstance());
-        \Policies::register(get_class($this), $this->getPolicy());
-        $this->fireModelEvent('registered');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Traits\Controllers;
 
-use Pingu\Core\Traits\RendersAdminViews;
+use Pingu\Core\Traits\Controllers\RendersAdminViews;
 use Pingu\Entity\Support\Entity;
 
 trait RendersEntityViews

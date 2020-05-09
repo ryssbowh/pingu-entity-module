@@ -2,21 +2,18 @@
 
 namespace Pingu\Entity\Support\Actions;
 
-use Pingu\Core\Support\Actions;
+use Pingu\Core\Support\Actions\BaseActionRepository;
 use Pingu\Entity\Support\Entity;
 
-class BaseEntityActions extends Actions
+class BaseEntityActions extends BaseActionRepository
 {
-    protected $entity;
-
     /**
      * Constructor. Will add the base entity actions
      * 
      * @param Entity $entity
      */
-    public function __construct(Entity $entity)
+    public function __construct()
     {
-        $this->entity = $entity;
         $entityActions = Entity::actions()->all();
         $this->addMany($entityActions);
         $this->replaceMany($this->actions());

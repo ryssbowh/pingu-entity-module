@@ -4,7 +4,9 @@ namespace Pingu\Entity\Support\Routes;
 
 use Illuminate\Support\Arr;
 use Pingu\Core\Support\Routes;
+use Pingu\Entity\Http\Controllers\EntityCrudContextController;
 use Pingu\Entity\Support\Entity;
+use Pingu\Page\Entities\Page;
 
 class BaseEntityRoutes extends Routes
 {
@@ -36,19 +38,21 @@ class BaseEntityRoutes extends Routes
         $this->entity = $entity;
         $this->baseEntityRoutes = \Routes::get(Entity::class);
         if ($this->inheritsEntityRoutes) {
-            $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoutes(), $this->routes());
+            $this->routes = array_merge_recursive($this->baseEntityRoutes->getRoute(), $this->routes());
         } else {
             $this->routes = $this->routes();
         }
         $this->middlewares = $this->replaceMiddlewareSlugs(array_merge($this->getBaseEntityMiddlewares(), $this->middlewares()));
-        $this->methods = array_merge($this->baseEntityRoutes->getMethods(), $this->methods());
-        $this->names = array_merge($this->baseEntityRoutes->getNames(), $this->names());
-        $this->controllers = array_merge($this->baseEntityRoutes->getControllers(), $this->controllers());
+        $this->methods = array_merge($this->baseEntityRoutes->getMethod(), $this->methods());
+        $this->names = array_merge($this->baseEntityRoutes->getName(), $this->names());
+        $this->controllers = array_merge($this->baseEntityRoutes->getController(), $this->controllers());
+        $this->controllerActions = array_merge($this->baseEntityRoutes->getControllerAction(), $this->controllerActions());
+        $this->contexts = array_merge($this->baseEntityRoutes->getContext(), $this->contexts());
     }
 
     protected function getBaseEntityMiddlewares()
     {
-        return $this->baseEntityRoutes->getMiddlewares();
+        return $this->baseEntityRoutes->getMiddleware();
     }
 
     /**
@@ -82,9 +86,9 @@ class BaseEntityRoutes extends Routes
      */
     protected function defaultController(string $index): string
     {
-        $class = $this->controllerNamespace().'\\'.class_basename(get_class($this->entity)).ucfirst($index).'Controller';
+        $class = $this->controllerNamespace().'\\'.class_basename(get_class($this->entity)).'Controller';
         if (!class_exists($class)) {
-            $class = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($index).'EntityController';
+            $class = EntityCrudContextController::class;
         }
         return $class;
     }
@@ -117,31 +121,39 @@ class BaseEntityRoutes extends Routes
      */
     protected function mapEntityRoutes(string $routeIndex)
     {
-        if (!$routes = $this->getRoutes($routeIndex)) {
+        if (!$routes = $this->getRoute($routeIndex)) {
             return;
         }
-
         $defaultController = $this->defaultController($routeIndex);
         foreach ($routes as $name) {
             $path = $routeIndex.'.'.$name;
-            $method = $this->getMethods($name);
-            $controller = $this->getControllers($path) ?? $defaultController;
+            $method = $this->getMethod($name);
+            $controller = $this->getController($path) ?? $defaultController;
 
             if (!strpos($controller, '@')) {
-                $controller .= '@'.$name;
+                $controller .= '@'.$this->getControllerAction($name);
             }
 
             $uri = $this->entity->uris()->get($name);
 
-            $action = ['uses' => $controller, 'entity' => $this->entity];
+            $action = [
+                'uses' => $controller, 
+                'entity' => $this->entity, 
+                'scope' => $routeIndex,
+                'context' => $this->getContext($path)
+            ];
 
             $route = \Route::$method($uri, $action);
 
-            if (!$routeName = $this->getNames($path)) {
+            if (get_class($this->entity) == Page::class){
+                // dump($uri, $method);
+            }
+
+            if (!$routeName = $this->getName($path)) {
                 $routeName = $this->entity::routeSlug().'.'.$routeIndex.'.'.$name; 
             }
             $route->name($routeName);
-            if ($middleware = $this->getMiddlewares($name)) {
+            if ($middleware = $this->getMiddleware($name)) {
                 $route->middleware($middleware);
             }
         }

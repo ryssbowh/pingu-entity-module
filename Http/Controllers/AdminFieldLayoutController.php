@@ -3,7 +3,7 @@
 namespace Pingu\Entity\Http\Controllers;
 
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\RendersAdminViews;
+use Pingu\Core\Traits\Controllers\RendersAdminViews;
 use Pingu\Entity\Contracts\BundleContract;
 
 class AdminFieldLayoutController extends BaseController
@@ -12,9 +12,9 @@ class AdminFieldLayoutController extends BaseController
 
     public function index(BundleContract $bundle)
     {
-        \ContextualLinks::addFromObject($bundle);
+        \ContextualLinks::addObjectActions($bundle);
         $with = [
-            'fields' => $bundle->fields()->getAll(),
+            'fields' => $bundle->fieldRepository()->getAll(),
             'layout' => \FieldLayout::getFieldLayout($bundle),
             'bundle' => $bundle,
             'canCreateGroups' => \Gate::check('createGroups', $bundle)

@@ -2,7 +2,7 @@
 
 namespace Pingu\Entity\Forms;
 
-use Pingu\Forms\Forms\BaseModelEditForm;
+use Pingu\Core\Forms\BaseModelEditForm;
 
 class BundledEntityEditForm extends BaseModelEditForm
 {

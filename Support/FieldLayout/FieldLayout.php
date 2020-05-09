@@ -61,7 +61,12 @@ class FieldLayout
         return $this;
     }
 
-    protected function resolveCache()
+    /**
+     * Loads layout from cache
+     * 
+     * @return Collection
+     */
+    protected function resolveCache(): Collection
     {
         $_this = $this;
         return \FieldLayout::getCache($this->object, function () use ($_this) {
@@ -69,6 +74,11 @@ class FieldLayout
         });
     }
 
+    /**
+     * Loads all groups from db
+     * 
+     * @return Collection
+     */
     protected function loadGroups()
     {
         return FormLayoutGroup::where('object', $this->object->identifier())
@@ -261,7 +271,7 @@ class FieldLayout
      */
     protected function getFields(): Collection
     {
-        return $this->object->fields()->get();
+        return $this->object->fieldRepository()->all();
     }
 
     /**

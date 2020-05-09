@@ -4,7 +4,7 @@ namespace Pingu\Entity\Support;
 
 use Pingu\Core\Contracts\RendererContract;
 use Pingu\Core\Support\Routes;
-use Pingu\Core\Support\Uris;
+use Pingu\Core\Support\Uris\Uris;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
@@ -69,20 +69,17 @@ abstract class BundledEntity extends Entity
     }
 
     /**
-     * Uris instance for this entity
-     * 
-     * @return Uris
+     * @inheritDoc
      */
-    protected function getUrisInstance(): Uris
+    protected static function defaultUrisInstance(): Uris
     {
-        $class = base_namespace($this) . '\\Uris\\' . class_basename($this).'Uris';
-        if (class_exists($class)) {
-            return new $class($this);
-        }
-        return new BundledEntityUris($this);
+        return new BundledEntityUris(static::class);
     }
 
-    protected function defaultRouteInstance(): Routes
+    /**
+     * @inheritDoc
+     */
+    public function defaultRouteInstance(): Routes
     {
         return new BundledEntityRoutes($this);
     }
@@ -90,9 +87,9 @@ abstract class BundledEntity extends Entity
     /**
      * @inheritDoc
      */
-    public function forms(): FormRepositoryContract
+    public static function forms(): FormRepositoryContract
     {
-        return new BundledEntityForms($this);
+        return new BundledEntityForms;
     }
 
     /**

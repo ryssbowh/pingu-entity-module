@@ -21,7 +21,7 @@ class EntityRoutes extends Routes
     {
         return [
             'admin' => [
-                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete', 'indexRevisions', 'editRevision'
+                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete'
             ],
             'ajax' => [
                 'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete'
@@ -29,6 +29,16 @@ class EntityRoutes extends Routes
             'web' => [
                 'view'
             ],
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function controllerActions(): array
+    {
+        return [
+            'confirmDelete' => 'delete'
         ];
     }
 
@@ -59,9 +69,17 @@ class EntityRoutes extends Routes
             'update' => 'can:edit,@slug',
             'patch' => 'can:edit,@class',
             'confirmDelete' => 'can:delete,@slug',
-            'delete' => 'can:delete,@slug',
-            'indexRevisions' => 'hasRevisions:@slug',
-            'editRevisions' => 'hasRevisions:@slug'
+            'delete' => 'can:delete,@slug'
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function contexts(): array
+    {
+        return [
+            'admin.confirmDelete' => ['admin-delete', 'delete']
         ];
     }
 

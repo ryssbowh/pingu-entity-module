@@ -28,4 +28,24 @@ class ViewModeFields extends BaseFieldRepository
             )
         ];
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function rules(): array
+    {
+        return [
+            'name' => 'required',
+            'machineName'=> 'required|unique:view_modes,machineName'
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function messages(): array
+    {
+        return [
+        ];
+    }
 }

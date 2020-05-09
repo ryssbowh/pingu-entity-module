@@ -6,7 +6,7 @@ class BundledEntityRoutes extends BaseEntityRoutes
 {
     protected function getBaseEntityMiddlewares()
     {
-        $middlewares = $this->baseEntityRoutes->getMiddlewares();
+        $middlewares = $this->baseEntityRoutes->getMiddleware();
         $middlewares['create'] = 'can:create,@class,bundle';
         $middlewares['store'] = 'can:create,@class,bundle';
         return $middlewares;

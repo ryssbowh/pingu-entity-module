@@ -69,7 +69,7 @@ class EntityServiceProvider extends ModuleServiceProvider
         //Registers base bundle policy
         \Policies::register('bundle', BaseBundlePolicy::class);
         //register bundle slug in laravel route
-        \ModelRoutes::registerSlug('bundle', 'bundle');
+        \RouteSlugs::registerSlug('bundle', 'bundle');
         \Route::bind(
             'bundle', function ($value, $route) {
                 return \Bundle::getByName($value);
@@ -77,8 +77,6 @@ class EntityServiceProvider extends ModuleServiceProvider
         );
         //Register base entity routes
         \Routes::register(EntityModel::class, new EntityRoutes);
-        //Register base entity uris
-        \Uris::register(EntityModel::class, new EntityUris);
         //Register base entity actions
         \Actions::register(EntityModel::class, new EntityActions);
     }

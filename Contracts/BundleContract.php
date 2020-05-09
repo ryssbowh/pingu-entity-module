@@ -7,6 +7,7 @@ use Pingu\Core\Contracts\HasActionsContract;
 use Pingu\Core\Contracts\HasPolicyContract;
 use Pingu\Core\Contracts\HasRoutesContract;
 use Pingu\Core\Contracts\HasUrisContract;
+use Pingu\Core\Contracts\RouteContexts\HasRouteContextContract;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
 use Pingu\Field\Contracts\HasFieldsContract;
@@ -16,7 +17,8 @@ interface BundleContract extends
     HasActionsContract,
     HasPolicyContract,
     HasRoutesContract,
-    HasUrisContract
+    HasUrisContract,
+    HasRouteContextContract
 {
     /**
      * Get all bundles defined by this model bundle
@@ -73,11 +75,4 @@ interface BundleContract extends
      * @return FieldDisplay
      */
     public function fieldDisplay(): FieldDisplay;
-
-    /**
-     * Application wide identifier
-     * 
-     * @return string
-     */
-    public function identifier(): string;
 }

@@ -8,6 +8,7 @@ use Pingu\Entity\Http\Controllers\AdminFieldDisplayController;
 use Pingu\Entity\Http\Controllers\AdminFieldLayoutController;
 use Pingu\Entity\Http\Controllers\AjaxFieldDisplayController;
 use Pingu\Entity\Http\Controllers\AjaxFieldLayoutController;
+use Pingu\Entity\Http\Controllers\BundleContextController;
 
 class BaseBundleRoutes extends Routes
 {
@@ -37,6 +38,13 @@ class BaseBundleRoutes extends Routes
             'confirmDeleteField' => 'can:deleteFields,@slug',
             'fieldLayout' => 'can:fieldLayout,@slug',
             'fieldDisplay' => 'can:fieldDisplay,@slug'
+        ];
+    }
+
+    protected function contexts(): array
+    {
+        return [
+            'admin.confirmDeleteField' => ['admin-deleteField', 'deleteField'],
         ];
     }
 
@@ -79,7 +87,7 @@ class BaseBundleRoutes extends Routes
         }
 
         $uris = \Uris::get('bundle');
-        $defaultController = 'Pingu\\Entity\\Http\\Controllers\\'.ucfirst($routeIndex).'BundleController';
+        $defaultController = BundleContextController::class;
 
         foreach ($this->routes()[$routeIndex] as $name) {
             $path = $routeIndex.'.'.$name;
@@ -91,7 +99,13 @@ class BaseBundleRoutes extends Routes
                 $controller .= '@'.$name;
             }
 
-            \Route::$method($uris->get($name), ['uses' => $controller]);
+            $action = [
+                'uses' => $controller, 
+                'context' => $this->getContext($path),
+                'scope' => $routeIndex
+            ];
+
+            \Route::$method($uris->get($name), $action);
         }
     }
 

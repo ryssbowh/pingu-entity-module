@@ -4,6 +4,7 @@ namespace Pingu\Entity\Support\FieldRepository;
 
 use Illuminate\Support\Collection;
 use Pingu\Entity\Contracts\BundleContract;
+use Pingu\Entity\Support\BundledEntity;
 use Pingu\Field\Support\FieldRepository\BaseFieldRepository;
 
 /**
@@ -12,7 +13,15 @@ use Pingu\Field\Support\FieldRepository\BaseFieldRepository;
 abstract class BundledEntityFieldRepository extends BaseFieldRepository
 {
     /**
-     * Get the bundle assocuated to the entity
+     * @inheritDoc
+     */
+    public function __construct(BundledEntity $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * Get the bundle associated to the entity
      *
      * @throws FieldRepositoryException
      * 
@@ -28,29 +37,19 @@ abstract class BundledEntityFieldRepository extends BaseFieldRepository
      * 
      * @return Collection
      */
-    protected function resolveBundleFields(): Collection
+    protected function getBundleFields(): Collection
     {
-        if ($this->getBundle()){
-            return $this->getBundle()->fields()->get();
+        if ($this->getBundle()) {
+            return $this->getBundle()->fieldRepository()->all();
         }
         return collect();
     }
 
     /**
-     * Returns all entity fields
-     * 
-     * @return Collection
-     */
-    protected function resolveEntityFields(): Collection
-    {
-        return parent::resolveFields();
-    }
-
-    /**
      * @inheritDoc
      */
-    protected function resolveFields(): Collection
+    protected function buildFields(): Collection
     {
-        return $this->resolveEntityFields()->merge($this->resolveBundleFields());
+        return parent::buildFields()->merge($this->getBundleFields());
     }
 }

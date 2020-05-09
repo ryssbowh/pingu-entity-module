@@ -13,7 +13,7 @@ class BundledEntityForms extends BaseEntityForms
      */
     public function create(array $args): Form
     {
-        return new BundledEntityCreateForm($this->model, ...$args);
+        return new BundledEntityCreateForm(...$args);
     }
 
     /**
@@ -21,6 +21,6 @@ class BundledEntityForms extends BaseEntityForms
      */
     public function edit(array $args): Form
     {
-        return new BundledEntityEditForm($this->model, ...$args);
+        return new BundledEntityEditForm(...$args);
     }
 }

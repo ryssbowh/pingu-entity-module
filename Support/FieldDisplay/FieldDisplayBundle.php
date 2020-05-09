@@ -20,6 +20,6 @@ class FieldDisplayBundle extends FieldDisplay
      */
     protected function getFields(): Collection
     {
-        return $this->object->fields()->getAll();
+        return $this->object->fieldRepository()->getAll();
     }
 }

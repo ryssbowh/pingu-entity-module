@@ -2,7 +2,9 @@
 
 namespace Pingu\Entity\Support\Uris;
 
-class BundledEntityUris extends BaseEntityUris
+use Pingu\Core\Support\Uris\BaseModelUris;
+
+class BundledEntityUris extends BaseModelUris
 {
     /**
      * @inheritDoc
@@ -10,8 +12,8 @@ class BundledEntityUris extends BaseEntityUris
     protected function uris(): array
     {
         return [
-            'create' => '@entities/create/{bundle}',
-            'store' => '@entities/create/{bundle}',
+            'create' => '@slugs@/create/{bundle}',
+            'store' => '@slugs@/create/{bundle}',
         ];
     }
 }

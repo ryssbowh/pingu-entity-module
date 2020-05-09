@@ -6,10 +6,9 @@ use Pingu\Entity\Support\Entity;
 
 class EntityException extends \Exception
 {
-
     public static function registered(Entity $entity)
     {
-        return new static("Can't register entity '{get_class($identifier)}': name ({$entity->indentifier()}) already registered");
+        return new static("Can't register entity '".get_class($entity)."': identifier ({$entity->identifier()}) already registered");
     }
 
     public static function notRegistered(string $name)
@@ -19,6 +18,6 @@ class EntityException extends \Exception
 
     public static function bundleNotSet(Entity $entity)
     {
-        return new static("You must set the bundle of ".get_class($entity)." with \$entity->fields()->setBundle(BundleContract \$bundle) before accessing its fields");
+        return new static("You must set the bundle of ".get_class($entity)." with \$entity->setBundle(BundleContract \$bundle) before accessing its fields");
     }
 }

@@ -9,6 +9,7 @@ use Pingu\Entity\Traits\Controllers\Bundles\EditsAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\PatchesAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\StoresAjaxBundleFields;
 use Pingu\Entity\Traits\Controllers\Bundles\UpdatesAjaxBundleFields;
+use Pingu\Entity\Traits\Controllers\HasContexts;
 
 class AjaxBundleController extends BaseController
 {
@@ -18,7 +19,8 @@ class AjaxBundleController extends BaseController
         UpdatesAjaxBundleFields,
         EditsAjaxBundleFields,
         DeletesAjaxBundleFields,
-        PatchesAjaxBundleFields;
+        PatchesAjaxBundleFields,
+        HasContexts;
 }
 
 ?>

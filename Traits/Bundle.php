@@ -1,51 +1,40 @@
-<?php 
+<?php
 
 namespace Pingu\Entity\Traits;
 
 use Illuminate\Support\Collection;
+use Pingu\Core\Contracts\ActionRepositoryContract;
+use Pingu\Core\Contracts\RouteContexts\RouteContextRepositoryContract;
 use Pingu\Core\Support\Actions;
 use Pingu\Core\Support\Routes;
-use Pingu\Core\Support\Uris;
+use Pingu\Core\Support\Uris\Uris;
+use Pingu\Core\Traits\Models\HasRouteContexts;
+use Pingu\Entity\Support\Contexts\BundleContextRepository;
 use Pingu\Entity\Support\FieldDisplay\FieldDisplay;
 use Pingu\Entity\Support\FieldLayout\FieldLayout;
 use Pingu\Entity\Support\FieldRepository\BundleFieldsRepository;
-use Pingu\Entity\Support\FieldValidator\BundleFieldsValidator;
 use Pingu\Entity\Support\Policies\BaseBundlePolicy;
-use Pingu\Field\Contracts\FieldRepository;
-use Pingu\Field\Contracts\FieldsValidator;
+use Pingu\Field\Contracts\FieldRepositoryContract;
+use Pingu\Field\Traits\HasFields;
 
 trait Bundle
 {
+    use HasFields, HasRouteContexts;
+
     /**
-     * Gets the field repository for this model by loading it through the Field Facade
-     * 
-     * @return FieldRepository
+     * @inheritDoc
      */
-    public function fields(): FieldRepository
+    public static function contextRepositoryClass(): RouteContextRepositoryContract
     {
-        $_this = $this;
-        return \Field::getFieldRepository(
-            $this->identifier(),
-            function () use ($_this) {
-                return new BundleFieldsRepository($_this);
-            }
-        );
+        return new BundleContextRepository(static::$routeContexts);
     }
 
     /**
-     * Gets the field validator for this model by loading it through the Field Facade
-     * 
-     * @return FieldRepository
+     * @inheritDoc
      */
-    public function validator(): FieldsValidator
+    public function fieldRepositoryInstance(): FieldRepositoryContract
     {
-        $_this = $this;
-        return \Field::getFieldsValidator(
-            $this->identifier(),
-            function () use ($_this) {
-                return new BundleFieldsValidator($_this);
-            }
-        );
+        return new BundleFieldsRepository($this);
     }
 
     /**
@@ -107,7 +96,7 @@ trait Bundle
     /**
      * @inheritDoc
      */
-    public static function actions(): Actions
+    public static function actions(): ActionRepositoryContract
     {
         return \Actions::get('bundle');
     }
